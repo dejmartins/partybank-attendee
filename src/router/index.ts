@@ -1,8 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { auth } from '@/firebase'
+import { onAuthStateChanged } from 'firebase/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: '/'
+    },
     {
       path: '/',
       name: 'home',
@@ -28,7 +34,8 @@ const router = createRouter({
     {
       path: '/validate',
       name: 'validate',
-      component: () => import('@/views/organizers/validateTicket.vue')
+      component: () => import('@/views/organizers/validateTicket.vue'),
+      meta: { requiresAuth: true }
     },
     {
       path: '/admin',
@@ -36,6 +43,30 @@ const router = createRouter({
       component: () => import('@/views/organizers/EuphoriaAccess.vue')
     }
   ]
+})
+
+function isLoggedIn() {
+  return new Promise((resolve) => {
+    let currentUser = localStorage.getItem('user')
+    onAuthStateChanged(auth, (user) => {
+      if (user && user.email === currentUser) {
+        resolve(true)
+      } else {
+        resolve(false)
+      }
+    })
+  })
+}
+
+router.beforeEach(async (to) => {
+  const authenticated = await isLoggedIn()
+
+  if (to.meta.requiresAuth && !authenticated) {
+    return {
+      name: 'admin',
+      query: { redirect: to.fullPath }
+    }
+  }
 })
 
 export default router
