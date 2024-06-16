@@ -25,13 +25,13 @@
           </p>
         </div>
   
-        <button @click="toggleDiscountInput" class="discount-button mt-2 font-bold">
+        <!-- <button @click="toggleDiscountInput" class="discount-button mt-2 font-bold">
           Add Discount
         </button>
         <div v-if="showDiscountInput" class="discount-input my-[10px]">
           <input type="text" v-model="discountCode" placeholder="Enter discount code" />
           <button @click="applyDiscount" class="apply-button">Apply</button>
-        </div>
+        </div> -->
   
         <div class="flex w-full justify-between mt-4">
           <p class="text-black mx-[10px]">Total</p>
