@@ -150,7 +150,7 @@
         </div>
         <div>
           <p class="text-lg md:text-xl font-bold mb-4">Ticket Summary</p>
-          <TicketSummary
+          <Summary
             :eventImage="event?.eventImage || ''"
             :eventName="event?.eventName || ''"
             :eventDate="event?.eventDate || ''"
@@ -172,7 +172,7 @@
 import Modal from '@/components/modals/PaymentModal.vue'
 import { ref, onMounted } from 'vue'
 import Info from '@/components/main/AttendeeInfo.vue'
-import TicketSummary from '@/components/main/TicketSummary.vue'
+import Summary from '@/components/main/TicketSummary.vue'
 import { useRoute } from 'vue-router'
 import Api from '@/utils/api'
 import { useToast } from 'vue-toastification'
