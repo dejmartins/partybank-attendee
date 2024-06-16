@@ -70,7 +70,7 @@ const discover = () => {
 .landing-container {
   height: 100vh;
   width: 100vw;
-  background-image: url('@/assets/images/attendee-landing-bg.png');
+  background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1718579175/PARTYBANK/attendee-landing-bg_plznft.png');
   background-position: center;
   background-size: cover;
   display: flex;

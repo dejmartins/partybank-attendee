@@ -6,7 +6,7 @@
       <div id="qr-code-full-region" class="scanner"></div>
       <div class="validate-form">
         <input type="text" v-model="ticketId" placeholder="Enter Ticket ID" class="ticket-input" />
-        <button @click="validateTicket" class="validate-button">Validate Ticket</button>
+        <button @click="searchTicket" class="validate-button">Validate Ticket</button>
       </div>
     </div>
   </div>
@@ -16,9 +16,14 @@
 import Header from '@/components/layouts/HeaderBar.vue'
 import { Html5Qrcode } from 'html5-qrcode'
 import { onMounted, ref } from 'vue'
+import Api from '@/utils/api'
+import { useToast } from 'vue-toastification'
 
 const ticketId = ref('')
 const scannerRef = ref<Html5Qrcode | null>(null)
+const isSearching = ref(false)
+const toast = useToast()
+const { SEARCH_TICKET, VALIDATE_TICKET } = Api()
 
 // Methods
 const createScanQrCodes = () => {
@@ -29,16 +34,83 @@ const createScanQrCodes = () => {
 }
 
 const onScanSuccess = (decodedText: any, decodedResult: any) => {
-  alert(`Code scanned: ${decodedText}`)
-  console.log(decodedResult)
+  ticketId.value = decodedText
+  searchTicket()
 }
 
 const onScanError = () => {
-  // console.error(`Error scanning: ${error}`)
+  // Handle scan error
 }
 
-const validateTicket = () => {
-  console.log(`Validating ticket ID: ${ticketId.value}`)
+const searchTicket = async () => {
+  if (!ticketId.value) {
+    toast.error('Please enter a ticket ID')
+    return
+  }
+
+  isSearching.value = true
+
+  const payload = {
+    eventReference: '9048989-67',
+    ticketNumber: ticketId.value
+  }
+
+  try {
+    const response = await fetch(`${SEARCH_TICKET}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+
+    const result = await response.json()
+
+    if (!response.ok) {
+      if (result.error) {
+        toast.error(result.error)
+      } else {
+        throw new Error(result.error || `HTTP error! status: ${response.status}`)
+      }
+    }
+
+    if (result.data) {
+      console.log("Result")
+      // validateTicket(result.data)
+    }
+
+  } catch (error) {
+    toast.error('Error searching for ticket')
+    console.error('Error:', error)
+  } finally {
+    isSearching.value = false
+  }
+}
+
+
+const validateTicket = async (ticket: any) => {
+  try {
+    const response = await fetch(`${VALIDATE_TICKET}/${ticket.id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+
+    const result = await response.json()
+    if (result.success) {
+      toast.success('Ticket validated successfully')
+    } else {
+      toast.error('Failed to validate ticket')
+    }
+  } catch (error) {
+    toast.error('Error validating ticket')
+    console.error('Error:', error)
+  }
 }
 
 onMounted(() => {
