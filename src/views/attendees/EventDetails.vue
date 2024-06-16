@@ -297,7 +297,7 @@ const pay = async (value: UserInfo) => {
       // @ts-ignore
       response.json().then((res) => {
         window.location.href = res.data.url
-        console.log(res.data)
+        togglePaymentPopup();
       })
     }
   } catch (error) {
