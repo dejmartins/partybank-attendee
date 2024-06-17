@@ -1,5 +1,5 @@
 <template>
-  <div class="landing-container">
+  <div class="landing-container" ref="landingContainer">
     <div class="flex flex-col items-center">
       <div
         class="action-call bg-[color:var(--pb-c-white)] w-[70vw] flex justify-between items-center rounded-full p-5 px-10"
@@ -10,12 +10,12 @@
         </RoundedButton>
       </div>
 
-      <div class="organizer-cue mt-24 text-[color:var(--pb-c-white)] text-center">
-        <h1 class="font-extrabold text-3xl leading-tight sm:text-5xl">
+      <div class="organizer-cue mt-24 text-center" :class="{ 'text-black': !isBgLoaded, 'text-white': isBgLoaded }">
+        <h1 class="font-extrabold text-[50px] leading-tight">
           Celebrations Secured<br />
           <span class="font-extrabold">Best Memories Deposited</span>
         </h1>
-        <p class="font-semibold text-lg my-5 sm:text-xl">Where Every Ticket Holds A Celebration</p>
+        <p class="font-semibold text-[18px] my-5">Where Every Ticket Holds A Celebration</p>
       </div>
 
       <div
@@ -51,20 +51,33 @@
   </div>
 </template>
 
+
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import RoundedButton from '@/components/buttons/RoundedButton.vue'
 import { useRouter } from 'vue-router'
 const isDisabled = ref(false)
-
+const isBgLoaded = ref(false)
 const router = useRouter()
+const landingContainer = ref(null)
 
 // Methods
 const discover = () => {
   isDisabled.value = true
   router.push('/discover')
 }
+
+const handleBgLoad = () => {
+  isBgLoaded.value = true
+}
+
+onMounted(() => {
+  const bgImage = new Image()
+  bgImage.src = 'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/attendee-landing-bg_pbptyw.avif'
+  bgImage.onload = handleBgLoad
+})
 </script>
+
 
 <style scoped>
 .landing-container {
@@ -111,6 +124,14 @@ const discover = () => {
   100% {
     transform: scale(1);
   }
+}
+
+.text-black {
+  color: black;
+}
+
+.text-white {
+  color: white;
 }
 
 @media (max-width: 765px) {
