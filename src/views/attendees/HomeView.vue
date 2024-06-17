@@ -5,7 +5,7 @@
         class="action-call bg-[color:var(--pb-c-white)] w-[70vw] flex justify-between items-center rounded-full p-5 px-10"
       >
         <img class="logo h-10 z-50 cursor-pointer" src="@/assets/logo.svg" alt="Partybank Logo" />
-        <RoundedButton :disabled="isDisabled" action="Discover Events" @click="discover">
+        <RoundedButton :disabled="isDisabled" action="Discover Events" @click="discover" class="pulse-animation">
           <fa-icon :icon="['far', 'calendar-days']" style="color: #ffffff" />
         </RoundedButton>
       </div>
@@ -95,6 +95,22 @@ const discover = () => {
   line-height: 130%;
   letter-spacing: 0%;
   font-size: 13px;
+}
+
+.pulse-animation {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 @media (max-width: 765px) {
