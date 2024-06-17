@@ -6,14 +6,21 @@
       <div id="qr-code-full-region" class="scanner"></div>
       <div class="validate-form">
         <input type="text" v-model="ticketId" placeholder="Enter Ticket ID" class="ticket-input" />
-        <button @click="searchTicket" class="validate-button">Validate Ticket</button>
+        <button @click="searchTicket" class="validate-button" :disabled="isSearching">
+          <span v-if="!isSearching">Validate Ticket</span>
+          <span v-else>
+            <Loader />
+          </span>
+        </button>
       </div>
     </div>
   </div>
 </template>
 
+
 <script setup lang="ts">
 import Header from '@/components/layouts/HeaderBar.vue'
+import Loader from '@/components/loaders/SpinLoader.vue'
 import { Html5Qrcode } from 'html5-qrcode'
 import { onMounted, ref } from 'vue'
 import Api from '@/utils/api'
@@ -75,40 +82,44 @@ const searchTicket = async () => {
     }
 
     if (result.data) {
-      console.log("Result")
-      // validateTicket(result.data)
+      validateTicket(payload)
     }
 
   } catch (error) {
     toast.error('Error searching for ticket')
-    console.error('Error:', error)
+    // console.error('Error:', error)
   } finally {
     isSearching.value = false
   }
 }
 
-
-const validateTicket = async (ticket: any) => {
+const validateTicket = async (validatePayload: any) => {
   try {
-    const response = await fetch(`${VALIDATE_TICKET}/${ticket.id}`, {
+    const response = await fetch(`${VALIDATE_TICKET}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      body: JSON.stringify(validatePayload)
     })
 
+    const result = await response.json()
+
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
+      if (result.error) {
+        toast.error(result.error)
+      } else {
+        throw new Error(result.error || `HTTP error! status: ${response.status}`)
+      }
     }
 
-    const result = await response.json()
-    if (result.success) {
+    if (result.data) {
       toast.success('Ticket validated successfully')
-    } else {
-      toast.error('Failed to validate ticket')
+      ticketId.value = ''
     }
+
   } catch (error) {
-    toast.error('Error validating ticket')
+    toast.error('Failed to validate ticket')
     console.error('Error:', error)
   }
 }
@@ -117,6 +128,7 @@ onMounted(() => {
   createScanQrCodes()
 })
 </script>
+
 
 <style scoped>
 .container {
@@ -181,9 +193,17 @@ onMounted(() => {
   cursor: pointer;
   font-size: 16px;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.validate-button:hover {
+.validate-button:disabled {
+  background-color: #a5d6a7;
+  cursor: not-allowed;
+}
+
+.validate-button:hover:not(:disabled) {
   background-color: #45a049;
 }
 
