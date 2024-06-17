@@ -9,7 +9,7 @@
           >
             <span class="block truncate">{{ selectedLocation.name }}</span>
             <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              <!-- <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" /> -->
+              <fa-icon :icon="['fas', 'chevron-down']" style="color: #ffffff;" />
             </span>
           </ListboxButton>
 
@@ -42,7 +42,7 @@
                     v-if="selected"
                     class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
                   >
-                    <!-- <CheckIcon class="h-5 w-5" aria-hidden="true" /> -->
+                    <fa-icon :icon="['fas', 'check']" style="color: #FFBF00;" />
                   </span>
                 </li>
               </ListboxOption>
