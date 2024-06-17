@@ -57,7 +57,7 @@
     </div>
     <div class="form-group" :class="{ error: error.phoneError }">
       <label class="form-label font-bold">Phone Number:</label>
-      <input v-model="userInfo.phoneNumber" type="tel" class="form-input" maxlength="14" />
+      <input v-model="userInfo.phoneNumber" type="tel" class="form-input" maxlength="15" @input="filterNonDigits" />
     </div>
     <Payment action="Proceed to Payment" :loading="isDisabled" :disabled="isDisabled" />
   </form>
@@ -77,6 +77,7 @@ const locations = [
 ]
 const selectedLocation = ref(locations[0])
 let emailRegex = ref(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
+const phoneRegex = ref(/^\+?\d{11,14}$/)
 const emit = defineEmits(['proceed'])
 const isDisabled = ref(false)
 
@@ -93,10 +94,13 @@ const error = reactive({
 // Methods
 const validateUserInfo = () => {
   error.emailError = userInfo.emailAddress === '' || !emailRegex.value.test(userInfo.emailAddress)
-  error.phoneError =
-    userInfo.phoneNumber === '' ||
-    userInfo.phoneNumber.toString().length < 11 ||
-    userInfo.phoneNumber.toString().length > 14
+  error.phoneError = userInfo.phoneNumber === '' || !phoneRegex.value.test(userInfo.phoneNumber)
+}
+
+const filterNonDigits = (event: Event) => {
+  const input = event.target as HTMLInputElement
+  input.value = input.value.replace(/[^+\d]/g, '')
+  userInfo.phoneNumber = input.value
 }
 
 const proceedToPayment = () => {

@@ -11,11 +11,11 @@
       </div>
 
       <div class="organizer-cue mt-24 text-[color:var(--pb-c-white)] text-center">
-        <h1 class="font-extrabold text-[50px] leading-tight">
+        <h1 class="font-extrabold text-3xl leading-tight sm:text-5xl">
           Celebrations Secured<br />
           <span class="font-extrabold">Best Memories Deposited</span>
         </h1>
-        <p class="font-semibold text-[18px] my-5">Where Every Ticket Holds A Celebration</p>
+        <p class="font-semibold text-lg my-5 sm:text-xl">Where Every Ticket Holds A Celebration</p>
       </div>
 
       <div
@@ -25,20 +25,20 @@
           <div
             class="profile-icon"
             style="
-              background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1718501299/PARTYBANK/EUPHORIA_ASABA_tnuz1s.png');
+              background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/EUPHORIA_ASABA_drzuhq.avif');
             "
           ></div>
           <div
             class="profile-icon"
             style="
-              background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1718542737/PARTYBANK/Rave_Experience_Port-Harcourt_kibfuu.png');
+              background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1718653098/PARTYBANK/Rave_Experience_Port-Harcourt_c5redm.avif');
               margin-left: -10px;
             "
           ></div>
           <div
             class="profile-icon"
             style="
-              background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1716075926/PARTYBANK/euphoria_jds29k.jpg');
+              background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1718653097/PARTYBANK/euphoria_jds29k_o4spxf.avif');
               margin-left: -10px;
             "
           ></div>
@@ -70,7 +70,7 @@ const discover = () => {
 .landing-container {
   height: 100vh;
   width: 100vw;
-  background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1718579175/PARTYBANK/attendee-landing-bg_plznft.png');
+  background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/attendee-landing-bg_pbptyw.avif');
   background-position: center;
   background-size: cover;
   display: flex;
