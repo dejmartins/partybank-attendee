@@ -153,7 +153,6 @@
           <Summary
             :eventImage="event?.eventImage || ''"
             :eventName="event?.eventName || ''"
-            :eventDate="event?.eventDate || ''"
             :ticketQuantity="ticketQuantities[selectedTicket] || 0"
             :ticketType="selectedTicket || ''"
             :ticketAmount="
@@ -211,12 +210,10 @@ const ticketQuantities = ref<{ [key: string]: number }>({})
 
 const eventReference = route.params.eventReference
 
-// eventsData.flatMap((data) => data.events).find((event) => event.eventReference === eventReference)
-
 const selectTicket = (ticketName: string) => {
   if (selectedTicket.value === ticketName) {
-    selectedTicket.value = ''
-    ticketQuantities.value[ticketName] = 0
+    // selectedTicket.value = ''
+    // ticketQuantities.value[ticketName] = 0
   } else {
     selectedTicket.value = ticketName
     ticketQuantities.value[ticketName] = 1
@@ -262,7 +259,6 @@ const getEvents = async () => {
 
 const selectTicketByDefault = () => {
   if (event.value?.ticketTypes && event.value.ticketTypes.length > 0) {
-    console.log(event.value.ticketTypes)
     const firstTicket = event.value.ticketTypes[0]
     selectedTicket.value = firstTicket.name
     ticketQuantities.value[firstTicket.name] = 1

@@ -17,7 +17,6 @@
       </div>
   
       <div class="summary-section">
-        <!-- <p class="section-title">Summary</p> -->
         <div class="flex justify-between items-center w-full px-[10px]">
           <p class="text-gray-500">Subtotal:</p>
           <p class="text-gray-500">
@@ -41,7 +40,6 @@
         </div>
       </div>
     </div>
-    <!-- <button class="cta-button w-full" @click="proceedToPayment">Proceed to Payment</button> -->
   </template>
   
   <script setup lang="ts">
