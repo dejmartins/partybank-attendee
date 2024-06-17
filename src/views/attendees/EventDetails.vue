@@ -88,7 +88,7 @@
                         </div>
                       </div>
 
-                      <span class="mt-2 text-right">N{{ ticket.price }}</span>
+                      <span class="mt-2 text-right"><fa-icon :icon="['fas', 'naira-sign']" style="color: #000000" />{{ ticket.price }}</span>
                     </button>
                   </li>
                 </ul>
