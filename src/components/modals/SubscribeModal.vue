@@ -1,7 +1,15 @@
 <template>
   <BaseModal>
     <div class="p-5">
-      <img src="@/assets/images/subscribe.gif" class="h-12 w-12 mb-3" alt="Subscribe Gif" />
+      <div class="w-full flex justify-between items-center">
+        <img src="@/assets/images/subscribe.gif" class="h-12 w-12 mb-3" alt="Subscribe Gif" />
+        <fa-icon
+            class="cursor-pointer"
+            :icon="['fas', 'xmark']"
+            style="color: aliceblue;"
+            @click="closeModal"
+          />
+      </div>
       <div>
         <div class="w-72">
           <h3 class="font-bold text-[18px]">Don't miss out!</h3>
@@ -82,7 +90,7 @@ const subscribe = async () => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       } else {
-        toast.info('Successful Subscription')
+        toast.success('Successful Subscription')
       }
     } catch (error) {
       toast.error('Subscription Failed')
@@ -92,6 +100,10 @@ const subscribe = async () => {
       emit('close')
     }
   }
+}
+
+const closeModal = () => {
+  emit('close')
 }
 
 // Computed Properties

@@ -89,9 +89,9 @@ defineProps<{
 }
 
 .event-status {
-  padding: 4px 10px;
-  background-color: #084300;
-  color: white;
+  padding: 3px 10px;
+  background-color: #ddf7da;
+  color: #084300;
   font-weight: bold;
   border-radius: 10px;
   text-align: center;
