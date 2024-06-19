@@ -71,7 +71,7 @@
                     >
                       <div class="flex justify-between w-full">
                         <span>{{ ticket.name }}</span>
-                        <div class="flex items-center">
+                        <div v-if="ticket.name !== 'FREE'" class="flex items-center">
                           <button
                             @click.stop="decrementTicket(ticket.name)"
                             class="border border-gray-300 mx-1 w-6 h-6 flex justify-center items-center rounded hover:border-gray-500 hover:bg-gray-200"
@@ -165,6 +165,8 @@
       </div>
     </Modal>
   </transition>
+
+  <TicketSent @close="ticketSentModal" v-if="isTicketSent":eventImage="event?.eventImage" :eventName="event?.eventName" :attendeeEmail="emailAddress" />
 </template>
 
 <script setup lang="ts">
@@ -175,6 +177,7 @@ import Summary from '@/components/main/TicketSummary.vue'
 import { useRoute } from 'vue-router'
 import Api from '@/utils/api'
 import { useToast } from 'vue-toastification'
+import TicketSent from '@/components/modals/TicketSent.vue'
 
 type UserInfo = {
   emailAddress: string
@@ -205,6 +208,8 @@ const { GET_EVENT, PAY } = Api()
 const event = ref<Event | null>(null)
 const isPayTime = ref(false)
 const isLoading = ref(true)
+const isTicketSent = ref(false)
+const emailAddress = ref('')
 const selectedTicket = ref<string>('')
 const ticketQuantities = ref<{ [key: string]: number }>({})
 
@@ -236,6 +241,10 @@ const decrementTicket = (ticketName: string) => {
 
 const togglePaymentPopup = () => {
   isPayTime.value = !isPayTime.value
+}
+
+const ticketSentModal = () => {
+  isTicketSent.value = !isTicketSent.value
 }
 
 const getEvents = async () => {
@@ -292,7 +301,13 @@ const pay = async (value: UserInfo) => {
     } else {
       // @ts-ignore
       response.json().then((res) => {
-        window.location.href = res.data.url
+        if(res.data.url){
+          window.location.href = res.data.url
+        } else {
+          emailAddress.value = value.emailAddress;
+          isTicketSent.value = true;
+          // Free ticket sent popup
+        }
         togglePaymentPopup();
       })
     }
