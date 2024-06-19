@@ -2,7 +2,7 @@
   <BaseModal>
     <div class="p-5">
       <div class="w-full flex justify-between items-center">
-        <img src="@/assets/images/subscribe.gif" class="h-12 w-12 mb-3" alt="Subscribe Gif" />
+        <img src="@/assets/images/ticketSent.gif" class="h-12 w-12 mb-5" alt="TicketSent Gif" />
         <fa-icon
           class="cursor-pointer"
           :icon="['fas', 'xmark']"
@@ -19,7 +19,7 @@
               <img :src="eventImage" class="h-12 w-12 mr-3" alt="Ticket Image" />
               <p>{{ eventName }}</p>
             </div>
-            <p class="mt-3">To: {{ attendeeEmail }}</p>
+            <p class="mt-3">To: <span class="font-semibold">{{ attendeeEmail }}</span></p>
           </div>
         </div>
         <Button
