@@ -1,169 +1,50 @@
 <template>
-  <div class="landing-container" ref="landingContainer">
-    <div class="flex flex-col items-center">
-      <div
-        class="action-call bg-[color:var(--pb-c-white)] w-[70vw] flex justify-between items-center rounded-full p-5 px-10"
-      >
-        <img class="logo h-10 z-50 cursor-pointer" src="@/assets/logo.svg" alt="Partybank Logo" />
-        <RoundedButton :disabled="isDisabled" action="Discover Events" @click="discover" class="pulse-animation">
+  <div class="relative w-full h-screen flex flex-col justify-center items-center p-10 md:p-20 overflow-hidden">
+    <div class="w-full flex px-10 pt-10 justify-center absolute top-0 md:px-20">
+      <div class="border top-10 w-full bg-[color:var(--pb-c-white)] flex justify-between items-center rounded-full p-2 px-7">
+        <img class="h-10 z-50 cursor-pointer" src="@/assets/images/PartyBank.png" alt="Partybank Logo" />
+      </div>
+    </div>
+
+    <div class="w-full flex flex-col justify-between items-center mt-8 md:flex-row">
+      <div class="z-50 flex flex-col items-center md:mr-10 md:block">
+        <img class="hidden md:block" src="@/assets/images/Peeps.png" alt="Image with text - Peeps... Party Place" />
+        <img class="block md:hidden" src="@/assets/images/Peeps-Mobile.png" alt="Image with text - Peeps... Party Place" />
+        <p class="text-lg my-5 text-center leading-5 md:text-left">Welcome to the one-stop spot for discovering the hottest events. <br class="hidden xl:block"/> Unlock the gateway to an epic experience. </p>
+        <Button 
+          :disabled="isDisabled" 
+          action="Discover Events" 
+          @click="discover" 
+          additionalClasses="bg-[#910FEA] rounded-[13px] shadow-lg hover:shadow-xl cursor-pointer mt-7 md:mt-0"
+        >
           <fa-icon :icon="['far', 'calendar-days']" style="color: #ffffff" />
-        </RoundedButton>
+        </Button>
+      </div>
+      
+      <div class="z-50 h-[600px] hidden lg:block">
+        <img class="xl:h-full" src="@/assets/images/collage.png" alt="Image collage of parties" />
       </div>
 
-      <div class="organizer-cue mt-24 text-center" :class="{ 'text-black': !isBgLoaded, 'text-white': isBgLoaded }">
-        <h1 class="font-extrabold text-[50px] leading-tight">
-          Celebrations Secured<br />
-          <span class="font-extrabold">Best Memories Deposited</span>
-        </h1>
-        <p class="font-semibold text-[18px] my-5">Where Every Ticket Holds A Celebration</p>
-      </div>
-
-      <div
-        class="organizer-core bg-[color:var(--pb-c-white)] w-[50vw] flex justify-between items-center rounded-full p-3 px-8 mt-4"
-      >
-        <div class="flex mr-2 profile-container">
-          <div
-            class="profile-icon"
-            style="
-              background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/EUPHORIA_ASABA_drzuhq.avif');
-            "
-          ></div>
-          <div
-            class="profile-icon"
-            style="
-              background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1718653098/PARTYBANK/Rave_Experience_Port-Harcourt_c5redm.avif');
-              margin-left: -10px;
-            "
-          ></div>
-          <div
-            class="profile-icon"
-            style="
-              background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1718653097/PARTYBANK/euphoria_jds29k_o4spxf.avif');
-              margin-left: -10px;
-            "
-          ></div>
-        </div>
-        <p class="text-[color:var(--pb-c-black-soft)]">
-          Experience seamless access to your favorite event tickets, nationwide.
-        </p>
+      <div>
+        <!-- <img class="absolute z-20 h-300px bottom-[20%] md:right-[-5rem] xl:right-0 xl:bottom-2 xl:h-[650px]" src="@/assets/images/Ellipse1.png" alt="Image with text - Peeps... Party Place" /> -->
+        <img class="absolute z-20 bottom-[20%] md:right-[-30rem] lg:right-[-19rem] xl:right-0 xl:bottom-2 xl:h-[650px]" src="@/assets/images/Ellipse1.png" alt="Ellipse 1" />
+        <img class="absolute bottom-[18%] md:bottom-[30%] md:right-[10rem] lg:right-[25rem] xl:right-[35rem] xl:bottom-[7rem]" src="@/assets/images/Ellipse2.png" alt="Image with text - Peeps... Party Place" />
+        <img class="absolute bottom-[65%] right-[3rem] md:right-[17rem] lg:right-[27rem] xl:right-[39rem] xl:bottom-[37rem]" src="@/assets/images/Ellipse3.png" alt="Image with text - Peeps... Party Place" />
       </div>
     </div>
   </div>
 </template>
 
-
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import RoundedButton from '@/components/buttons/RoundedButton.vue'
-import { useRouter } from 'vue-router'
-const isDisabled = ref(false)
-const isBgLoaded = ref(false)
-const router = useRouter()
-const landingContainer = ref(null)
+import Button from '@/components/buttons/ButtonComponent.vue'
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-// Methods
+const isDisabled = ref(false)
+const router = useRouter()
+
 const discover = () => {
   isDisabled.value = true
   router.push('/discover')
 }
-
-const handleBgLoad = () => {
-  isBgLoaded.value = true
-}
-
-onMounted(() => {
-  const bgImage = new Image()
-  bgImage.src = 'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/attendee-landing-bg_pbptyw.avif'
-  bgImage.onload = handleBgLoad
-})
 </script>
-
-
-<style scoped>
-.landing-container {
-  height: 100vh;
-  width: 100vw;
-  background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/attendee-landing-bg_pbptyw.avif');
-  background-position: center;
-  background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
-.profile-icon {
-  display: flex;
-  height: 35px;
-  width: 35px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  border: 2px solid var(--pb-c-white);
-  background-position: center;
-  background-size: cover;
-  color: var(--pb-c-white);
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 130%;
-  letter-spacing: 0%;
-  font-size: 13px;
-}
-
-.pulse-animation {
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.text-black {
-  color: black;
-}
-
-.text-white {
-  color: white;
-}
-
-@media (max-width: 765px) {
-  .logo {
-    height: 2rem;
-  }
-
-  .action-call {
-    width: 80vw;
-    padding: 15px 25px;
-  }
-
-  h1,
-  span {
-    font-size: 30px;
-  }
-
-  p {
-    font-size: 15px;
-  }
-
-  .organizer-core {
-    font-weight: 100;
-    display: flex;
-    flex-direction: column;
-    width: 80vw;
-    font-size: 10px;
-    text-align: center;
-  }
-
-  .profile-container {
-    margin-bottom: 5px;
-  }
-}
-</style>

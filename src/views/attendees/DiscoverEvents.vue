@@ -95,7 +95,7 @@ const getEvents = async () => {
 
 const filteredEvents = computed(() => {
   return events.value.filter((event) => {
-    return moment(event.eventDate, 'DD MMM, YYYY').isSameOrAfter(moment().subtract(1, 'day'), 'day')
+   return moment(event.eventDate, 'DD MMM, YYYY').isSameOrAfter(moment().subtract(1, 'day'), 'day')
   })
 })
 

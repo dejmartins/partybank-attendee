@@ -306,7 +306,6 @@ const pay = async (value: UserInfo) => {
         } else {
           emailAddress.value = value.emailAddress;
           isTicketSent.value = true;
-          // Free ticket sent popup
         }
         togglePaymentPopup();
       })
