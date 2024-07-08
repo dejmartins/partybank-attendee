@@ -26,11 +26,18 @@
       </div>
 
       <div>
-        <!-- <img class="absolute z-20 h-300px bottom-[20%] md:right-[-5rem] xl:right-0 xl:bottom-2 xl:h-[650px]" src="@/assets/images/Ellipse1.png" alt="Image with text - Peeps... Party Place" /> -->
         <img class="absolute z-20 bottom-[20%] md:right-[-30rem] lg:right-[-19rem] xl:right-0 xl:bottom-2 xl:h-[650px]" src="@/assets/images/Ellipse1.png" alt="Ellipse 1" />
         <img class="absolute bottom-[18%] md:bottom-[30%] md:right-[10rem] lg:right-[25rem] xl:right-[35rem] xl:bottom-[7rem]" src="@/assets/images/Ellipse2.png" alt="Image with text - Peeps... Party Place" />
         <img class="absolute bottom-[65%] right-[3rem] md:right-[17rem] lg:right-[27rem] xl:right-[39rem] xl:bottom-[37rem]" src="@/assets/images/Ellipse3.png" alt="Image with text - Peeps... Party Place" />
       </div>
+    </div>
+
+    <div class="bubbles-container">
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
     </div>
   </div>
 </template>
@@ -48,3 +55,76 @@ const discover = () => {
   router.push('/discover')
 }
 </script>
+
+<style scoped>
+.bubbles-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bubble {
+  position: absolute;
+  bottom: -100px;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(173, 216, 230, 0.7);
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: rise 10s infinite ease-in-out;
+}
+
+.bubble:nth-child(2) {
+  width: 60px;
+  height: 60px;
+  left: 20%;
+  animation-duration: 8s;
+}
+
+.bubble:nth-child(3) {
+  width: 50px;
+  height: 50px;
+  left: 40%;
+  animation-duration: 12s;
+}
+
+.bubble:nth-child(4) {
+  width: 70px;
+  height: 70px;
+  left: 60%;
+  animation-duration: 14s;
+}
+
+.bubble:nth-child(5) {
+  width: 30px;
+  height: 30px;
+  left: 80%;
+  animation-duration: 16s;
+}
+
+@keyframes rise {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-100vh) scale(1.2);
+    opacity: 0;
+  }
+}
+
+.styled-text {
+  font-family: 'YourFontFamily', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+</style>
