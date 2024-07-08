@@ -71,7 +71,7 @@ const discover = () => {
   bottom: -100px;
   width: 40px;
   height: 40px;
-  background-color: rgba(173, 216, 230, 0.7);
+  background-color: rgba(226, 226, 250, 0.7); 
   border-radius: 50%;
   opacity: 0.6;
   animation: rise 10s infinite ease-in-out;
@@ -82,6 +82,7 @@ const discover = () => {
   height: 60px;
   left: 20%;
   animation-duration: 8s;
+  background-color: rgba(250, 250, 203, 0.7); 
 }
 
 .bubble:nth-child(3) {
@@ -96,6 +97,7 @@ const discover = () => {
   height: 70px;
   left: 60%;
   animation-duration: 14s;
+  background-color: rgba(250, 250, 203, 0.7); 
 }
 
 .bubble:nth-child(5) {
