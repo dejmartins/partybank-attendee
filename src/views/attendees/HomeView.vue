@@ -1,7 +1,7 @@
 <template>
   <div class="relative w-full h-screen flex flex-col justify-center items-center p-10 md:p-20 overflow-hidden">
-    <div class="w-full flex px-10 pt-10 justify-center absolute top-0 md:px-20">
-      <div class="border top-10 w-full bg-[color:var(--pb-c-white)] flex justify-between items-center rounded-full p-2 px-7">
+    <div class="w-full flex px-10 pt-10 justify-center fixed top-0 md:px-20 bg-[color:var(--pb-c-white)] z-50">
+      <div class="border w-full bg-[color:var(--pb-c-white)] flex justify-between items-center rounded-full p-2 px-7">
         <img class="h-10 z-50 cursor-pointer" src="@/assets/images/PartyBank.png" alt="Partybank Logo" />
       </div>
     </div>
