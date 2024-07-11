@@ -1,56 +1,64 @@
 <template>
   <div class="main-container">
-    <div class="px-8 font-bold text-xl my-3">
-      <p class="font-bold">Discover Events</p>
+    <div class="header-container px-8 font-bold text-xl my-3 md:px-32">
+      <div class="w-full fixed top-32 left-0 right-0 bg-white z-50 px-5 pt-3 md:px-20">
+        <div class="flex justify-between items-center border-b-2 pb-2 px-6 md:px-10">
+          <p class="font-bold">Discover Events</p>
+          <div class="cities-container">
+            <button class="arrow left-arrow" @click="scrollLeft">&lt;</button>
+            <div class="cities">
+              <button
+                v-for="city in visibleCities"
+                :key="city"
+                @click="selectCity(city)"
+                :class="['city-button', { active: city === selectedCity }]"
+              >
+                {{ city }}
+              </button>
+            </div>
+            <button class="arrow right-arrow" @click="scrollRight">&gt;</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-container">
       <img
         v-if="isLoading"
         src="@/assets/images/explore-loader.gif"
-        class="loader h-32"
+        class="loader h-32 mt-20"
         alt="Explore Gif Loader"
       />
 
-      <div class="content-container">
-        <div class="event-card">
-          <EventCard
-            v-for="event in filteredEvents"
-            :key="event.eventReference"
-            :eventId="event.eventReference"
-            :imageUrl="event.eventImage"
-            :creator="event.createdBy"
-            :location="event.location"
-            :status="event.status"
-            :eventName="event.eventName"
-            :startTime="event.startTime"
-          />
-        </div>
-
-        <div v-if="!isLoading" class="location h-44 w-44 text-sm px-4">
-          <img src="@/assets/images/asaba.gif" class="h-16" alt="Flower Gif" />
-          <p class="font-bold text-[20px] leading-8">Asaba</p>
-          <p>
-            Discover the hottest events in Asaba, and get notified of new events before they sell
-            out.
-          </p>
-
-          <Button @click="handleSubscribe" action="Subscribe" class="w-full mt-3" />
-        </div>
-
-        <transition name="modal-fade">
-          <Subscribe @close="handleSubscribe" v-if="isSubscribe" location="Asaba" />
-        </transition>
+      <div v-if="!isLoading && filteredEvents.length === 0" class="no-events-message text-center fixed right-0 left-0 top-56 my-20">
+        No events for this city.
+      </div>
+      <div v-else class="event-card mt-20">
+        <EventCard
+          v-for="event in filteredEvents"
+          :key="event.eventReference"
+          :eventId="event.eventReference"
+          :imageUrl="event.eventImage"
+          :creator="event.createdBy"
+          :location="event.location"
+          :status="event.status"
+          :eventName="event.eventName"
+          :startTime="event.startTime"
+        />
       </div>
     </div>
   </div>
 </template>
 
+
+
 <script setup lang="ts">
 import EventCard from '@/components/main/EventCard.vue'
-import Button from '@/components/buttons/PlainSubscribe.vue'
-import Subscribe from '@/components/modals/SubscribeModal.vue'
 import { ref, onMounted, computed } from 'vue'
 import Api from '@/utils/api'
 import { useToast } from 'vue-toastification'
 import moment from 'moment'
+import { eventsData } from '@/utils/helpers'
 
 type Event = {
   eventReference: string
@@ -65,13 +73,15 @@ type Event = {
 
 const toast = useToast()
 const isLoading = ref(false)
-const isSubscribe = ref(false)
 const events = ref<Array<Event>>([])
+const selectedCity = ref('Warri')
+const cities = ref(['Warri', 'Asaba', 'Lagos', 'Abuja', 'Port Harcourt', 'Enugu', 'Ibadan', 'Kano', 'Kaduna'])
+const visibleCities = ref(cities.value.slice(0, 3))
 const { GET_ALL_EVENTS } = Api()
 
 // Methods
-const handleSubscribe = () => {
-  isSubscribe.value = !isSubscribe.value
+const selectCity = (city: string) => {
+  selectedCity.value = city
 }
 
 const getEvents = async () => {
@@ -82,7 +92,8 @@ const getEvents = async () => {
   })
     .then((res) => res.json())
     .then((response) => {
-      events.value = response.data
+      // events.value = response.data
+      events.value = eventsData
       console.log(response.data)
       isLoading.value = false
     })
@@ -93,9 +104,27 @@ const getEvents = async () => {
     })
 }
 
+const scrollLeft = () => {
+  const currentIndex = cities.value.indexOf(visibleCities.value[0])
+  if (currentIndex > 0) {
+    visibleCities.value = cities.value.slice(currentIndex - 1, currentIndex + 2)
+  }
+}
+
+const scrollRight = () => {
+  const currentIndex = cities.value.indexOf(visibleCities.value[0])
+  if (currentIndex + 5 < cities.value.length) {
+    visibleCities.value = cities.value.slice(currentIndex + 1, currentIndex + 4)
+  }
+}
+
 const filteredEvents = computed(() => {
   return events.value.filter((event) => {
-   return moment(event.eventDate, 'DD MMM, YYYY').isSameOrAfter(moment().subtract(1, 'day'), 'day')
+    return event.location === selectedCity.value;
+    // return (
+    //   event.location === selectedCity.value &&
+    //   moment(event.eventDate, 'DD MMM, YYYY').isSameOrAfter(moment().subtract(1, 'day'), 'day')
+    // )
   })
 })
 
@@ -105,6 +134,21 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.main-container {
+  display: flex;
+  flex-direction: column;
+  /* height: 100vh; */
+}
+
+.header-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  z-index: 10;
+}
+
 .loader {
   position: absolute;
   bottom: 50%;
@@ -113,35 +157,85 @@ onMounted(() => {
 }
 
 .content-container {
-  display: flex;
-  flex-direction: row;
-  align-items: start;
-  justify-content: center;
+  flex: 1;
+  overflow-y: auto;
+  padding-top: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .event-card {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   justify-content: center;
-  margin-right: 20px;
+}
+
+.cities-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cities {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.city-button {
+  padding: 10px 15px;
+  background-color: #f3f3f3;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.city-button.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.arrow {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0 10px;
+}
+
+.no-events-message {
+  font-size: 1.2rem;
+  color: #ff0000;
+  margin: 20px;
 }
 
 @media (max-width: 765px) {
   .content-container {
-    flex-direction: column-reverse;
-  }
-
-  .logo {
-    height: 3rem;
-  }
-
-  .location {
-    width: 100%;
-    margin-bottom: 30px;
+    padding-top: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
   .event-card {
-    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .city-button {
+    padding: 8px 10px;
+    font-size: 0.875rem;
+  }
+
+  .arrow {
+    padding: 0 5px;
+  }
+}
+
+@media (min-width: 766px) {
+  .cities-container {
+    margin-left: auto;
   }
 }
 
