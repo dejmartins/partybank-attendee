@@ -13,8 +13,8 @@
           {{ eventDate }}
         </p>
         <div class="pb-3 w-full flex justify-between items-center">
-          <a href="https://maps.app.goo.gl/3fRgCyAeWZ6TxqWJ8" target="_blank" class="location text-gray-500 text-[12px]">
-            <fa-icon class="mr-2" :icon="['fas', 'location-dot']" style="color: #b0b0b0;" />
+          <a href="https://maps.app.goo.gl/3fRgCyAeWZ6TxqWJ8" target="_blank" class="location text-gray-500 text-sm">
+            <fa-icon class="mr-1" :icon="['fas', 'location-dot']" style="color: #b0b0b0;" />
             {{ location }}
           </a>
           <div
@@ -75,31 +75,6 @@ defineProps<{
   border-top-right-radius: 15px;
   border-top-left-radius: 15px;
   flex: 1;
-}
-
-.mt-4 {
-  margin-top: 1rem;
-}
-
-.mx-3 {
-  margin-left: 0.75rem;
-  margin-right: 0.75rem;
-}
-
-.pb-3 {
-  padding-bottom: 0.75rem;
-}
-
-.text-gray-600 {
-  color: #666;
-}
-
-.text-gray-500 {
-  color: #b0b0b0;
-}
-
-.font-bold {
-  font-weight: bold;
 }
 
 .event-status {

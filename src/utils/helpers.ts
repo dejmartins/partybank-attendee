@@ -105,7 +105,7 @@ export const eventsData = [
   },
   {
     eventReference: 'ddf553f-4k',
-    eventImage: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1716075926/PARTYBANK/euphoria_portharcourt.jpg',
+    eventImage: '',
     eventName: 'PORT HARCOURT FIESTA',
     ticketTypes: [
       {
@@ -287,7 +287,7 @@ export const eventsData = [
   },
   {
     eventReference: 'kkm220m-2r',
-    eventImage: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1716075926/PARTYBANK/euphoria_benin.jpg',
+    eventImage: '',
     eventName: 'BENIN ART EXPO',
     ticketTypes: [
       {
@@ -307,7 +307,7 @@ export const eventsData = [
     contact: '(+234)7145678901',
     about: 'An exhibition showcasing the rich art and culture of Benin.',
     additionalInfo: ['beninartexpo@gmail.com', '(+234)7145678901'],
-    status: 'Available',
+    status: 'Sold out',
     createdBy: 'Art House',
     startTime: '10:00AM'
   },
@@ -339,7 +339,7 @@ export const eventsData = [
   },
   {
     eventReference: 'mmo442o-4t',
-    eventImage: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1716075926/PARTYBANK/euphoria_abakaliki.jpg',
+    eventImage: '',
     eventName: 'ABAKALIKI FARMERS MARKET',
     ticketTypes: [
       {
@@ -359,13 +359,13 @@ export const eventsData = [
     contact: '(+234)7167890123',
     about: 'A market showcasing the best of Abakaliki agriculture.',
     additionalInfo: ['abakalikifarmers@gmail.com', '(+234)7167890123'],
-    status: 'Published',
+    status: 'Sold out',
     createdBy: 'Farmers Union',
     startTime: '8:00AM'
   },
   {
     eventReference: 'nnp553p-5u',
-    eventImage: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1716075926/PARTYBANK/euphoria_minna.jpg',
+    eventImage: '',
     eventName: 'MINNA CULTURAL NIGHT',
     ticketTypes: [
       {
@@ -385,7 +385,7 @@ export const eventsData = [
     contact: '(+234)7178901234',
     about: 'A night celebrating the culture and traditions of Minna.',
     additionalInfo: ['minnaculturalnight@gmail.com', '(+234)7178901234'],
-    status: 'Published',
+    status: 'Few tickets left',
     createdBy: 'Cultural Group',
     startTime: '6:00PM'
   },
