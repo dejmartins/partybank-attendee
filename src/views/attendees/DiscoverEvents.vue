@@ -5,8 +5,8 @@
         <div class="flex justify-between items-center border-b-2 pb-2 px-6 md:px-10">
           <p class="font-bold">Discover Events</p>
           <div class="cities-container">
-            <button class="arrow left-arrow" @click="scrollLeft">&lt;</button>
-            <div class="cities">
+            <!-- <button class="arrow left-arrow" @click="scrollLeft">&lt;</button> -->
+            <div class="cities text-sm md:text-lg">
               <button
                 v-for="city in visibleCities"
                 :key="city"
@@ -16,7 +16,7 @@
                 {{ city }}
               </button>
             </div>
-            <button class="arrow right-arrow" @click="scrollRight">&gt;</button>
+            <!-- <button class="arrow right-arrow" @click="scrollRight">&gt;</button> -->
           </div>
         </div>
       </div>
@@ -75,7 +75,7 @@ const toast = useToast()
 const isLoading = ref(false)
 const events = ref<Array<Event>>([])
 const selectedCity = ref('Warri')
-const cities = ref(['Warri', 'Asaba', 'Lagos', 'Abuja', 'Port Harcourt', 'Enugu', 'Ibadan', 'Kano', 'Kaduna'])
+const cities = ref(['Warri', 'Asaba'])
 const visibleCities = ref(cities.value.slice(0, 3))
 const { GET_ALL_EVENTS } = Api()
 
@@ -184,17 +184,18 @@ onMounted(() => {
 }
 
 .city-button {
-  padding: 10px 15px;
-  background-color: #f3f3f3;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  padding: 7px 18px;
+  background-color: #FBFBFB;
+  border: 1px solid #797979;
+  border-radius: 22px;
   cursor: pointer;
+  color: #797979;
 }
 
 .city-button.active {
-  background-color: #007bff;
+  background-color: #1E1E1E;
   color: white;
-  border-color: #007bff;
+  border-color: #1E1E1E;
 }
 
 .arrow {
@@ -213,7 +214,7 @@ onMounted(() => {
 
 @media (max-width: 765px) {
   .content-container {
-    padding-top: 50px;
+    padding-top: 20px;
     padding-left: 10px;
     padding-right: 10px;
   }
