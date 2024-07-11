@@ -33,17 +33,17 @@
       <div v-if="!isLoading && filteredEvents.length === 0" class="no-events-message text-center fixed right-0 left-0 top-56 my-20">
         No events for this city.
       </div>
-      <div v-else class="event-card mt-20">
+      <div v-else class="event-card mt-20 mb-10">
         <EventCard
           v-for="event in filteredEvents"
           :key="event.eventReference"
           :eventId="event.eventReference"
           :imageUrl="event.eventImage"
           :creator="event.createdBy"
-          :location="event.location"
+          :location="event.venue"
           :status="event.status"
           :eventName="event.eventName"
-          :startTime="event.startTime"
+          :eventDate="event.eventDate"
         />
       </div>
     </div>
@@ -57,18 +57,17 @@ import EventCard from '@/components/main/EventCard.vue'
 import { ref, onMounted, computed } from 'vue'
 import Api from '@/utils/api'
 import { useToast } from 'vue-toastification'
-import moment from 'moment'
 import { eventsData } from '@/utils/helpers'
 
 type Event = {
   eventReference: string
   eventImage: string
   createdBy: string
-  location: string
+  city: string
   status: string
   eventName: string
-  startTime: string
   eventDate: string
+  venue: string
 }
 
 const toast = useToast()
@@ -86,6 +85,7 @@ const selectCity = (city: string) => {
 
 const getEvents = async () => {
   isLoading.value = true
+  events.value = eventsData
 
   await fetch(`${GET_ALL_EVENTS}`, {
     method: 'GET'
@@ -120,7 +120,7 @@ const scrollRight = () => {
 
 const filteredEvents = computed(() => {
   return events.value.filter((event) => {
-    return event.location === selectedCity.value;
+    return event.city === selectedCity.value;
     // return (
     //   event.location === selectedCity.value &&
     //   moment(event.eventDate, 'DD MMM, YYYY').isSameOrAfter(moment().subtract(1, 'day'), 'day')

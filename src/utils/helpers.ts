@@ -14,13 +14,14 @@ export const eventsData = [
       }
     ],
     eventThemes: 'Afro EDM, House and Electronic Music',
-    location: 'Warri',
+    city: 'Warri',
+    venue: 'Cloud Vista',
     eventDate: '30th May, 2024',
     timeFrame: '6pm - till dawn',
     contact: '(+234)7044295618',
     about: 'An experience for GenZ, and Millennials who are passionate about alternative music.',
     additionalInfo: ['partybankexperience@gmail.com', '(+234)7044295618'],
-    status: 'Published',
+    status: 'Few tickets left',
     createdBy: 'Rave Experience',
     startTime: '6:00PM'
   },
@@ -39,19 +40,20 @@ export const eventsData = [
       }
     ],
     eventThemes: 'Afro EDM, House and Electronic Music',
-    location: 'Warri',
+    city: 'Asaba',
+    venue: 'Delta Career',
     eventDate: '30th May, 2024',
     timeFrame: '6pm - till dawn',
     contact: '(+234)7044295618',
     about: 'An experience for GenZ, and Millennials who are passionate about alternative music.',
     additionalInfo: ['partybankexperience@gmail.com', '(+234)7044295618'],
-    status: 'Published',
+    status: 'Available',
     createdBy: 'Rave Experience',
     startTime: '6:00PM'
   },
   {
     eventReference: 'bde331d-8h',
-    eventImage: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1716075926/PARTYBANK/euphoria_lagos.jpg',
+    eventImage: '',
     eventName: 'LAGOS NIGHT LIFE',
     ticketTypes: [
       {
@@ -64,13 +66,14 @@ export const eventsData = [
       }
     ],
     eventThemes: 'Hip Hop, R&B',
-    location: 'Lagos',
+    city: 'Warri',
+    venue: 'City Center',
     eventDate: '15th June, 2024',
     timeFrame: '8pm - till dawn',
     contact: '(+234)7056321458',
     about: 'The best of Lagos nightlife with top DJs and performers.',
     additionalInfo: ['lagosnightlife@gmail.com', '(+234)7056321458'],
-    status: 'Published',
+    status: 'Sold out',
     createdBy: 'City Vibes',
     startTime: '8:00PM'
   },
@@ -89,13 +92,14 @@ export const eventsData = [
       }
     ],
     eventThemes: 'Carnival, Street Parade',
-    location: 'Warri',
+    city: 'Warri',
+    venue: 'Street Carnival Avenue',
     eventDate: '20th June, 2024',
     timeFrame: '10am - 10pm',
     contact: '(+234)7067896543',
     about: 'A vibrant street carnival showcasing culture and entertainment.',
     additionalInfo: ['abujacarnival@gmail.com', '(+234)7067896543'],
-    status: 'Published',
+    status: 'Available',
     createdBy: 'Carnival Inc.',
     startTime: '10:00AM'
   },
@@ -114,13 +118,14 @@ export const eventsData = [
       }
     ],
     eventThemes: 'Afrobeat, Reggae',
-    location: 'Port Harcourt',
+    city: 'Asaba',
+    venue: 'Fiesta Grounds',
     eventDate: '25th June, 2024',
     timeFrame: '4pm - 12am',
     contact: '(+234)7078901234',
     about: 'An unforgettable fiesta with live bands and DJs.',
     additionalInfo: ['phcfiesta@gmail.com', '(+234)7078901234'],
-    status: 'Published',
+    status: 'Available',
     createdBy: 'Fiesta Group',
     startTime: '4:00PM'
   },
@@ -139,19 +144,20 @@ export const eventsData = [
       }
     ],
     eventThemes: 'Cultural Festival, Traditional Music',
-    location: 'Warri',
+    city: 'Warri',
+    venue: 'Cultural Grounds',
     eventDate: '30th June, 2024',
     timeFrame: '12pm - 6pm',
     contact: '(+234)7089012345',
     about: 'Celebrate the rich culture and traditions of Enugu.',
     additionalInfo: ['enuguculturefest@gmail.com', '(+234)7089012345'],
-    status: 'Published',
+    status: 'Sold out',
     createdBy: 'Culture Fest Team',
     startTime: '12:00PM'
   },
   {
     eventReference: 'ffg775h-6m',
-    eventImage: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1716075926/PARTYBANK/euphoria_ibadan.jpg',
+    eventImage: '',
     eventName: 'IBADAN ROCKS',
     ticketTypes: [
       {
@@ -164,19 +170,20 @@ export const eventsData = [
       }
     ],
     eventThemes: 'Rock, Alternative Music',
-    location: 'Ibadan',
+    city: 'Warri',
+    venue: 'Rock Venue',
     eventDate: '5th July, 2024',
     timeFrame: '7pm - 11pm',
     contact: '(+234)7090123456',
     about: 'A night of rock music with live performances.',
     additionalInfo: ['ibadanrocks@gmail.com', '(+234)7090123456'],
-    status: 'Published',
+    status: 'Few tickets left',
     createdBy: 'Rock Nation',
     startTime: '7:00PM'
   },
   {
     eventReference: 'ggh886i-7n',
-    eventImage: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1716075926/PARTYBANK/euphoria_kano.jpg',
+    eventImage: '',
     eventName: 'KANO FUNFAIR',
     ticketTypes: [
       {
@@ -189,19 +196,20 @@ export const eventsData = [
       }
     ],
     eventThemes: 'Funfair, Family Event',
-    location: 'Kano',
+    city: 'Warri',
+    venue: 'Funfair Grounds',
     eventDate: '10th July, 2024',
     timeFrame: '10am - 8pm',
     contact: '(+234)7101234567',
     about: 'A funfair for the whole family with rides and games.',
     additionalInfo: ['kanofunfair@gmail.com', '(+234)7101234567'],
-    status: 'Published',
+    status: 'Sold out',
     createdBy: 'Funfair Co.',
     startTime: '10:00AM'
   },
   {
     eventReference: 'hhj997j-8o',
-    eventImage: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1716075926/PARTYBANK/euphoria_kaduna.jpg',
+    eventImage: '',
     eventName: 'KADUNA MUSIC FEST',
     ticketTypes: [
       {
@@ -214,19 +222,20 @@ export const eventsData = [
       }
     ],
     eventThemes: 'Music Festival, Live Performances',
-    location: 'Kaduna',
+    city: 'Asaba',
+    venue: 'Music Fest Arena',
     eventDate: '15th July, 2024',
     timeFrame: '2pm - 12am',
     contact: '(+234)7112345678',
     about: 'A music festival featuring top artists from across Nigeria.',
     additionalInfo: ['kadunamusicfest@gmail.com', '(+234)7112345678'],
-    status: 'Published',
+    status: 'Available',
     createdBy: 'Festivals Nigeria',
     startTime: '2:00PM'
   },
   {
     eventReference: 'iik108k-9p',
-    eventImage: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1716075926/PARTYBANK/euphoria_jos.jpg',
+    eventImage: '',
     eventName: 'JOS WINTER CARNIVAL',
     ticketTypes: [
       {
@@ -239,19 +248,20 @@ export const eventsData = [
       }
     ],
     eventThemes: 'Carnival, Winter Event',
-    location: 'Jos',
+    city: 'Warri',
+    venue: 'Winter Carnival Grounds',
     eventDate: '20th July, 2024',
     timeFrame: '3pm - 9pm',
     contact: '(+234)7123456789',
     about: 'A winter-themed carnival in the heart of Jos.',
     additionalInfo: ['joswintercarnival@gmail.com', '(+234)7123456789'],
-    status: 'Published',
+    status: 'Available',
     createdBy: 'Carnival Crew',
     startTime: '3:00PM'
   },
   {
     eventReference: 'jjl119l-1q',
-    eventImage: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1716075926/PARTYBANK/euphoria_uyo.jpg',
+    eventImage: '',
     eventName: 'UYO FOOD FEST',
     ticketTypes: [
       {
@@ -264,13 +274,14 @@ export const eventsData = [
       }
     ],
     eventThemes: 'Food Festival, Culinary Event',
-    location: 'Uyo',
+    city: 'Warri',
+    venue: 'Food Fest Plaza',
     eventDate: '25th July, 2024',
     timeFrame: '12pm - 6pm',
     contact: '(+234)7134567890',
     about: 'A festival celebrating the best of Uyo cuisine.',
     additionalInfo: ['uyofoodfest@gmail.com', '(+234)7134567890'],
-    status: 'Published',
+    status: 'Available',
     createdBy: 'Food Lovers',
     startTime: '12:00PM'
   },
@@ -289,19 +300,20 @@ export const eventsData = [
       }
     ],
     eventThemes: 'Art Exhibition, Cultural Event',
-    location: 'Benin',
+    city: 'Asaba',
+    venue: 'Art Expo Center',
     eventDate: '30th July, 2024',
     timeFrame: '10am - 5pm',
     contact: '(+234)7145678901',
     about: 'An exhibition showcasing the rich art and culture of Benin.',
     additionalInfo: ['beninartexpo@gmail.com', '(+234)7145678901'],
-    status: 'Published',
+    status: 'Available',
     createdBy: 'Art House',
     startTime: '10:00AM'
   },
   {
     eventReference: 'lln331n-3s',
-    eventImage: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1716075926/PARTYBANK/euphoria_onitsha.jpg',
+    eventImage: '',
     eventName: 'ONITSHA TRADE FAIR',
     ticketTypes: [
       {
@@ -314,13 +326,14 @@ export const eventsData = [
       }
     ],
     eventThemes: 'Trade Fair, Business Expo',
-    location: 'Onitsha',
+    city: 'Warri',
+    venue: 'Trade Fair Grounds',
     eventDate: '5th August, 2024',
     timeFrame: '9am - 6pm',
     contact: '(+234)7156789012',
     about: 'A trade fair featuring businesses from across Nigeria.',
     additionalInfo: ['onitshatradefair@gmail.com', '(+234)7156789012'],
-    status: 'Published',
+    status: 'Available',
     createdBy: 'Trade Expo',
     startTime: '9:00AM'
   },
@@ -339,7 +352,8 @@ export const eventsData = [
       }
     ],
     eventThemes: 'Farmers Market, Agricultural Event',
-    location: 'Abakaliki',
+    city: 'Asaba',
+    venue: 'Farmers Market Square',
     eventDate: '10th August, 2024',
     timeFrame: '8am - 2pm',
     contact: '(+234)7167890123',
@@ -364,7 +378,8 @@ export const eventsData = [
       }
     ],
     eventThemes: 'Cultural Event, Traditional Music',
-    location: 'Minna',
+    city: 'Asaba',
+    venue: 'Cultural Grounds',
     eventDate: '15th August, 2024',
     timeFrame: '6pm - 10pm',
     contact: '(+234)7178901234',
@@ -376,7 +391,7 @@ export const eventsData = [
   },
   {
     eventReference: 'ooq664q-6v',
-    eventImage: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1716075926/PARTYBANK/euphoria_ilorin.jpg',
+    eventImage: '',
     eventName: 'ILORIN FESTIVAL OF LIGHTS',
     ticketTypes: [
       {
@@ -389,13 +404,14 @@ export const eventsData = [
       }
     ],
     eventThemes: 'Festival, Light Show',
-    location: 'Ilorin',
+    city: 'Warri',
+    venue: 'Light Festival Grounds',
     eventDate: '20th August, 2024',
     timeFrame: '7pm - 11pm',
     contact: '(+234)7189012345',
     about: 'A spectacular light festival in the heart of Ilorin.',
     additionalInfo: ['ilorinfestival@gmail.com', '(+234)7189012345'],
-    status: 'Published',
+    status: 'Few tickets left',
     createdBy: 'Festival Lights',
     startTime: '7:00PM'
   }
