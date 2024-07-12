@@ -1,12 +1,12 @@
 <template>
-  <div class="main-container">
-    <div class="header-container px-8 font-bold text-xl my-3 md:px-32">
+  <div class="flex flex-col">
+    <div class="fixed z-10 top-0 left-0 right-0 bg-white px-8 font-bold text-xl my-3 md:px-32">
       <div class="w-full fixed top-32 left-0 right-0 bg-white z-50 px-5 pt-3 md:px-20">
         <div class="flex justify-between items-center border-b-2 pb-2 px-6 md:px-10">
-          <p class="font-bold">Discover Events</p>
-          <div class="cities-container">
+          <p class="font-bold whitespace-nowrap">Discover Events</p>
+          <div class="flex items-center gap-[10px]">
             <!-- <button class="arrow left-arrow" @click="scrollLeft">&lt;</button> -->
-            <div class="cities text-sm md:text-lg">
+            <div class="whitespace-nowrap flex gap-[10px] overflow-x-auto text-sm w-40 md:w-full md:text-lg">
               <button
                 v-for="city in visibleCities"
                 :key="city"
@@ -30,10 +30,11 @@
         alt="Explore Gif Loader"
       />
 
-      <div v-if="!isLoading && filteredEvents.length === 0" class="no-events-message text-center fixed right-0 left-0 top-56 my-20">
+      <div v-if="!isLoading && filteredEvents.length === 0" class="text-red-600 m-20 text-center fixed right-0 left-0 top-56 my-20 text-lg">
         No events for this city.
       </div>
-      <div v-else class="event-card mt-20 mb-10">
+      
+      <div v-else class="flex justify-center mt-20 mb-10 flex-wrap">
         <EventCard
           v-for="event in filteredEvents"
           :key="event.eventReference"
@@ -74,7 +75,7 @@ const toast = useToast()
 const isLoading = ref(false)
 const events = ref<Array<Event>>([])
 const selectedCity = ref('Warri')
-const cities = ref(['Warri', 'Asaba'])
+const cities = ref(['Warri', 'Asaba', 'PortHarcourt'])
 const visibleCities = ref(cities.value.slice(0, 3))
 const { GET_ALL_EVENTS } = Api()
 
@@ -85,7 +86,6 @@ const selectCity = (city: string) => {
 
 const getEvents = async () => {
   isLoading.value = true
-  events.value = eventsData
 
   await fetch(`${GET_ALL_EVENTS}`, {
     method: 'GET'
@@ -134,21 +134,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.main-container {
-  display: flex;
-  flex-direction: column;
-  /* height: 100vh; */
-}
-
-.header-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-color: white;
-  z-index: 10;
-}
-
 .loader {
   position: absolute;
   bottom: 50%;
@@ -162,25 +147,6 @@ onMounted(() => {
   padding-top: 40px;
   padding-left: 20px;
   padding-right: 20px;
-}
-
-.event-card {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.cities-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.cities {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  white-space: nowrap;
 }
 
 .city-button {
@@ -198,30 +164,19 @@ onMounted(() => {
   border-color: #1E1E1E;
 }
 
-.arrow {
+/* .arrow {
   background: none;
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
   padding: 0 10px;
-}
-
-.no-events-message {
-  font-size: 1.2rem;
-  color: #ff0000;
-  margin: 20px;
-}
+} */
 
 @media (max-width: 765px) {
   .content-container {
     padding-top: 20px;
     padding-left: 10px;
     padding-right: 10px;
-  }
-
-  .event-card {
-    flex-direction: column;
-    align-items: center;
   }
 
   .city-button {
@@ -238,15 +193,5 @@ onMounted(() => {
   .cities-container {
     margin-left: auto;
   }
-}
-
-.modal-fade-enter-active,
-.modal-fade-leave-active {
-  transition: opacity 0.5s;
-}
-
-.modal-fade-enter-from,
-.modal-fade-leave-to {
-  opacity: 0;
 }
 </style>

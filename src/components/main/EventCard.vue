@@ -19,7 +19,7 @@
           </a>
           <div
             class="profile-icon"
-            :style="{ backgroundImage: `url(${raveImage})` }"
+            :style="{ backgroundImage: `url(https://res.cloudinary.com/drddoxnsi/image/upload/v1720742531/PARTYBANK/rave_cmqhw8.png)` }"
           ></div>
         </div>
         <p :class="clsx('event-status absolute top-0 left-3 border-2', {
@@ -36,7 +36,6 @@
 <script setup lang="ts">
 import clsx from 'clsx';
 import defaultImage from '@/assets/images/defaultImage.jpeg';
-import raveImage from '@/assets/images/rave.png';
 
 defineProps<{
   eventId: string;
