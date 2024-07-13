@@ -6,7 +6,7 @@
           <p class="font-bold whitespace-nowrap">Discover Events</p>
           <div class="flex items-center gap-[10px]">
             <!-- <button class="arrow left-arrow" @click="scrollLeft">&lt;</button> -->
-            <div class="whitespace-nowrap flex gap-[10px] overflow-x-auto text-sm w-40 md:w-full md:text-lg">
+            <div class="whitespace-nowrap flex gap-[10px] overflow-x-auto text-sm w-40 w-full md:text-lg">
               <button
                 v-for="city in visibleCities"
                 :key="city"
@@ -75,7 +75,7 @@ const toast = useToast()
 const isLoading = ref(false)
 const events = ref<Array<Event>>([])
 const selectedCity = ref('Warri')
-const cities = ref(['Warri', 'Asaba', 'PortHarcourt'])
+const cities = ref(['Warri', 'Asaba'])
 const visibleCities = ref(cities.value.slice(0, 3))
 const { GET_ALL_EVENTS } = Api()
 
@@ -92,8 +92,8 @@ const getEvents = async () => {
   })
     .then((res) => res.json())
     .then((response) => {
-      // events.value = response.data
-      events.value = eventsData
+      events.value = response.data
+      // events.value = eventsData
       console.log(response.data)
       isLoading.value = false
     })

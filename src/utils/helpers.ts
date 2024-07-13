@@ -1,29 +1,30 @@
 export const eventsData = [
   {
     eventReference: 'afd218c-5e',
-    eventImage: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653097/PARTYBANK/euphoria_jds29k_o4spxf.avif',
-    eventName: 'EUPHORIA: On The Roof',
+    eventImage: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1720813864/PARTYBANK/Rave_Experience_Warri_2024_Main_Flyer_au2hzn.png',
+    eventName: "Wet and Wild Summer",
     ticketTypes: [
       {
         name: 'STANDARD',
         price: 7500.0
       },
       {
-        name: 'VIP',
-        price: 25000.0
+        name: 'LOUNGE ACCESS',
+        price: 20000.0
       }
     ],
-    eventThemes: 'Afro EDM, House and Electronic Music',
+    eventThemes: 'Prepare to be dazzled by amazing performances, splash into cool waters, and create memories that will last a lifetime. Bring your friends, your energy, and your summer spirit, because this is going to be the most Epic Celebration!',
     city: 'Warri',
-    venue: 'Cloud Vista',
-    eventDate: '30th May, 2024',
-    timeFrame: '6pm - till dawn',
+    venue: 'Shell Ogunu, Golf Club',
+    eventDate: '18th August, 2024',
+    timeFrame: '12pm - 12am',
     contact: '(+234)7044295618',
-    about: 'An experience for GenZ, and Millennials who are passionate about alternative music.',
+    about: 'Recreational Adult Vibing Event',
     additionalInfo: ['partybankexperience@gmail.com', '(+234)7044295618'],
-    status: 'Few tickets left',
+    status: 'Available',
     createdBy: 'Rave Experience',
-    startTime: '6:00PM'
+    startTime: '12:00PM',
+    mapUrl: 'https://maps.app.goo.gl/i6aZdTjH3MA9peYV9'
   },
   {
     eventReference: 'afd220f-3g',

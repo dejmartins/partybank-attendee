@@ -9,7 +9,7 @@
     <img v-if="isLoading" src="@/assets/images/bottles.gif" class="loader h-32" alt="Bottles Gif" />
 
     <div v-if="!isLoading" class="flex justify-center">
-      <div class="event-container flex flex-col mb-10">
+      <div class="event-container flex flex-col mb-10 w-full md:w-[60%]">
         <div class="event-detail flex flex-col">
           <div class="event-image-container">
             <div
@@ -35,12 +35,12 @@
           <div>
             <div class="text-gray-500 mt-3 leading-7">
               <a
-                href="https://maps.app.goo.gl/3fRgCyAeWZ6TxqWJ8"
+                :href="event?.mapUrl"
                 target="_blank"
                 class="location flex items-center"
               >
                 <fa-icon class="pr-2" :icon="['fas', 'location-dot']" style="color: #b0b0b0" />
-                {{ event?.location }}
+                {{ event?.venue }}
               </a>
 
               <p>
@@ -108,13 +108,13 @@
                 {{ event?.about }}
               </p>
             </div>
-
+          
             <div class="mt-4">
               <p class="text-sm font-semibold">Location</p>
               <hr class="my-2" />
               <div class="mt-4">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.419913439578!2d6.686333875217679!3d6.208214126746435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1043f39e1f3a543b%3A0xab2e21c8c5d16ecb!2sCloud%20Vista!5e0!3m2!1sen!2sng!4v1718474615966!5m2!1sen!2sng"
+                  :src="event?.mapEmbeddedUrl"
                   width="100%"
                   height="250"
                   style="border-radius: 10px"
@@ -194,11 +194,13 @@ type Event = {
   eventImage: string
   createdBy: string
   eventName: string
-  location: string
+  venue: string
   eventDate: string
   timeFrame: string
   ticketTypes: Array<Ticket>
   about: string
+  mapUrl: string
+  mapEmbeddedUrl: string
 }
 
 const route = useRoute()
@@ -306,7 +308,6 @@ const pay = async (value: UserInfo) => {
         } else {
           emailAddress.value = value.emailAddress;
           isTicketSent.value = true;
-          // Free ticket sent popup
         }
         togglePaymentPopup();
       })
@@ -351,7 +352,7 @@ onMounted(async () => {
   background-position: center;
   border-radius: 15px;
   width: 100%;
-  height: 350px;
+  height: 480px;
 }
 
 .image-hr {
@@ -424,7 +425,7 @@ onMounted(async () => {
 
   .event-image {
     width: 100%;
-    height: 400px;
+    height: 420px;
   }
 }
 </style>
