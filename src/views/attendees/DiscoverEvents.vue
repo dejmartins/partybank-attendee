@@ -13,7 +13,7 @@
                 :action="city" 
                 :disabled=false
                 @click="selectCity(city)"
-                :additionalClasses="`py-[7px] px-[18px] border rounded-[22px] text-[#797979] ${city === selectedCity ? 'bg-[#1E1E1E] border-[#1E1E1E] text-white' : 'border-[#797979] bg-[#FBFBFB]'}`"
+                :additionalClasses="`py-[4px] px-[9px] text-sm md:text-lg md:py-[7px] md:px-[18px] border rounded-[22px] text-[#797979] ${city === selectedCity ? 'bg-[#1E1E1E] border-[#1E1E1E] text-white' : 'border-[#797979] bg-[#FBFBFB]'}`"
               />
             </div>
             <!-- <button class="arrow right-arrow" @click="scrollRight">&gt;</button> -->
