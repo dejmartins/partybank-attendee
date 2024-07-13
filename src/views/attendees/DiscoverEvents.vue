@@ -7,14 +7,14 @@
           <div class="flex items-center gap-[10px]">
             <!-- <button class="arrow left-arrow" @click="scrollLeft">&lt;</button> -->
             <div class="whitespace-nowrap flex gap-[10px] overflow-x-auto text-sm w-40 w-full md:text-lg">
-              <button
-                v-for="city in visibleCities"
-                :key="city"
+              <Button
+                v-for="city in visibleCities" 
+                :key="city"  
+                :action="city" 
+                :disabled=false
                 @click="selectCity(city)"
-                :class="['city-button', { active: city === selectedCity }]"
-              >
-                {{ city }}
-              </button>
+                :additionalClasses="`py-[7px] px-[18px] border rounded-[22px] text-[#797979] ${city === selectedCity ? 'bg-[#1E1E1E] border-[#1E1E1E] text-white' : 'border-[#797979] bg-[#FBFBFB]'}`"
+              />
             </div>
             <!-- <button class="arrow right-arrow" @click="scrollRight">&gt;</button> -->
           </div>
@@ -58,7 +58,7 @@ import EventCard from '@/components/main/EventCard.vue'
 import { ref, onMounted, computed } from 'vue'
 import Api from '@/utils/api'
 import { useToast } from 'vue-toastification'
-import { eventsData } from '@/utils/helpers'
+import Button from '@/components/buttons/ButtonComponent.vue'
 
 type Event = {
   eventReference: string
@@ -93,7 +93,6 @@ const getEvents = async () => {
     .then((res) => res.json())
     .then((response) => {
       events.value = response.data
-      // events.value = eventsData
       console.log(response.data)
       isLoading.value = false
     })
@@ -149,21 +148,6 @@ onMounted(() => {
   padding-right: 20px;
 }
 
-.city-button {
-  padding: 7px 18px;
-  background-color: #FBFBFB;
-  border: 1px solid #797979;
-  border-radius: 22px;
-  cursor: pointer;
-  color: #797979;
-}
-
-.city-button.active {
-  background-color: #1E1E1E;
-  color: white;
-  border-color: #1E1E1E;
-}
-
 /* .arrow {
   background: none;
   border: none;
@@ -179,14 +163,9 @@ onMounted(() => {
     padding-right: 10px;
   }
 
-  .city-button {
-    padding: 8px 10px;
-    font-size: 0.875rem;
-  }
-
-  .arrow {
+  /* .arrow {
     padding: 0 5px;
-  }
+  } */
 }
 
 @media (min-width: 766px) {
