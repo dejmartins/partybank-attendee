@@ -37,7 +37,7 @@
           alt="Phones Icons"
         />
         <p class="font-bold">No events</p>
-        <p class="text-[#4A4A4A]">There are no events in this location at the moment</p>
+        <p class="text-[#4A4A4A]">There are no events in {{ selectedCity }} at the moment</p>
       </div>
       
       <div v-else class="flex justify-center mt-20 mb-10 flex-wrap">
