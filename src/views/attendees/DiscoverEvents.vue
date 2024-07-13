@@ -1,77 +1,93 @@
 <template>
-  <div class="main-container">
-    <div class="px-8 font-bold text-xl my-3">
-      <p class="font-bold">Discover Events</p>
+  <div class="flex flex-col">
+    <div class="fixed z-10 top-0 left-0 right-0 bg-white px-8 font-bold text-xl my-3 md:px-32">
+      <div class="w-full fixed top-32 left-0 right-0 bg-white z-50 px-5 pt-3 md:px-20">
+        <div class="flex justify-between items-center border-b-2 pb-2 px-6 md:px-10">
+          <p class="font-bold whitespace-nowrap">Discover Events</p>
+          <div class="flex items-center gap-[10px]">
+            <!-- <button class="arrow left-arrow" @click="scrollLeft">&lt;</button> -->
+            <div class="whitespace-nowrap flex gap-[10px] overflow-x-auto text-sm w-40 w-full md:text-lg">
+              <Button
+                v-for="city in visibleCities" 
+                :key="city"  
+                :action="city" 
+                :disabled=false
+                @click="selectCity(city)"
+                :additionalClasses="`py-[7px] px-[18px] border rounded-[22px] text-[#797979] ${city === selectedCity ? 'bg-[#1E1E1E] border-[#1E1E1E] text-white' : 'border-[#797979] bg-[#FBFBFB]'}`"
+              />
+            </div>
+            <!-- <button class="arrow right-arrow" @click="scrollRight">&gt;</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-container">
       <img
         v-if="isLoading"
         src="@/assets/images/explore-loader.gif"
-        class="loader h-32"
+        class="loader h-32 mt-20"
         alt="Explore Gif Loader"
       />
 
-      <div class="content-container">
-        <div class="event-card">
-          <EventCard
-            v-for="event in filteredEvents"
-            :key="event.eventReference"
-            :eventId="event.eventReference"
-            :imageUrl="event.eventImage"
-            :creator="event.createdBy"
-            :location="event.location"
-            :status="event.status"
-            :eventName="event.eventName"
-            :startTime="event.startTime"
-          />
-        </div>
-
-        <div v-if="!isLoading" class="location h-44 w-44 text-sm px-4">
-          <img src="@/assets/images/asaba.gif" class="h-16" alt="Flower Gif" />
-          <p class="font-bold text-[20px] leading-8">Asaba</p>
-          <p>
-            Discover the hottest events in Asaba, and get notified of new events before they sell
-            out.
-          </p>
-
-          <Button @click="handleSubscribe" action="Subscribe" class="w-full mt-3" />
-        </div>
-
-        <transition name="modal-fade">
-          <Subscribe @close="handleSubscribe" v-if="isSubscribe" location="Asaba" />
-        </transition>
+      <div v-if="!isLoading && filteredEvents.length === 0" class="m-20 text-center flex flex-col items-center fixed right-0 left-0 top-56 my-20 text-lg">
+        <img
+          src="@/assets/images/EmptyState.png"
+          class="h-32 mt-10"
+          alt="Phones Icons"
+        />
+        <p class="font-bold">No events</p>
+        <p class="text-[#4A4A4A]">There are no events in this location at the moment</p>
+      </div>
+      
+      <div v-else class="flex justify-center mt-20 mb-10 flex-wrap">
+        <EventCard
+          v-for="event in filteredEvents"
+          :key="event.eventReference"
+          :eventId="event.eventReference"
+          :imageUrl="event.eventImage"
+          :creator="event.createdBy"
+          :location="event.venue"
+          :status="event.status"
+          :eventName="event.eventName"
+          :eventDate="event.eventDate"
+        />
       </div>
     </div>
   </div>
 </template>
 
+
+
 <script setup lang="ts">
 import EventCard from '@/components/main/EventCard.vue'
-import Button from '@/components/buttons/PlainSubscribe.vue'
-import Subscribe from '@/components/modals/SubscribeModal.vue'
 import { ref, onMounted, computed } from 'vue'
 import Api from '@/utils/api'
 import { useToast } from 'vue-toastification'
-import moment from 'moment'
+import Button from '@/components/buttons/ButtonComponent.vue'
 
 type Event = {
   eventReference: string
   eventImage: string
   createdBy: string
-  location: string
+  city: string
   status: string
   eventName: string
-  startTime: string
   eventDate: string
+  venue: string
 }
 
 const toast = useToast()
 const isLoading = ref(false)
-const isSubscribe = ref(false)
 const events = ref<Array<Event>>([])
+const selectedCity = ref('Warri')
+const cities = ref(['Warri', 'Asaba'])
+const visibleCities = ref(cities.value.slice(0, 3))
 const { GET_ALL_EVENTS } = Api()
 
 // Methods
-const handleSubscribe = () => {
-  isSubscribe.value = !isSubscribe.value
+const selectCity = (city: string) => {
+  selectedCity.value = city
 }
 
 const getEvents = async () => {
@@ -93,9 +109,27 @@ const getEvents = async () => {
     })
 }
 
+const scrollLeft = () => {
+  const currentIndex = cities.value.indexOf(visibleCities.value[0])
+  if (currentIndex > 0) {
+    visibleCities.value = cities.value.slice(currentIndex - 1, currentIndex + 2)
+  }
+}
+
+const scrollRight = () => {
+  const currentIndex = cities.value.indexOf(visibleCities.value[0])
+  if (currentIndex + 5 < cities.value.length) {
+    visibleCities.value = cities.value.slice(currentIndex + 1, currentIndex + 4)
+  }
+}
+
 const filteredEvents = computed(() => {
   return events.value.filter((event) => {
-   return moment(event.eventDate, 'DD MMM, YYYY').isSameOrAfter(moment().subtract(1, 'day'), 'day')
+    return event.city === selectedCity.value;
+    // return (
+    //   event.location === selectedCity.value &&
+    //   moment(event.eventDate, 'DD MMM, YYYY').isSameOrAfter(moment().subtract(1, 'day'), 'day')
+    // )
   })
 })
 
@@ -113,45 +147,36 @@ onMounted(() => {
 }
 
 .content-container {
-  display: flex;
-  flex-direction: row;
-  align-items: start;
-  justify-content: center;
+  flex: 1;
+  overflow-y: auto;
+  padding-top: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
-.event-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-right: 20px;
-}
+/* .arrow {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0 10px;
+} */
 
 @media (max-width: 765px) {
   .content-container {
-    flex-direction: column-reverse;
+    padding-top: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
-  .logo {
-    height: 3rem;
-  }
-
-  .location {
-    width: 100%;
-    margin-bottom: 30px;
-  }
-
-  .event-card {
-    width: 100%;
-  }
+  /* .arrow {
+    padding: 0 5px;
+  } */
 }
 
-.modal-fade-enter-active,
-.modal-fade-leave-active {
-  transition: opacity 0.5s;
-}
-
-.modal-fade-enter-from,
-.modal-fade-leave-to {
-  opacity: 0;
+@media (min-width: 766px) {
+  .cities-container {
+    margin-left: auto;
+  }
 }
 </style>
