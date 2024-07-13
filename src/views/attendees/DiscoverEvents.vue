@@ -26,7 +26,7 @@
       <img
         v-if="isLoading"
         src="@/assets/images/explore-loader.gif"
-        class="loader h-32 mt-32 md:mt-20"
+        class="loader h-32 md:mt-20"
         alt="Explore Gif Loader"
       />
 
@@ -141,7 +141,7 @@ onMounted(() => {
 <style scoped>
 .loader {
   position: absolute;
-  bottom: 50%;
+  bottom: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
