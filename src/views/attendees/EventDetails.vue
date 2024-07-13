@@ -105,7 +105,7 @@
               <p class="text-lg font-semibold">About Event</p>
               <hr class="my-2" />
               <p class="text-gray-500 text-sm md:text-base">
-                {{ event?.about }}
+                {{ event?.eventThemes }}
               </p>
             </div>
           
@@ -200,9 +200,9 @@ type Event = {
   eventDate: string
   timeFrame: string
   ticketTypes: Array<Ticket>
-  about: string
   mapUrl: string
   mapEmbeddedUrl: string
+  eventThemes: string
 }
 
 const route = useRoute()
