@@ -59,6 +59,17 @@
       <label class="form-label font-bold">Phone Number:</label>
       <input v-model="userInfo.phoneNumber" type="tel" class="form-input" maxlength="15" @input="filterNonDigits" />
     </div>
+    <div class="flex flex-col">
+      <label class="flex items-center text-gray-300">
+        <input type="checkbox" v-model="emailValidated" class="w-[15px] h-[15px] mr-[10px] mt-[15px] text-[10px]" />
+        I confirm my Email Address is correct
+      </label>
+      <label class="flex items-center text-gray-300">
+        <input type="checkbox" v-model="isAdult" class="w-[15px] h-[15px] mr-[10px] mt-[15px] text-[10px]" />
+        I confirm I am 18 years old or older
+      </label>
+    </div>
+
     <Payment action="Proceed to Payment" :loading="isDisabled" :disabled="isDisabled" />
   </form>
 </template>
@@ -79,7 +90,9 @@ const selectedLocation = ref(locations[0])
 let emailRegex = ref(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
 const phoneRegex = ref(/^\+?\d{11,14}$/)
 const emit = defineEmits(['proceed'])
-const isDisabled = ref(false)
+const isDisabled = ref<boolean>(false)
+const emailValidated = ref<boolean>(false)
+const isAdult = ref<boolean>(false)
 
 const userInfo = reactive({
   emailAddress: '',
@@ -108,13 +121,18 @@ const proceedToPayment = () => {
 
   if (isUserInfoValidated.value) {
     isDisabled.value = true
-    emit('proceed', { ...userInfo, location: selectedLocation.value.name })
+    emit('proceed', { 
+      ...userInfo, 
+      location: selectedLocation.value.name, 
+      emailValidated: emailValidated.value, 
+      termsAndConditionsAccepted: isAdult.value 
+    })
   }
 }
 
 // Computed Properties
 const isUserInfoValidated = computed(() => {
-  return !error.emailError && !error.phoneError
+  return !error.emailError && !error.phoneError && isAdult.value && emailValidated.value
 })
 </script>
 

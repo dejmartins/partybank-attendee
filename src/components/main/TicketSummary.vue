@@ -62,15 +62,15 @@
   const discountCode = ref('')
   const showDiscountInput = ref(false)
   
-  const toggleDiscountInput = () => {
-    showDiscountInput.value = !showDiscountInput.value
-  }
+  // const toggleDiscountInput = () => {
+  //   showDiscountInput.value = !showDiscountInput.value
+  // }
   
-  const applyDiscount = () => {
-    if (discountCode.value === 'DISCOUNT10') {
-      subtotal.value = subtotal.value * 0.9
-    }
-  }
+  // const applyDiscount = () => {
+  //   if (discountCode.value === 'DISCOUNT10') {
+  //     subtotal.value = subtotal.value * 0.9
+  //   }
+  // }
   
   const total = ref(subtotal.value)
   

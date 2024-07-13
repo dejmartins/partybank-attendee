@@ -9,7 +9,7 @@
     <img v-if="isLoading" src="@/assets/images/bottles.gif" class="loader h-32" alt="Bottles Gif" />
 
     <div v-if="!isLoading" class="flex justify-center">
-      <div class="event-container flex flex-col mb-10 w-full md:w-[60%]">
+      <div class="event-container flex flex-col mb-10 w-full md:w-[80%]">
         <div class="event-detail flex flex-col">
           <div class="event-image-container">
             <div
@@ -183,6 +183,8 @@ type UserInfo = {
   emailAddress: string
   phoneNumber: string
   location: string
+  emailValidated: boolean
+  termsAndConditionsAccepted: boolean
 }
 
 type Ticket = {
@@ -281,6 +283,8 @@ const pay = async (value: UserInfo) => {
     email: value.emailAddress,
     phoneNumber: value.phoneNumber,
     city: value.location,
+    emailValidated: value.emailValidated,
+    termsAndConditionsAccepted: value.termsAndConditionsAccepted,
     numberOfTickets: ticketQuantities.value[selectedTicket.value],
     discountRecorded: false,
     discountRecordReference: false,
@@ -288,6 +292,8 @@ const pay = async (value: UserInfo) => {
     ticketType: selectedTicket.value,
     eventReference: eventReference
   }
+
+  console.log(payload);
 
   try {
     const response = await fetch(`${PAY}`, {
