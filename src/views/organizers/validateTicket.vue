@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Header />
-    <div class="content">
+    <div class="content mt-44">
       <p class="title">Validate Tickets</p>
       <div id="qr-code-full-region" class="scanner"></div>
       <div class="validate-form">

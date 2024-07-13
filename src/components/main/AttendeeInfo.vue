@@ -61,11 +61,11 @@
     </div>
     <div class="flex flex-col">
       <label class="flex items-center text-gray-300">
-        <input type="checkbox" v-model="emailValidated" class="w-[12px] h-[12px] md:w-[15px] md:h-[15px] mr-[10px] mt-[15px] text-[10px]" />
+        <input type="checkbox" v-model="emailValidated" class="w-[10px] h-[10px] md:w-[15px] md:h-[15px] mr-[10px] mt-[15px] text-[10px]" />
         I confirm my Email Address is correct
       </label>
       <label class="flex items-center text-gray-300">
-        <input type="checkbox" v-model="isAdult" class="w-[12px] h-[12px] md:w-[15px] md:h-[15px] mr-[10px] mt-[15px] text-[10px]" />
+        <input type="checkbox" v-model="isAdult" class="w-[10px] h-[10px] md:w-[15px] md:h-[15px] mr-[10px] mt-[15px] text-[10px]" />
         I confirm I am 18 years old or older
       </label>
     </div>

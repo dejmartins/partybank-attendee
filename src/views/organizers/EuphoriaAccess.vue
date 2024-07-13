@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Header />
-    <div class="content flex justify-center">
+    <div class="content flex justify-center mt-44">
       <div class="login-container flex flex-col justify-center">
         <div class="title w-72">
           <img src="@/assets/images/ticket.gif" class="h-16 w-16 mb-3" alt="Ticket Gif" />
