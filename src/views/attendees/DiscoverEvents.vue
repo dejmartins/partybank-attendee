@@ -26,14 +26,14 @@
       <img
         v-if="isLoading"
         src="@/assets/images/explore-loader.gif"
-        class="loader h-32 mt-20"
+        class="loader h-32 mt-24 md:mt-20"
         alt="Explore Gif Loader"
       />
 
       <div v-if="!isLoading && filteredEvents.length === 0" class="m-20 text-center flex flex-col items-center fixed right-0 left-0 top-56 my-20 text-lg">
         <img
           src="@/assets/images/EmptyState.png"
-          class="h-32 mt-10"
+          class="h-32"
           alt="Phones Icons"
         />
         <p class="font-bold">No events</p>
