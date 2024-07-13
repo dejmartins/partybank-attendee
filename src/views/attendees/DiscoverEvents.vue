@@ -26,7 +26,7 @@
       <img
         v-if="isLoading"
         src="@/assets/images/explore-loader.gif"
-        class="loader h-32 mt-24 md:mt-20"
+        class="loader h-32 mt-32 md:mt-20"
         alt="Explore Gif Loader"
       />
 
