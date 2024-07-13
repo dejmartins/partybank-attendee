@@ -5,7 +5,6 @@
         <div class="flex justify-between items-center border-b-2 pb-2 px-6 md:px-10">
           <p class="font-bold whitespace-nowrap">Discover Events</p>
           <div class="flex items-center gap-[10px]">
-            <!-- <button class="arrow left-arrow" @click="scrollLeft">&lt;</button> -->
             <div class="whitespace-nowrap flex gap-[10px] overflow-x-auto text-sm w-40 w-full md:text-lg">
               <Button
                 v-for="city in visibleCities" 
@@ -16,7 +15,6 @@
                 :additionalClasses="`py-[4px] px-[9px] text-sm md:text-lg md:py-[7px] md:px-[18px] border rounded-[22px] text-[#797979] ${city === selectedCity ? 'bg-[#1E1E1E] border-[#1E1E1E] text-white' : 'border-[#797979] bg-[#FBFBFB]'}`"
               />
             </div>
-            <!-- <button class="arrow right-arrow" @click="scrollRight">&gt;</button> -->
           </div>
         </div>
       </div>
@@ -109,20 +107,6 @@ const getEvents = async () => {
     })
 }
 
-const scrollLeft = () => {
-  const currentIndex = cities.value.indexOf(visibleCities.value[0])
-  if (currentIndex > 0) {
-    visibleCities.value = cities.value.slice(currentIndex - 1, currentIndex + 2)
-  }
-}
-
-const scrollRight = () => {
-  const currentIndex = cities.value.indexOf(visibleCities.value[0])
-  if (currentIndex + 5 < cities.value.length) {
-    visibleCities.value = cities.value.slice(currentIndex + 1, currentIndex + 4)
-  }
-}
-
 const filteredEvents = computed(() => {
   return events.value.filter((event) => {
     return event.city === selectedCity.value;
@@ -154,24 +138,12 @@ onMounted(() => {
   padding-right: 20px;
 }
 
-/* .arrow {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  padding: 0 10px;
-} */
-
 @media (max-width: 765px) {
   .content-container {
     padding-top: 20px;
     padding-left: 10px;
     padding-right: 10px;
   }
-
-  /* .arrow {
-    padding: 0 5px;
-  } */
 }
 
 @media (min-width: 766px) {

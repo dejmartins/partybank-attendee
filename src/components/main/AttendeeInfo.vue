@@ -61,21 +61,21 @@
     </div>
     <div class="flex flex-col">
       <label class="flex items-center text-gray-300">
-        <input type="checkbox" v-model="emailValidated" class="w-[15px] h-[15px] mr-[10px] mt-[15px] text-[10px]" />
+        <input type="checkbox" v-model="emailValidated" class="w-[12px] h-[12px] md:w-[15px] md:h-[15px] mr-[10px] mt-[15px] text-[10px]" />
         I confirm my Email Address is correct
       </label>
       <label class="flex items-center text-gray-300">
-        <input type="checkbox" v-model="isAdult" class="w-[15px] h-[15px] mr-[10px] mt-[15px] text-[10px]" />
+        <input type="checkbox" v-model="isAdult" class="w-[12px] h-[12px] md:w-[15px] md:h-[15px] mr-[10px] mt-[15px] text-[10px]" />
         I confirm I am 18 years old or older
       </label>
     </div>
 
-    <Payment action="Proceed to Payment" :loading="isDisabled" :disabled="isDisabled" />
+    <PaymentButton action="Proceed to Payment" :loading="isDisabled" :disabled="isDisabled" />
   </form>
 </template>
 
 <script setup lang="ts">
-import Payment from './TicketPayment.vue'
+import PaymentButton from '@/components/buttons/PayButton.vue'
 import { ref, reactive, computed } from 'vue'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 
