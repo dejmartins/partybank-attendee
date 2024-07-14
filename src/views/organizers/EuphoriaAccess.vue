@@ -35,7 +35,7 @@ import Button from '@/components/buttons/RoundedMdButton.vue'
 import { ref } from 'vue'
 import { auth } from '@/firebase'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
 const email = ref('')
@@ -44,6 +44,7 @@ const errorMessage = ref<string | null>(null)
 const isLoading = ref(false)
 const router = useRouter()
 const toast = useToast()
+const route = useRoute()
 
 const handleLogin = () => {
   isLoading.value = true
@@ -56,8 +57,9 @@ const handleLogin = () => {
       // @ts-ignore
       localStorage.setItem('user', user.email)
 
-      console.log(user)
-      router.push('/validate')
+      const reference = route.params.eventReference;
+
+      router.push(`/${reference}/validate`)
     })
     .catch((error) => {
       if (error.code === 'auth/network-request-failed') {

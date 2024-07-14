@@ -25,12 +25,14 @@ import { Html5Qrcode } from 'html5-qrcode'
 import { onMounted, ref } from 'vue'
 import Api from '@/utils/api'
 import { useToast } from 'vue-toastification'
+import { useRoute } from 'vue-router'
 
 const ticketId = ref('')
 const scannerRef = ref<Html5Qrcode | null>(null)
 const isSearching = ref(false)
 const toast = useToast()
 const { SEARCH_TICKET, VALIDATE_TICKET } = Api()
+const route = useRoute();
 
 // Methods
 const createScanQrCodes = () => {
@@ -46,6 +48,7 @@ const onScanSuccess = (decodedText: any, decodedResult: any) => {
 }
 
 const onScanError = () => {
+  // console.log(route);
   // Handle scan error
 }
 
@@ -57,8 +60,10 @@ const searchTicket = async () => {
 
   isSearching.value = true
 
+  const reference = route.params.eventReference;
+
   const payload = {
-    eventReference: '9048989-67',
+    eventReference: reference,
     ticketNumber: ticketId.value
   }
 
@@ -94,6 +99,8 @@ const searchTicket = async () => {
 }
 
 const validateTicket = async (validatePayload: any) => {
+  toast.clear();
+  
   try {
     const response = await fetch(`${VALIDATE_TICKET}`, {
       method: 'POST',
