@@ -1,5 +1,5 @@
 <template>
-  <Header />
+  <Header addtional-classes="bg-[var(--pb-c-white)]" />
 
   <div class="pt-32">
     <router-view />

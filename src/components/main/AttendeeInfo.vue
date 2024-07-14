@@ -70,12 +70,18 @@
       </label>
     </div>
 
-    <PaymentButton action="Proceed to Payment" :loading="isDisabled" :disabled="isDisabled" />
+    <PaymentButton 
+      action="Proceed to Payment" 
+      :loading="isDisabled" 
+      :disabled="isDisabled"
+      additionalClasses="hover:bg-[var(--pb-c-blue)] border-[var(--pb-c-blue)]"
+      additionalLoaderClasses="border-2 border-t-[var(--pb-c-blue)]"
+    />
   </form>
 </template>
 
 <script setup lang="ts">
-import PaymentButton from '@/components/buttons/PayButton.vue'
+import PaymentButton from '@/components/buttons/LoaderButton.vue'
 import { ref, reactive, computed } from 'vue'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 

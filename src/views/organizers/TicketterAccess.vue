@@ -2,7 +2,7 @@
   <div class="container">
     <Header />
     <div class="content flex justify-center mt-44">
-      <div class="login-container flex flex-col justify-center">
+      <div class="login-container flex flex-col justify-center mx-8">
         <div class="title w-72">
           <img src="@/assets/images/ticket.gif" class="h-16 w-16 mb-3" alt="Ticket Gif" />
           <h3 class="font-bold text-[20px]">Welcome to Partybank</h3>
@@ -10,18 +10,20 @@
         </div>
         <form class="login-form" @submit.prevent="handleLogin">
           <div class="form-group">
-            <label for="email" class="form-label">Email Address</label>
-            <input type="email" id="email" v-model="email" class="form-input" required />
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" v-model="email" class="form-input bg-white text-[#ccc]" placeholder="Enter email address" required />
           </div>
           <div class="form-group">
             <label for="password" class="form-label">Password</label>
-            <input type="password" id="password" v-model="password" class="form-input" required />
+            <input type="password" id="password" v-model="password" class="form-input bg-white" placeholder="Enter password" required />
           </div>
-          <Button
-            :action="'Login'"
-            :loading="isLoading"
-            :disabled="isLoading"
-            class="w-full my-5"
+
+          <LoginButton 
+            action="Login" 
+            :loading="isLoading" 
+            :disabled="isLoading" 
+            additionalClasses="text-[var(--pb-c-black)] border-[var(--pb-c-black)] hover:text-[var(--pb-c-text-grey)] w-full mb-5 hover:bg-[var(--pb-c-black)]"
+            additionalLoaderClasses="border-2 border-t-black" 
           />
         </form>
       </div>
@@ -31,12 +33,12 @@
 
 <script setup lang="ts">
 import Header from '@/components/layouts/HeaderBar.vue'
-import Button from '@/components/buttons/RoundedMdButton.vue'
 import { ref } from 'vue'
 import { auth } from '@/firebase'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useRouter, useRoute } from 'vue-router'
 import { useToast } from 'vue-toastification'
+import LoginButton from '@/components/buttons/LoaderButton.vue'
 
 const email = ref('')
 const password = ref('')
@@ -82,7 +84,7 @@ const handleLogin = () => {
   flex-direction: column;
   min-height: 100vh;
   min-width: 100vw;
-  background-color: #f0f4f8;
+  /* background-color: #f0f4f8; */
 }
 
 .content {
@@ -96,8 +98,9 @@ const handleLogin = () => {
   padding: 40px;
   max-height: 480px;
   background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #C0C0C0;
+  border-radius: 22px;
+  /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
 }
 
 .logo {
@@ -134,7 +137,7 @@ const handleLogin = () => {
 }
 
 .form-input:focus {
-  border-color: #007bff;
+  border-color: #1E1E1E;
   outline: none;
 }
 

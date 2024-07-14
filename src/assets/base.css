@@ -7,9 +7,11 @@
   --pb-c-blue: #3a5cd4;
   --pb-c-light-blue: #5c78db;
 
+  --pb-c-black: #1E1E1E;
   --pb-c-black-soft: #5a5a5a;
+  --pb-c-text-grey: #C0C0C0;
 
-  --pb-c-grey: grey;
+  /* --pb-c-grey: grey; */
 }
 
 *,
