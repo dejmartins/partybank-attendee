@@ -12,7 +12,8 @@
                 :action="city" 
                 :disabled=false
                 @click="selectCity(city)"
-                :additionalClasses="`py-[4px] px-[9px] text-sm md:text-lg md:py-[7px] md:px-[18px] border rounded-[22px] text-[#797979] ${city === selectedCity ? 'bg-[#1E1E1E] border-[#1E1E1E] text-white' : 'border-[#797979] bg-[#FBFBFB]'}`"
+                :additionalClasses="`py-[4px] px-[9px] text-sm md:text-lg md:py-[7px] md:px-[18px] border rounded-[22px] text-[#797979] 
+                          ${city === selectedCity ? 'bg-[#1E1E1E] border-[#1E1E1E] text-white' : 'border-[#797979] bg-[#FBFBFB]'}`"
               />
             </div>
           </div>
@@ -24,7 +25,7 @@
       <img
         v-if="isLoading"
         src="@/assets/images/explore-loader.gif"
-        class="loader h-32 md:mt-20"
+        class="absolute bottom-[40%] left-[50%] translate-x-[-50%] translate-y-[-50%] h-32 md:mt-20"
         alt="Explore Gif Loader"
       />
 
@@ -63,17 +64,7 @@ import { ref, onMounted, computed } from 'vue'
 import Api from '@/utils/api'
 import { useToast } from 'vue-toastification'
 import Button from '@/components/buttons/ButtonComponent.vue'
-
-type Event = {
-  eventReference: string
-  eventImage: string
-  createdBy: string
-  city: string
-  status: string
-  eventName: string
-  eventDate: string
-  venue: string
-}
+import { type Event } from '@/utils/types'
 
 const toast = useToast()
 const isLoading = ref(false)
@@ -123,13 +114,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.loader {
-  position: absolute;
-  bottom: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
 .content-container {
   flex: 1;
   overflow-y: auto;
@@ -143,12 +127,6 @@ onMounted(() => {
     padding-top: 20px;
     padding-left: 10px;
     padding-right: 10px;
-  }
-}
-
-@media (min-width: 766px) {
-  .cities-container {
-    margin-left: auto;
   }
 }
 </style>
