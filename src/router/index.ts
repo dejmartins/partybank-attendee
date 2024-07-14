@@ -32,13 +32,13 @@ const router = createRouter({
       ]
     },
     {
-      path: '/validate',
+      path: '/:eventReference/validate',
       name: 'validate',
       component: () => import('@/views/organizers/validateTicket.vue'),
       meta: { requiresAuth: true }
     },
     {
-      path: '/admin',
+      path: '/:eventReference/admin',
       name: 'admin',
       component: () => import('@/views/organizers/EuphoriaAccess.vue')
     }

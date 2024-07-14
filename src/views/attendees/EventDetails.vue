@@ -230,12 +230,12 @@ const selectTicket = (ticketName: string) => {
 }
 
 const incrementTicket = (ticketName: string) => {
-  if (!ticketQuantities.value[ticketName]) {
-    ticketQuantities.value[ticketName] = 1
-  } else {
-    ticketQuantities.value[ticketName] += 1
+  const currentQuantity = ticketQuantities.value[ticketName] || 0;
+  if (currentQuantity < 5) {
+    ticketQuantities.value[ticketName] = currentQuantity + 1;
   }
-}
+};
+
 
 const decrementTicket = (ticketName: string) => {
   if (ticketQuantities.value[ticketName] && ticketQuantities.value[ticketName] > 1) {
