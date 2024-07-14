@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <Header />
-    <div class="content mt-44">
-      <p class="title">Validate Tickets</p>
+    <div class="mt-44 px-8 md:px-10">
+      <!-- <p class="title">Validate Tickets</p>
       <div id="qr-code-full-region" class="scanner"></div>
       <div class="validate-form">
         <input type="text" v-model="ticketId" placeholder="Enter Ticket ID" class="ticket-input" />
@@ -12,6 +12,34 @@
             <Loader />
           </span>
         </button>
+      </div> -->
+
+      <div class="flex justify-center border mx-auto">
+        <div class="content hidden md:flex">
+          <p class="text-left">Ticketter</p>
+          <div class="border flex flex-col items-center p-4">
+            <div id="qr-code-full-region" class="scanner"></div>
+            <div class="validate-form">
+              <label>
+                Ticket code
+                <input type="text" v-model="ticketId" placeholder="Enter Ticket ID" class="ticket-input" />
+              </label>
+              <button @click="searchTicket" class="validate-button" :disabled="isSearching">
+                <span v-if="!isSearching">Validate Ticket</span>
+                <span v-else>
+                  <Loader />
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="border w-full md:w-[400px]">
+          <p>Ticket types</p>
+          <div v-for="ticketDetail in ticketDetails">
+            <p>{{ ticketDetail.ticket_type }}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -26,20 +54,48 @@ import { onMounted, ref } from 'vue'
 import Api from '@/utils/api'
 import { useToast } from 'vue-toastification'
 import { useRoute } from 'vue-router'
+import { type TicketDetail } from '@/utils/types'
+
+const { SEARCH_TICKET, VALIDATE_TICKET, GET_PURCHASED_TICKETS } = Api()
 
 const ticketId = ref('')
-const scannerRef = ref<Html5Qrcode | null>(null)
 const isSearching = ref(false)
+const scannerRef = ref<Html5Qrcode | null>(null)
+const ticketDetails = ref<Array<TicketDetail>>([])
+const totalTicketsSold = ref<number>(0)
+const totalTicketsValidated = ref<number>(0)
+
 const toast = useToast()
-const { SEARCH_TICKET, VALIDATE_TICKET } = Api()
 const route = useRoute();
+
+const reference = route.params.eventReference;
 
 // Methods
 const createScanQrCodes = () => {
   const html5QrCodes = new Html5Qrcode('qr-code-full-region')
   scannerRef.value = html5QrCodes
-  const config = { fps: 20, qrbox: { width: 250, height: 250 } }
+  const config = { fps: 20, qrbox: { width: 180, height: 180 } }
   html5QrCodes.start({ facingMode: 'environment' }, config, onScanSuccess, onScanError)
+}
+
+const ticketsData = async () => {
+  // isLoading.value = true
+
+  await fetch(`${GET_PURCHASED_TICKETS}/${reference}`, {
+    method: 'GET'
+  })
+    .then((res) => res.json())
+    .then((response) => {
+      ticketDetails.value = response.data.ticketDetails
+      totalTicketsSold.value = response.data.totalTicketsSold
+      totalTicketsValidated.value = response.data.totalTicketsValidated
+      console.log(response.data)
+    })
+    .catch((error: any) => {
+      toast.error('Error fetching ticket details')
+      console.log(error)
+      // isLoading.value = false
+    })
 }
 
 const onScanSuccess = (decodedText: any, decodedResult: any) => {
@@ -59,8 +115,6 @@ const searchTicket = async () => {
   }
 
   isSearching.value = true
-
-  const reference = route.params.eventReference;
 
   const payload = {
     eventReference: reference,
@@ -131,6 +185,7 @@ const validateTicket = async (validatePayload: any) => {
 }
 
 onMounted(() => {
+  ticketsData()
   createScanQrCodes()
 })
 </script>
@@ -146,11 +201,9 @@ onMounted(() => {
 }
 
 .content {
-  flex: 1;
-  display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 20px;
+  width: 400px;
 }
 
 .title {
@@ -162,7 +215,7 @@ onMounted(() => {
 }
 
 .scanner {
-  width: 100%;
+  width: 80%;
   max-width: 400px;
   margin: 20px 0;
   border: 1px solid #ccc;
