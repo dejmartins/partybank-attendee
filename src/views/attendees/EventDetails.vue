@@ -2,130 +2,17 @@
   <div class="main-container px-8">
     <div class="py-5">
       <router-link to="/discover">
-        <fa-icon :icon="['fas', 'arrow-left']" style="color: #000000" />
+        <div class="flex items-center">
+          <fa-icon :icon="['fas', 'arrow-left']" style="color: #000000" class="mr-3" />
+          <p>Back</p>
+        </div>
       </router-link>
     </div>
 
     <img v-if="isLoading" src="@/assets/images/bottles.gif" class="loader h-32" alt="Bottles Gif" />
 
-    <div v-if="!isLoading" class="flex justify-center">
-      <div class="event-container flex flex-col mb-10 w-full md:w-[80%]">
-        <div class="event-detail flex flex-col">
-          <div class="event-image-container">
-            <div
-              class="event-image w-full"
-              :style="{
-                backgroundImage:
-                  'url(' + (event?.eventImage || '@/assets/images/defaultImage.jpeg') + ')'
-              }"
-            ></div>
-          </div>
-
-          <div class="event-info mt-5">
-            <p class="font-light">Hosted By</p>
-            <hr class="image-hr" />
-            <p class="font-semibold">{{ event?.createdBy }}</p>
-            <a href="#" class="text-gray-400 text-sm font-bold block">Contact the Host</a>
-          </div>
-        </div>
-
-        <div class="event-details flex-1">
-          <p class="text-2xl md:text-3xl lg:text-4xl font-bold">{{ event?.eventName }}</p>
-
-          <div>
-            <div class="text-gray-500 mt-3 leading-7">
-              <a
-                :href="event?.mapUrl"
-                target="_blank"
-                class="location flex items-center"
-              >
-                <fa-icon class="pr-2" :icon="['fas', 'location-dot']" style="color: #b0b0b0" />
-                {{ event?.venue }}
-              </a>
-
-              <p>
-                <fa-icon class="mr-1" :icon="['far', 'calendar-days']" style="color: #b0b0b0" />
-                {{ event?.eventDate }}
-              </p>
-
-              <p>
-                <fa-icon class="mr-1" :icon="['far', 'clock']" style="color: #b0b0b0" />
-                {{ event?.timeFrame }}
-              </p>
-            </div>
-
-            <div class="mt-4">
-              <p class="text-lg font-semibold">Get tickets</p>
-              <p class="text-sm font-bold">Which ticket type are you going for?</p>
-              <div v-if="event?.ticketTypes && event.ticketTypes.length > 0" class="ticket mt-2">
-                <ul>
-                  <li
-                    v-for="ticket in event.ticketTypes"
-                    :key="ticket.name"
-                    class="ticket-item"
-                    :class="{ selected: selectedTicket === ticket.name }"
-                  >
-                    <button
-                      class="border flex flex-col border-gray-300 w-full p-2 mb-2 rounded-md hover:border-gray-500"
-                      @click="selectTicket(ticket.name)"
-                    >
-                      <div class="flex justify-between w-full">
-                        <span>{{ ticket.name }}</span>
-                        <div v-if="ticket.name !== 'FREE'" class="flex items-center">
-                          <button
-                            @click.stop="decrementTicket(ticket.name)"
-                            class="border border-gray-300 mx-1 w-6 h-6 flex justify-center items-center rounded hover:border-gray-500 hover:bg-gray-200"
-                          >
-                            -
-                          </button>
-                          <span class="mx-2">{{ ticketQuantities[ticket.name] || 0 }}</span>
-                          <button
-                            @click.stop="incrementTicket(ticket.name)"
-                            class="border border-gray-300 mx-1 w-6 h-6 flex justify-center items-center rounded hover:border-gray-500 hover:bg-gray-200"
-                          >
-                            +
-                          </button>
-                        </div>
-                      </div>
-
-                      <span class="mt-2 text-right"><fa-icon :icon="['fas', 'naira-sign']" style="color: #000000" />{{ ticket.price }}</span>
-                    </button>
-                  </li>
-                </ul>
-              </div>
-              <button
-                @click="togglePaymentPopup"
-                class="bg-[var(--pb-c-blue)] text-white w-full py-2 mt-4 rounded-md"
-              >
-                Get Ticket
-              </button>
-            </div>
-
-            <div class="mt-4">
-              <p class="text-lg font-semibold">About Event</p>
-              <hr class="my-2" />
-              <p class="text-gray-500 text-sm md:text-base">
-                {{ event?.eventThemes }}
-              </p>
-            </div>
-          
-            <div class="mt-4">
-              <p class="text-sm font-semibold">Location</p>
-              <hr class="my-2" />
-              <div class="mt-4">
-                <iframe
-                  :src="event?.mapEmbeddedUrl"
-                  width="100%"
-                  height="250"
-                  style="border-radius: 10px"
-                  loading="lazy"
-                  referrerpolicy="no-referrer-when-downgrade"
-                ></iframe>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div>
+      <EventInfo v-if="!isLoading" :event="event" />
     </div>
   </div>
 
@@ -178,32 +65,9 @@ import { useRoute } from 'vue-router'
 import Api from '@/utils/api'
 import { useToast } from 'vue-toastification'
 import TicketSent from '@/components/modals/TicketSent.vue'
-
-type UserInfo = {
-  emailAddress: string
-  phoneNumber: string
-  location: string
-  emailValidated: boolean
-  termsAndConditionsAccepted: boolean
-}
-
-type Ticket = {
-  name: string
-  price: number
-}
-
-type Event = {
-  eventImage: string
-  createdBy: string
-  eventName: string
-  venue: string
-  eventDate: string
-  timeFrame: string
-  ticketTypes: Array<Ticket>
-  mapUrl: string
-  mapEmbeddedUrl: string
-  eventThemes: string
-}
+import { type Event, type UserInfo } from '@/utils/types'
+import EventInfo from '@/components/layouts/EventInfo.vue'
+import { watch } from 'vue'
 
 const route = useRoute()
 const toast = useToast()
@@ -216,36 +80,24 @@ const isTicketSent = ref(false)
 const emailAddress = ref('')
 const selectedTicket = ref<string>('')
 const ticketQuantities = ref<{ [key: string]: number }>({})
+import { usePaymentStore } from '@/stores/payment'
 
 const eventReference = route.params.eventReference
-
-const selectTicket = (ticketName: string) => {
-  if (selectedTicket.value === ticketName) {
-    // selectedTicket.value = ''
-    // ticketQuantities.value[ticketName] = 0
-  } else {
-    selectedTicket.value = ticketName
-    ticketQuantities.value[ticketName] = 1
-  }
-}
-
-const incrementTicket = (ticketName: string) => {
-  const currentQuantity = ticketQuantities.value[ticketName] || 0;
-  if (currentQuantity < 5) {
-    ticketQuantities.value[ticketName] = currentQuantity + 1;
-  }
-};
-
-
-const decrementTicket = (ticketName: string) => {
-  if (ticketQuantities.value[ticketName] && ticketQuantities.value[ticketName] > 1) {
-    ticketQuantities.value[ticketName] -= 1
-  }
-}
+const paymentStore = usePaymentStore();
 
 const togglePaymentPopup = () => {
   isPayTime.value = !isPayTime.value
 }
+
+watch(() => paymentStore.isPaymentPopup, (newValue, oldValue) => {
+  if(newValue) {
+    selectedTicket.value = paymentStore.selectedTicket
+    ticketQuantities.value = paymentStore.ticketQuantities
+    
+    togglePaymentPopup();
+    paymentStore.resetTicketInfo();
+  }
+})
 
 const ticketSentModal = () => {
   isTicketSent.value = !isTicketSent.value
@@ -335,70 +187,6 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.event-container {
-  display: flex;
-  flex-direction: row;
-  max-width: 900px;
-}
-
-.event-detail {
-  width: 50%;
-  margin-right: 40px;
-}
-
-.event-image-container {
-  width: 100%;
-  text-align: center;
-}
-
-.event-image {
-  background-image: url('@/assets/images/defaultImage.jpeg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  border-radius: 15px;
-  width: 100%;
-  height: 480px;
-}
-
-.image-hr {
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.ticket ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.ticket-item {
-  margin-bottom: 10px;
-}
-
-.ticket-item button {
-  text-align: left;
-  background-color: transparent;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.ticket-item button:hover {
-  background-color: #f0f0f0;
-}
-
-.ticket-item.selected button {
-  border-color: var(--pb-c-blue);
-  background-color: #e0f7ff;
-}
-
-.ticket-item.selected button:hover {
-  background-color: #cceeff;
-}
-
-.ticket-item button .hover-border {
-  border-color: var(--pb-c-blue);
-}
-
 .modal-fade-enter-active,
 .modal-fade-leave-active {
   transition: opacity 0.5s;
@@ -414,24 +202,5 @@ onMounted(async () => {
   bottom: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
-@media (max-width: 765px) {
-  .event-container {
-    flex-direction: column;
-  }
-
-  .event-detail {
-    width: 100%;
-  }
-
-  .event-details {
-    margin-top: 20px;
-  }
-
-  .event-image {
-    width: 100%;
-    height: 420px;
-  }
 }
 </style>

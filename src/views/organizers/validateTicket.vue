@@ -87,6 +87,7 @@ const searchTicket = async () => {
     }
 
     if (result.data) {
+      console.log(result.data)
       validateTicket(payload)
     }
 
@@ -99,8 +100,6 @@ const searchTicket = async () => {
 }
 
 const validateTicket = async (validatePayload: any) => {
-  toast.clear();
-  
   try {
     const response = await fetch(`${VALIDATE_TICKET}`, {
       method: 'POST',
