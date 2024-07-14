@@ -22,13 +22,13 @@
             <p class="mt-3">To: <span class="font-semibold">{{ attendeeEmail }}</span></p>
           </div>
         </div>
-        <Button
+        <!-- <Button
           class="my-5 flex items-center justify-center w-full"
           action="Back to Tickets"
           :disabled="isDisabled"
           :loading="isDisabled"
           @click="closeModal"
-        ></Button>
+        ></Button> -->
       </div>
     </div>
   </BaseModal>
@@ -37,7 +37,7 @@
   
 <script setup lang="ts">
 import BaseModal from './BaseModal.vue'
-import Button from '@/components/buttons/RoundedMdButton.vue'
+// import Button from '@/components/buttons/RoundedMdButton.vue'
 import { ref } from 'vue'
 
 const props = defineProps({

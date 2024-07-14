@@ -40,7 +40,7 @@ const router = createRouter({
     {
       path: '/:eventReference/admin',
       name: 'admin',
-      component: () => import('@/views/organizers/EuphoriaAccess.vue')
+      component: () => import('@/views/organizers/TicketterAccess.vue')
     }
   ]
 })
