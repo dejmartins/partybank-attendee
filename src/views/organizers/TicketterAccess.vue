@@ -11,7 +11,7 @@
         <form class="login-form" @submit.prevent="handleLogin">
           <div class="form-group">
             <label for="email" class="form-label">Email</label>
-            <input type="email" id="email" v-model="email" class="form-input bg-white text-[#ccc]" placeholder="Enter email address" required />
+            <input type="email" id="email" v-model="email" class="form-input bg-white" placeholder="Enter email address" required />
           </div>
           <div class="form-group">
             <label for="password" class="form-label">Password</label>
@@ -84,7 +84,6 @@ const handleLogin = () => {
   flex-direction: column;
   min-height: 100vh;
   min-width: 100vw;
-  /* background-color: #f0f4f8; */
 }
 
 .content {
@@ -100,7 +99,6 @@ const handleLogin = () => {
   background-color: white;
   border: 1px solid #C0C0C0;
   border-radius: 22px;
-  /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
 }
 
 .logo {

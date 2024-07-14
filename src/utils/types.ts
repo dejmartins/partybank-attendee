@@ -27,3 +27,7 @@ export type UserInfo = {
     emailValidated: boolean
     termsAndConditionsAccepted: boolean
 }
+
+export type TicketDetail = {
+    ticket_type: string
+}

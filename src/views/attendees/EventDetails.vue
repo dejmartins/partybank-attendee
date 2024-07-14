@@ -68,6 +68,7 @@ import TicketSent from '@/components/modals/TicketSent.vue'
 import { type Event, type UserInfo } from '@/utils/types'
 import EventInfo from '@/components/layouts/EventInfo.vue'
 import { watch } from 'vue'
+import { usePaymentStore } from '@/stores/payment'
 
 const route = useRoute()
 const toast = useToast()
@@ -80,7 +81,6 @@ const isTicketSent = ref(false)
 const emailAddress = ref('')
 const selectedTicket = ref<string>('')
 const ticketQuantities = ref<{ [key: string]: number }>({})
-import { usePaymentStore } from '@/stores/payment'
 
 const eventReference = route.params.eventReference
 const paymentStore = usePaymentStore();
