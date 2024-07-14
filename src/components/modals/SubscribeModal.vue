@@ -27,12 +27,12 @@
             <label class="font-semibold">Email Address</label>
             <input v-model="user.email" placeholder="lee@thepartybank.com" />
           </div>
-          <Button
+          <!-- <Button
             class="my-5 flex items-center justify-center w-full"
             action="Subscribe"
             :disabled="isDisabled"
             :loading="isDisabled"
-          ></Button>
+          ></Button> -->
         </form>
       </div>
     </div>
@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 import BaseModal from './BaseModal.vue'
-import Button from '@/components/buttons/RoundedMdButton.vue'
+// import Button from '@/components/buttons/RoundedMdButton.vue'
 import Api from '@/utils/api'
 import { ref, reactive, computed } from 'vue'
 import { useToast } from 'vue-toastification'
