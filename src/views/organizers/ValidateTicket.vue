@@ -513,7 +513,7 @@ const ticketsData = async () => {
     })
     .catch((error: any) => {
       toast.error('Error fetching ticket details')
-      console.error(error)
+      // console.error(error)
     })
 }
 
