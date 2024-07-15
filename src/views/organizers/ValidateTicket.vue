@@ -51,7 +51,7 @@
           </div>
 
           <div ref="mobileScanner" class="mobile-scanner" :class="{ 'mobile-scanner-active': showMobileScanner }">
-            <div class="flex flex-col items-center border border-2 border-t-black border-x-black rounded-t-[22px] p-5">
+            <div class="flex flex-col items-center border-2 rounded-t-[22px] rounded-t-[22px] p-5">
               <div class="flex justify-end mb-4 w-full">
                 <button @click="closeMobileScanner" class="text-white">
                   <fa-icon :icon="['fas', 'times']" style="color: #000000;" class="mr-3" size="xl" />
@@ -73,7 +73,7 @@
             </div>
           </div>
 
-          <div v-if="!showMobileScanner" class="fixed bottom-0 left-0 border-[#C0C0C0] right-0 p-5 border-2 rounded-t-[22px] md:hidden">
+          <div v-if="!showMobileScanner" class="fixed bottom-0 left-0 border-[#C0C0C0] bg-[#f0f4f8] right-0 p-5 border-2 rounded-t-[22px] md:hidden">
             <button @click="openMobileScanner" class="bg-purple-600 p-5 rounded-[15px] w-full text-white text-lg md:hidden">Scan Tickets</button>
           </div>
         </div>
@@ -316,6 +316,7 @@ onMounted(() => {
   overflow: hidden;
   transition: height 0.9s ease-out;
   transform: translateY(100%);
+  border-radius: 22px;
 }
 
 .mobile-scanner-active {
