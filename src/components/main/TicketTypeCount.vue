@@ -1,18 +1,32 @@
 <template>
     <div class="border border-2 border-[#C0C0C0] my-4 p-5 rounded-[22px]">
-        <div class="flex justify-between itens-center">
-            <p>{{ ticketType }}</p>
-            <div :class="`rounded-full bg-${color}-500 w-6 h-6 flex items-center justify-center`"></div>
-        </div>
-        <p class="font-bold text-3xl">{{ totalTicketsValidated }}/{{ totalTicketsSold }}</p>
+      <div class="flex justify-between items-center">
+        <p>{{ ticketType }}</p>
+        <div :class="`rounded-full ${getColorClass(color)} w-5 h-5 flex items-center justify-center`"></div>
+      </div>
+      <p class="font-bold text-3xl">{{ totalTicketsValidated }}/{{ totalTicketsSold }}</p>
     </div>
-</template>
-
-<script setup lang="ts">
-defineProps<{
+  </template>
+  
+  <script setup lang="ts">
+  import { defineProps } from 'vue'
+  
+  const props = defineProps<{
     ticketType: string
     totalTicketsValidated: number
     totalTicketsSold: number
     color: string
-}>()
-</script>
+  }>()
+  
+  const getColorClass = (color: string) => {
+    const colorMap: Record<string, string> = {
+      blue: 'bg-blue-500',
+      green: 'bg-green-500',
+      purple: 'bg-purple-500',
+      white: 'bg-white border border-black'
+    }
+  
+    return colorMap[color] || 'bg-gray-300'
+  }
+  </script>
+  

@@ -74,7 +74,7 @@
           </div>
 
           <div v-if="!showMobileScanner" class="fixed bottom-0 left-0 border-[#C0C0C0] bg-[#f0f4f8] right-0 p-5 border-2 rounded-t-[22px] md:hidden">
-            <button @click="openMobileScanner" class="bg-purple-600 p-5 rounded-[15px] w-full text-white text-lg md:hidden">Scan Tickets</button>
+            <button @click="openMobileScanner" class="bg-purple-600 p-4 rounded-[15px] w-full text-white text-lg md:hidden">Scan Tickets</button>
           </div>
         </div>
       </div>
