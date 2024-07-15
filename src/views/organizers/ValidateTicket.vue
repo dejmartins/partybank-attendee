@@ -50,7 +50,7 @@
             />
           </div>
 
-          <div ref="mobileScanner" class="mobile-scanner" :class="{ 'mobile-scanner-active': showMobileScanner }">
+          <div ref="mobileScanner" class="mobile-scanner md:hidden" :class="{ 'mobile-scanner-active': showMobileScanner }">
             <div class="flex flex-col items-center border-2 rounded-t-[22px] rounded-t-[22px] p-5">
               <div class="flex justify-end mb-4 w-full">
                 <button @click="closeMobileScanner" class="text-white">
