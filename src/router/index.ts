@@ -34,7 +34,7 @@ const router = createRouter({
     {
       path: '/:eventReference/validate',
       name: 'validate',
-      component: () => import('@/views/organizers/validateTicket.vue'),
+      component: () => import('@/views/organizers/ValidateTicket.vue'),
       meta: { requiresAuth: true }
     },
     {
