@@ -30,6 +30,7 @@ export type UserInfo = {
 
 export type TicketDetail = {
     ticket_type: string
-    attendees_count: number
-    max_seats: number
+    validated_count: number
+    sold_count: number
+    colour: string
 }

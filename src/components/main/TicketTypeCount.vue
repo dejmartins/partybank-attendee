@@ -23,10 +23,12 @@
       blue: 'bg-blue-500',
       green: 'bg-green-500',
       purple: 'bg-purple-500',
-      white: 'bg-white border border-black'
+      white: 'bg-white border border-black',
+      yellow: 'bg-yellow-500',
+      red: 'bg-red-500',
     }
   
-    return colorMap[color] || 'bg-gray-300'
+    return colorMap[color] || 'bg-green-500'
   }
   </script>
   

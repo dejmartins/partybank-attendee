@@ -16,7 +16,7 @@
             >
               <div class="flex justify-between w-full">
                 <span>{{ ticket.name }}</span>
-                <div v-if="ticket.name !== 'FREE'" class="flex items-center">
+                <div v-if="ticket && ticket.name !== 'FREE'" class="flex items-center">
                   <button
                     @click.stop="decrementTicket(ticket.name)"
                     class="border border-gray-300 mx-1 w-6 h-6 flex justify-center items-center rounded hover:border-gray-500 hover:bg-gray-200"

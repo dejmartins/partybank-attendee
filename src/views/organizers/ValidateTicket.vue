@@ -37,16 +37,16 @@
             <p class="font-bold text-3xl">{{ totalTicketsValidated }}/{{ totalTicketsSold }}</p>
           </div>
 
-          <p>Ticket types</p>
+          <p class="font-bold">Ticket types</p>
 
           <div class="mb-32 md:mb-0">
             <TicketType
               v-for="ticket in ticketDetails"
               :key="ticket.ticket_type"
               :ticket-type="ticket.ticket_type"
-              :total-tickets-validated="ticket.attendees_count"
-              :total-tickets-sold="ticket.max_seats"
-              color="green"
+              :total-tickets-validated="ticket.validated_count"
+              :total-tickets-sold="ticket.sold_count"
+              :color="ticket.colour"
             />
           </div>
 
@@ -121,6 +121,7 @@ const ticketsData = async () => {
   })
     .then((res) => res.json())
     .then((response) => {
+      console.log(response.data)
       ticketDetails.value = response.data.ticketDetails
       totalTicketsSold.value = response.data.totalTicketsSold
       totalTicketsValidated.value = response.data.totalTicketsValidated
