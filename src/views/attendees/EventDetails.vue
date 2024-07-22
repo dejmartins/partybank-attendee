@@ -112,12 +112,12 @@ const getEvents = async () => {
     .then((res) => res.json())
     .then((response) => {
       event.value = response.data
-      console.log(response.data)
+      // console.log(response.data)
       isLoading.value = false
     })
     .catch((error: any) => {
       toast.error('Error fetching event details')
-      console.log(error)
+      // console.log(error)
       isLoading.value = false
     })
 }

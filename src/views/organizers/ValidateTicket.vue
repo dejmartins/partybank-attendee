@@ -7,7 +7,6 @@
         <div class="content hidden md:flex">
           <p class="text-left text-2xl mb-2 font-bold">Ticketter</p>
           <div class="border border-2 rounded-[22px] border-[#C0C0C0] p-5 flex flex-col items-center p-4">
-            <!-- Placeholder image for the scanner -->
             <div class="h-[200px] w-[200px] mt-[20px] bg-[#F4F4F4] border-2 border-[#C0C0C0] flex items-center justify-center">
               <img src="@/assets/images/qr.png" alt="Scan Icon" />
             </div>
@@ -16,7 +15,7 @@
                 Ticket code
                 <input type="text" v-model="ticketId" placeholder="Enter Ticket ID" class="ticket-input" />
               </label>
-              <button @click="searchTicket" class="validate-button mb-5" :disabled="isSearching">
+              <button @click="searchTicket" class="validate-button mb-5" :disabled="isSearching || !ticketId">
                 <span v-if="!isSearching">Validate Ticket</span>
                 <span v-else>
                   <Loader />
@@ -63,7 +62,7 @@
                   Ticket code
                   <input type="text" v-model="ticketId" placeholder="Enter Ticket ID" class="ticket-input" />
                 </label>
-                <button @click="searchTicket" class="validate-button mb-5" :disabled="isSearching">
+                <button @click="searchTicket" class="validate-button mb-5" :disabled="isSearching || !ticketId">
                   <span v-if="!isSearching">Validate Ticket</span>
                   <span v-else>
                     <Loader />
@@ -115,6 +114,12 @@ const createScanQrCodes = () => {
   html5QrCodes.start({ facingMode: 'environment' }, config, onScanSuccess, onScanError)
 }
 
+const stopScanQrCodes = () => {
+  if (scannerRef.value) {
+    scannerRef.value.stop().catch(console.error)
+  }
+}
+
 const ticketsData = async () => {
   await fetch(`${GET_PURCHASED_TICKETS}/${reference}`, {
     method: 'GET'
@@ -133,7 +138,7 @@ const ticketsData = async () => {
 
 const onScanSuccess = (decodedText: any, decodedResult: any) => {
   ticketId.value = decodedText
-  searchTicket()
+  stopScanQrCodes()
 }
 
 const onScanError = () => {
@@ -173,13 +178,15 @@ const searchTicket = async () => {
     }
 
     if (result.data) {
-      validateTicket(payload)
+      await validateTicket(payload)
     }
 
   } catch (error) {
     toast.error('Error searching for ticket')
   } finally {
     isSearching.value = false
+    ticketId.value = ''
+    createScanQrCodes()
   }
 }
 
@@ -205,7 +212,6 @@ const validateTicket = async (validatePayload: any) => {
 
     if (result.data) {
       toast.success('Ticket validated successfully')
-      ticketId.value = ''
     }
 
   } catch (error) {
@@ -219,16 +225,17 @@ const openMobileScanner = async () => {
   await nextTick()
   const height = mobileScannerRef.value?.scrollHeight
   mobileScannerRef.value?.style.setProperty('height', `${height}px`)
+  createScanQrCodes()
 }
 
 const closeMobileScanner = () => {
   showMobileScanner.value = false
   mobileScannerRef.value?.style.setProperty('height', '0')
+  stopScanQrCodes()
 }
 
 onMounted(() => {
   ticketsData()
-  createScanQrCodes()
 })
 </script>
 
@@ -321,7 +328,6 @@ onMounted(() => {
 }
 
 .mobile-scanner-active {
-  /* height: 80%; */
   transform: translateY(0);
 }
 
