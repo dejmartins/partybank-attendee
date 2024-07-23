@@ -126,7 +126,6 @@ const ticketsData = async () => {
   })
     .then((res) => res.json())
     .then((response) => {
-      console.log(response.data)
       ticketDetails.value = response.data.ticketDetails
       totalTicketsSold.value = response.data.totalTicketsSold
       totalTicketsValidated.value = response.data.totalTicketsValidated
@@ -211,7 +210,7 @@ const validateTicket = async (validatePayload: any) => {
     }
 
     if (result.data) {
-      toast.success('Ticket validated successfully')
+      toast.success(`${result.data.ticketType} Ticket Validated`)
     }
 
   } catch (error) {
