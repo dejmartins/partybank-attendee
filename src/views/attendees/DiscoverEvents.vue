@@ -65,6 +65,7 @@ import Api from '@/utils/api'
 import { useToast } from 'vue-toastification'
 import Button from '@/components/buttons/ButtonComponent.vue'
 import { type Event } from '@/utils/types'
+import moment from 'moment'
 
 const toast = useToast()
 const isLoading = ref(false)
@@ -100,11 +101,11 @@ const getEvents = async () => {
 
 const filteredEvents = computed(() => {
   return events.value.filter((event) => {
-    return event.city === selectedCity.value;
-    // return (
-    //   event.location === selectedCity.value &&
-    //   moment(event.eventDate, 'DD MMM, YYYY').isSameOrAfter(moment().subtract(1, 'day'), 'day')
-    // )
+    // return event.city === selectedCity.value;
+    return (
+      event.city === selectedCity.value &&
+      moment(event.eventDate, 'DD MMM, YYYY').isSameOrAfter(moment().subtract(1, 'day'), 'day')
+    )
   })
 })
 
