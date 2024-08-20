@@ -156,12 +156,16 @@ const pay = async (value: UserInfo) => {
       body: JSON.stringify(payload)
     })
 
+    console.log(response);
+    
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
     } else {
       // @ts-ignore
       response.json().then((res) => {
         if(res.data.url){
+          console.log(res.data);
           window.location.href = res.data.url
         } else {
           emailAddress.value = value.emailAddress;
