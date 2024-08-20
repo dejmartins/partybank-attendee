@@ -1,12 +1,12 @@
 <template>
   <BaseModal>
-    <div class="p-5">
+    <div class="py-5">
       <div class="w-full flex justify-between items-center">
         <img src="@/assets/images/ticketSent.gif" class="h-12 w-12 mb-5" alt="TicketSent Gif" />
         <fa-icon
           class="cursor-pointer"
           :icon="['fas', 'xmark']"
-          style="color: aliceblue;"
+          style="color: #ffffff;"
           @click="closeModal"
         />
       </div>
