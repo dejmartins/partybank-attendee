@@ -6,8 +6,8 @@
       >
         <img class="logo h-10 z-50 cursor-pointer" src="@/assets/logo.svg" alt="Partybank Logo" />
         <div class="flex gap-2">
-          <RoundedButton :disabled="isDisabled" action="Sign In" @click="signIn" class="flex justify-center font-[700] bg-[--pb-c-bright-blue] text-[var(--pb-c-blue)]"></RoundedButton>
-          <RoundedButton :disabled="isDisabled" action="Create Account" @click="signUp" class="flex justify-center font-[700] bg-[--pb-c-blue] text-[color:var(--pb-c-white)]"></RoundedButton>
+          <RoundedButton :disabled="isDisabled" action="Sign In" @click="showSignIn" class="flex justify-center font-[700] bg-[--pb-c-bright-blue] text-[var(--pb-c-blue)]"></RoundedButton>
+          <RoundedButton :disabled="isDisabled" action="Create Account" @click="showSignUp" class="flex justify-center font-[700] bg-[--pb-c-blue] text-[color:var(--pb-c-white)]"></RoundedButton>
         </div>
       </div>
 
@@ -20,7 +20,7 @@
       </div>
 
       <RoundedButton :disabled="isDisabled" action="Discover Events" @click="discover" class="pulse-animation my-8 w-[200px] h-[50px] flex justify-center font-[700] bg-[--pb-c-blue] text-[color:var(--pb-c-white)]">
-          <fa-icon :icon="['far', 'calendar-days']" style="color: #ffffff" />
+        <fa-icon :icon="['far', 'calendar-days']" style="color: #ffffff" />
       </RoundedButton>
 
       <div
@@ -48,49 +48,54 @@
       </div>
     </div>
 
-    <SignIn />
+    <AuthModal v-if="showModal" :is-sign-up="isSignUp" @close="closeModal" />
   </div>
 </template>
 
-
-
 <script setup lang="ts">
 import RoundedButton from '@/components/buttons/RoundedButton.vue';
-import SignIn from '@/components/auth/SignIn.vue'
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-const isDisabled = ref(false)
-const isBgLoaded = ref(false)
-const router = useRouter()
+import AuthModal from '@/components/auth/SignIn.vue';
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
-const bgImageSrc = 'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/attendee-landing-bg_pbptyw.avif'
+const isDisabled = ref(false);
+const isBgLoaded = ref(false);
+const showModal = ref(false);
+const isSignUp = ref(false); 
+const router = useRouter();
+
+const bgImageSrc = 'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/attendee-landing-bg_pbptyw.avif';
 
 // Methods
 const discover = () => {
-  isDisabled.value = true
-  router.push('/discover')
-}
+  isDisabled.value = true;
+  router.push('/discover');
+};
 
-const signIn = () => {
-  console.log('Sign In')
-}
+const showSignIn = () => {
+  isSignUp.value = false;
+  showModal.value = true;
+};
 
-const signUp = () => {
-  console.log('Sign Up')
-}
+const showSignUp = () => {
+  isSignUp.value = true;
+  showModal.value = true;
+};
 
 const handleBgLoad = () => {
-  isBgLoaded.value = true
-}
+  isBgLoaded.value = true;
+};
+
+const closeModal = () => {
+  showModal.value = false;
+};
 
 onMounted(() => {
-  const bgImage = new Image()
-  bgImage.src = bgImageSrc
-  bgImage.onload = handleBgLoad
-})
+  const bgImage = new Image();
+  bgImage.src = bgImageSrc;
+  bgImage.onload = handleBgLoad;
+});
 </script>
-
-
 
 <style scoped>
 .landing-container {

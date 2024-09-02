@@ -22,6 +22,8 @@
             placeholder="Enter your password"
           />
         </div>
+
+        <p class="text-right text-sm text-[var(--pb-c-blue)] pb-32">Forgot Password?</p>
   
         <button
           type="submit"
