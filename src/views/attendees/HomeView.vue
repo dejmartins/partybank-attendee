@@ -1,16 +1,14 @@
 <template>
-  <div class="landing-container" ref="landingContainer">
+  <div class="landing-container" v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/attendee-landing-bg_pbptyw.avif'">
     <div class="flex flex-col items-center">
-      <div
-        class="action-call bg-[color:var(--pb-c-white)] w-[70vw] flex justify-between items-center rounded-full p-5 px-10"
-      >
+      <div class="action-call bg-[color:var(--pb-c-white)] w-[70vw] flex justify-between items-center rounded-full p-5 px-10">
         <img class="logo h-10 z-50 cursor-pointer" src="@/assets/logo.svg" alt="Partybank Logo" />
         <RoundedButton :disabled="isDisabled" action="Discover Events" @click="discover" class="pulse-animation">
           <fa-icon :icon="['far', 'calendar-days']" style="color: #ffffff" />
         </RoundedButton>
       </div>
 
-      <div class="organizer-cue mt-24 text-center" :class="{ 'text-black': !isBgLoaded, 'text-white': isBgLoaded }">
+      <div class="organizer-cue mt-24 text-center text-white">
         <h1 class="font-extrabold text-[50px] leading-tight">
           Celebrations Secured<br />
           <span class="font-extrabold">Best Memories Deposited</span>
@@ -24,23 +22,17 @@
         <div class="flex mr-2 profile-container">
           <div
             class="profile-icon"
-            style="
-              background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/EUPHORIA_ASABA_drzuhq.avif');
-            "
+            v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/EUPHORIA_ASABA_drzuhq.avif'"
           ></div>
           <div
             class="profile-icon"
-            style="
-              background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1718653098/PARTYBANK/Rave_Experience_Port-Harcourt_c5redm.avif');
-              margin-left: -10px;
-            "
+            v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653098/PARTYBANK/Rave_Experience_Port-Harcourt_c5redm.avif'"
+            style="margin-left: -10px;"
           ></div>
           <div
             class="profile-icon"
-            style="
-              background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1718653097/PARTYBANK/euphoria_jds29k_o4spxf.avif');
-              margin-left: -10px;
-            "
+            v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653097/PARTYBANK/euphoria_jds29k_o4spxf.avif'"
+            style="margin-left: -10px;"
           ></div>
         </div>
         <p class="text-[color:var(--pb-c-black-soft)]">
@@ -60,30 +52,19 @@
 </template>
 
 
+
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import RoundedButton from '@/components/buttons/RoundedButton.vue'
+import RoundedButton from '@/components/buttons/RoundedButton.vue';
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 const isDisabled = ref(false)
-const isBgLoaded = ref(false)
 const router = useRouter()
-const landingContainer = ref(null)
 
 // Methods
 const discover = () => {
   isDisabled.value = true
   router.push('/discover')
 }
-
-const handleBgLoad = () => {
-  isBgLoaded.value = true
-}
-
-onMounted(() => {
-  const bgImage = new Image()
-  bgImage.src = 'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/attendee-landing-bg_pbptyw.avif'
-  bgImage.onload = handleBgLoad
-})
 </script>
 
 
@@ -91,7 +72,6 @@ onMounted(() => {
 .landing-container {
   height: 100vh;
   width: 100vw;
-  background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/attendee-landing-bg_pbptyw.avif');
   background-position: center;
   background-size: cover;
   display: flex;
