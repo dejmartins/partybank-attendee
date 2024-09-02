@@ -6,8 +6,8 @@
       >
         <img class="logo h-10 z-50 cursor-pointer" src="@/assets/logo.svg" alt="Partybank Logo" />
         <div class="flex gap-2">
-          <RoundedButton :disabled="isDisabled" action="Sign In" @click="discover" class="flex justify-center font-[700] bg-[--pb-c-bright-blue] text-[var(--pb-c-blue)]"></RoundedButton>
-          <RoundedButton :disabled="isDisabled" action="Create Account" @click="discover" class="flex justify-center font-[700] bg-[--pb-c-blue] text-[color:var(--pb-c-white)]"></RoundedButton>
+          <RoundedButton :disabled="isDisabled" action="Sign In" @click="signIn" class="flex justify-center font-[700] bg-[--pb-c-bright-blue] text-[var(--pb-c-blue)]"></RoundedButton>
+          <RoundedButton :disabled="isDisabled" action="Create Account" @click="signUp" class="flex justify-center font-[700] bg-[--pb-c-blue] text-[color:var(--pb-c-white)]"></RoundedButton>
         </div>
       </div>
 
@@ -74,6 +74,14 @@ const bgImageSrc = 'https://res.cloudinary.com/drddoxnsi/image/upload/v171865309
 const discover = () => {
   isDisabled.value = true
   router.push('/discover')
+}
+
+const signIn = () => {
+  console.log('Sign In')
+}
+
+const signUp = () => {
+  console.log('Sign Up')
 }
 
 const handleBgLoad = () => {
