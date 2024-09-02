@@ -48,13 +48,7 @@
       </div>
     </div>
 
-    <div class="bubbles-container">
-      <div class="bubble"></div>
-      <div class="bubble"></div>
-      <div class="bubble"></div>
-      <div class="bubble"></div>
-      <div class="bubble"></div>
-    </div>
+    <SignIn />
   </div>
 </template>
 
@@ -62,6 +56,7 @@
 
 <script setup lang="ts">
 import RoundedButton from '@/components/buttons/RoundedButton.vue';
+import SignIn from '@/components/auth/SignIn.vue'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 const isDisabled = ref(false)
