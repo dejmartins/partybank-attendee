@@ -21,7 +21,7 @@
                 <SignInForm />
             </div>
     
-            <p>
+            <p class="text-sm my-3">
                 {{ isSignUp ? 'Already have an account?' : "Don't have an account?" }}
                 <span
                 @click="toggleForm"

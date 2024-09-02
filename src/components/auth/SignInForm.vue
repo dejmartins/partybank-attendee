@@ -23,7 +23,7 @@
           />
         </div>
 
-        <p class="text-right text-sm text-[var(--pb-c-blue)] pb-32">Forgot Password?</p>
+        <p class="text-right text-sm text-[var(--pb-c-blue)] mb-32 hover:underline cursor-pointer">Forgot Password?</p>
   
         <button
           type="submit"
