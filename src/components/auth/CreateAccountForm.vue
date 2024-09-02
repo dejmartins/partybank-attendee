@@ -14,12 +14,34 @@
   
         <div class="">
           <input
+            type="tel"
+            id="phone"
+            v-model="phone"
+            required
+            class="mt-1 p-2 w-full rounded-md outline-0 focus:ring-1 focus:ring-[var(--pb-c-blue)]"
+            placeholder="Enter your phone number"
+          />
+        </div>
+  
+        <div class="">
+          <input
             type="password"
             id="password"
             v-model="password"
             required
             class="mt-1 p-2 w-full rounded-md outline-0 focus:ring-1 focus:ring-[var(--pb-c-blue)]"
             placeholder="Enter your password"
+          />
+        </div>
+  
+        <div class="mb-4">
+          <input
+            type="password"
+            id="confirmPassword"
+            v-model="confirmPassword"
+            required
+            class="mt-1 p-2 w-full rounded-md outline-0 focus:ring-1 focus:ring-[var(--pb-c-blue)]"
+            placeholder="Confirm your password"
           />
         </div>
   
