@@ -1,6 +1,6 @@
 <template>
     <div class="w-full">
-      <form @submit.prevent="handleSignUp">
+      <form @submit.prevent="handleForgotPassword">
         <div class="">
           <input
             type="email"
@@ -27,15 +27,7 @@ import { ref } from 'vue';
 
 const email = ref('');
 
-const handleSignUp = () => {
+const handleForgotPassword = () => {
     email.value = '';
 };
 </script>
-
-<style scoped>
-.sign-up-container {
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-}
-</style>
