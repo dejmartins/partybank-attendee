@@ -10,7 +10,7 @@ export type Event = {
     mapEmbeddedUrl: string
     eventThemes: string
     about: string
-    eventReference: string
+    event_reference: string
     status: string
     location: any
     id: number

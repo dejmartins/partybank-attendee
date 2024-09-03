@@ -47,7 +47,7 @@
         <EventCard
           v-for="event in filteredEvents"
           :key="event.id"
-          :eventId="event.id"
+          :eventId="event.event_reference"
           :imageUrl="event.eventImage"
           :series_logo="event.series_logo"
           :location="event.venue"
@@ -98,7 +98,7 @@ const getEvents = async () => {
       isLoading.value = false
     })
     .catch((error: any) => {
-      toast.error('Error fetching event details')
+      // toast.error('Error fetching event details')
       console.log(error)
       isLoading.value = false
     })
@@ -125,7 +125,7 @@ const getEvents = async () => {
 
 const filteredEvents = computed(() => {
   return events.value.filter((event) => {
-    return event.location.state === selectedCity.value;
+    return event.location.city === selectedCity.value;
     // return event.city === selectedCity.value;
     // return (
     //   event.city === selectedCity.value &&

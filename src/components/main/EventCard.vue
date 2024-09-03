@@ -38,7 +38,7 @@ import clsx from 'clsx';
 import defaultImage from '/defaultImage.png';
 
 defineProps<{
-  eventId: number;
+  eventId: string;
   imageUrl?: string;
   eventDate: string;
   eventName: string;
