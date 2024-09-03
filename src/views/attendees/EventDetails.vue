@@ -116,7 +116,7 @@ const getEvents = async () => {
       isLoading.value = false
     })
     .catch((error: any) => {
-      toast.error('Error fetching event details')
+      // toast.error('Error fetching event details')
       // console.log(error)
       isLoading.value = false
     })

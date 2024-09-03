@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <div class="content-container">
+    <div class="p-8">
       <img
         v-if="isLoading"
         src="@/assets/images/explore-loader.gif"
@@ -32,7 +32,7 @@
 
       <NoEvent v-if="!isLoading && filteredEvents.length === 0" :selected-city='selectedCity' />
       
-      <div v-else class="flex justify-center mt-20 mb-10 flex-wrap">
+      <div v-else class="grid grid-cols-1 sm:grid-cols-2 mt-20 mb-10 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-center">
         <!-- <EventCard
           v-for="event in filteredEvents"
           :key="event.eventReference"
@@ -138,21 +138,3 @@ onMounted(() => {
   getEvents()
 })
 </script>
-
-<style scoped>
-.content-container {
-  flex: 1;
-  overflow-y: auto;
-  padding-top: 40px;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-@media (max-width: 765px) {
-  .content-container {
-    padding-top: 20px;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-}
-</style>

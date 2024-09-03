@@ -1,6 +1,6 @@
 <template>
   <router-link :to="{ name: 'event-details', params: { eventReference: eventId } }">
-    <div class="event-container">
+    <div class="event-container relative flex flex-col border h-[300px] rounded-[10px]">
       <div class="event-image" :style="{ backgroundImage: `url(${imageUrl ? imageUrl : defaultImage})` }">
         <slot></slot>
       </div>
@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 import clsx from 'clsx';
-import defaultImage from '@/assets/images/defaultImage.jpeg';
+import defaultImage from '/defaultImage.png';
 
 defineProps<{
   eventId: number;
@@ -51,15 +51,7 @@ defineProps<{
 
 <style scoped>
 .event-container {
-  width: 350px;
-  min-height: 300px;
-  margin: 10px;
-  display: flex;
-  flex-direction: column;
-  border-radius: 15px;
-  background-color: #fff;
   transition: transform 0.2s, box-shadow 0.2s;
-  position: relative;
 }
 
 .event-container:hover {
@@ -106,11 +98,6 @@ defineProps<{
 }
 
 @media (max-width: 765px) {
-  .event-container {
-    flex-direction: column;
-    width: 300px;
-  }
-
   .event-image {
     height: 200px;
   }
