@@ -6,8 +6,8 @@ export type Event = {
     date: string
     time: string
     ticketTypes: Array<Ticket>
-    mapUrl: string
-    mapEmbeddedUrl: string
+    map_url: string
+    map_embedded_url: string
     eventThemes: string
     about: string
     event_reference: string

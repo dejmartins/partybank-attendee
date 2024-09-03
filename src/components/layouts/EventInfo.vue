@@ -26,7 +26,7 @@
           <div>
             <div class="text-gray-500 mt-3 leading-7">
               <a
-                :href="event?.mapUrl"
+                :href="event?.map_url"
                 target="_blank"
                 class="location flex items-center"
               >
@@ -62,7 +62,7 @@
               <hr class="my-2" />
               <div class="mt-4">
                 <iframe
-                  :src="event?.mapEmbeddedUrl"
+                  :src="event?.map_embedded_url"
                   width="100%"
                   height="250"
                   style="border-radius: 10px"

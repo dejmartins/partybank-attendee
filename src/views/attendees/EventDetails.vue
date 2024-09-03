@@ -112,7 +112,7 @@ const getEvents = async () => {
     .then((res) => res.json())
     .then((response) => {
       event.value = response
-      // console.log(response)
+      console.log(response)
       isLoading.value = false
     })
     .catch((error: any) => {
