@@ -3,6 +3,17 @@
       <form @submit.prevent="handleSignUp">
         <div class="">
           <input
+            type="text"
+            id="name"
+            v-model="name" 
+            required
+            class="mt-1 p-2 w-full rounded-md outline-0 focus:ring-1 focus:ring-[var(--pb-c-blue)]"
+            placeholder="Enter your full name"
+          />
+        </div>
+
+        <div class="">
+          <input
             type="email"
             id="email"
             v-model="email"
@@ -58,6 +69,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
+const name = ref('');
 const email = ref('');
 const phone = ref('');
 const password = ref('');

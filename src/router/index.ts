@@ -41,7 +41,17 @@ const router = createRouter({
       path: '/:eventReference/admin',
       name: 'admin',
       component: () => import('@/views/organizers/TicketterAccess.vue')
-    }
+    },
+    {
+      path: '/forgotPassword',
+      name: 'forgot-password',
+      component: () => import('@/views/attendees/auth/ForgotPassword.vue')
+    },
+    {
+      path: '/resetPassword',
+      name: 'reset-password',
+      component: () => import('@/views/attendees/auth/ResetPassword.vue')
+    },
   ]
 })
 
