@@ -4,6 +4,7 @@
       <div class="w-full fixed top-32 left-0 right-0 bg-white z-50 px-5 pt-3 md:px-20">
         <div class="flex justify-between items-center border-b-2 pb-2 px-6 md:px-10">
           <p class="font-bold whitespace-nowrap">Discover Events</p>
+
           <div class="flex items-center gap-[10px]">
             <div class="whitespace-nowrap flex gap-[10px] overflow-x-auto text-sm w-40 w-full md:text-lg">
               <Button
@@ -32,7 +33,7 @@
       <NoEvent v-if="!isLoading && filteredEvents.length === 0" :selected-city='selectedCity' />
       
       <div v-else class="flex justify-center mt-20 mb-10 flex-wrap">
-        <EventCard
+        <!-- <EventCard
           v-for="event in filteredEvents"
           :key="event.eventReference"
           :eventId="event.eventReference"
@@ -42,6 +43,17 @@
           :status="event.status"
           :eventName="event.eventName"
           :eventDate="event.eventDate"
+        /> -->
+        <EventCard
+          v-for="event in filteredEvents"
+          :key="event.id"
+          :eventId="event.id"
+          :imageUrl="event.eventImage"
+          :series_logo="event.series_logo"
+          :location="event.venue"
+          :status="event.status"
+          :eventName="event.event_name"
+          :eventDate="event.date"
         />
       </div>
     </div>
@@ -64,9 +76,9 @@ const toast = useToast()
 const isLoading = ref(false)
 const events = ref<Array<Event>>([])
 const selectedCity = ref('Warri')
-const cities = ref(['Warri', 'Asaba'])
+const cities = ref(['Warri', 'Asaba', 'Lagos'])
 const visibleCities = ref(cities.value.slice(0, 3))
-const { GET_ALL_EVENTS } = Api()
+const { GET_ALL_EVENTS, DISCOVER_EVENTS } = Api()
 
 // Methods
 const selectCity = (city: string) => {
@@ -76,13 +88,13 @@ const selectCity = (city: string) => {
 const getEvents = async () => {
   isLoading.value = true
 
-  await fetch(`${GET_ALL_EVENTS}`, {
+  await fetch(`${DISCOVER_EVENTS}?page=1&size=90`, {
     method: 'GET'
   })
     .then((res) => res.json())
     .then((response) => {
-      events.value = response.data
-      console.log(response.data)
+      events.value = response
+      console.log(response)
       isLoading.value = false
     })
     .catch((error: any) => {
@@ -92,13 +104,33 @@ const getEvents = async () => {
     })
 }
 
+// const getEvents = async () => {
+//   isLoading.value = true
+
+//   await fetch(`${GET_ALL_EVENTS}`, {
+//     method: 'GET'
+//   })
+//     .then((res) => res.json())
+//     .then((response) => {
+//       events.value = response.data
+//       console.log(response.data)
+//       isLoading.value = false
+//     })
+//     .catch((error: any) => {
+//       toast.error('Error fetching event details')
+//       console.log(error)
+//       isLoading.value = false
+//     })
+// }
+
 const filteredEvents = computed(() => {
   return events.value.filter((event) => {
+    return event.location.state === selectedCity.value;
     // return event.city === selectedCity.value;
-    return (
-      event.city === selectedCity.value &&
-      moment(event.eventDate, 'DD MMM, YYYY').isSameOrAfter(moment().subtract(1, 'day'), 'day')
-    )
+    // return (
+    //   event.city === selectedCity.value &&
+    //   moment(event.eventDate, 'DD MMM, YYYY').isSameOrAfter(moment().subtract(1, 'day'), 'day')
+    // )
   })
 })
 

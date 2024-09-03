@@ -1,9 +1,9 @@
 export type Event = {
     eventImage: string
-    createdBy: string
-    eventName: string
+    series_logo: string
+    event_name: string
     venue: string
-    eventDate: string
+    date: string
     timeFrame: string
     ticketTypes: Array<Ticket>
     mapUrl: string
@@ -12,8 +12,25 @@ export type Event = {
     about: string
     eventReference: string
     status: string
-    city: string
+    location: any
+    id: number
 }
+// export type Event = {
+//     eventImage: string
+//     createdBy: string
+//     eventName: string
+//     venue: string
+//     eventDate: string
+//     timeFrame: string
+//     ticketTypes: Array<Ticket>
+//     mapUrl: string
+//     mapEmbeddedUrl: string
+//     eventThemes: string
+//     about: string
+//     eventReference: string
+//     status: string
+//     city: string
+// }
 
 export type Ticket = {
     name: string

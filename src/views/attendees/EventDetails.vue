@@ -39,7 +39,7 @@
           <p class="text-lg md:text-xl font-bold mb-4">Ticket Summary</p>
           <Summary
             :eventImage="event?.eventImage || ''"
-            :eventName="event?.eventName || ''"
+            :eventName="event?.event_name || ''"
             :ticketQuantity="ticketQuantities[selectedTicket] || 0"
             :ticketType="selectedTicket || ''"
             :ticketAmount="
@@ -53,7 +53,7 @@
     </Modal>
   </transition>
 
-  <TicketSent @close="ticketSentModal" v-if="isTicketSent":eventImage="event?.eventImage" :eventName="event?.eventName" :attendeeEmail="emailAddress" />
+  <TicketSent @close="ticketSentModal" v-if="isTicketSent":eventImage="event?.eventImage" :eventName="event?.event_name" :attendeeEmail="emailAddress" />
 </template>
 
 <script setup lang="ts">
