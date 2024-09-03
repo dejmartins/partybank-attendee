@@ -9,6 +9,7 @@ const Api = () => {
   const VALIDATE_TICKET = `${BASE_URL}/api/v1/validate`
   const GET_PURCHASED_TICKETS = `${BASE_URL}/api/v1/tickets`
   const DISCOVER_EVENTS = `${BASE_URL_ORGANIZER}/api/v1/event/discover`
+  const GET_EVENT_BY_REFERENCE = `${BASE_URL_ORGANIZER}/api/v1/event/reference`
 
   return {
     GET_ALL_EVENTS,
@@ -16,7 +17,8 @@ const Api = () => {
     GET_EVENT,
     PAY, SEARCH_TICKET, VALIDATE_TICKET,
     GET_PURCHASED_TICKETS,
-    DISCOVER_EVENTS
+    DISCOVER_EVENTS,
+    GET_EVENT_BY_REFERENCE
   }
 }
 

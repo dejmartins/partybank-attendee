@@ -67,7 +67,7 @@ const events = ref<Array<Event>>([])
 const selectedCity = ref('Warri')
 const cities = ref(['Warri', 'Asaba', 'PHC'])
 const visibleCities = ref(cities.value.slice(0, 3))
-const { GET_ALL_EVENTS, DISCOVER_EVENTS } = Api()
+const { DISCOVER_EVENTS } = Api()
 
 // Methods
 const selectCity = (city: string) => {
@@ -83,7 +83,7 @@ const getEvents = async () => {
     .then((res) => res.json())
     .then((response) => {
       events.value = response
-      console.log(response)
+      // console.log(response)
       isLoading.value = false
     })
     .catch((error: any) => {
