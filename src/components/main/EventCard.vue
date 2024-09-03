@@ -23,9 +23,9 @@
           ></div>
         </div>
         <p :class="clsx('event-status absolute top-0 left-3 border-2', {
-          'text-[#FF0F00] bg-[#FFE3E1] border-[#FF0F00]' : status === 'Sold out',
-          'text-[#084300] border-[#4CAF50] bg-[#ddf7da]' : status === 'Available',
-          'text-[#FFA800] border-[#FFA800] bg-[#FFF5E2]' : status === 'Few tickets left',
+          'text-[#FF0F00] bg-[#FFE3E1] border-[#FF0F00]' : status === 'PAST',
+          'text-[#084300] border-[#4CAF50] bg-[#ddf7da]' : status === 'ACTIVE',
+          'text-[#FFA800] border-[#FFA800] bg-[#FFF5E2]' : status === 'UPCOMING',
         })" v-if="status">{{ status }}</p>
       </div>
     </div>

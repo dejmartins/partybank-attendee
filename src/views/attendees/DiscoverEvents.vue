@@ -33,17 +33,6 @@
       <NoEvent v-if="!isLoading && filteredEvents.length === 0" :selected-city='selectedCity' />
       
       <div v-else class="grid grid-cols-1 sm:grid-cols-2 mt-20 mb-10 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-center">
-        <!-- <EventCard
-          v-for="event in filteredEvents"
-          :key="event.eventReference"
-          :eventId="event.eventReference"
-          :imageUrl="event.eventImage"
-          :creator="event.createdBy"
-          :location="event.venue"
-          :status="event.status"
-          :eventName="event.eventName"
-          :eventDate="event.eventDate"
-        /> -->
         <EventCard
           v-for="event in filteredEvents"
           :key="event.id"
@@ -76,7 +65,7 @@ const toast = useToast()
 const isLoading = ref(false)
 const events = ref<Array<Event>>([])
 const selectedCity = ref('Warri')
-const cities = ref(['Warri', 'Asaba', 'Lagos'])
+const cities = ref(['Warri', 'Asaba', 'PHC'])
 const visibleCities = ref(cities.value.slice(0, 3))
 const { GET_ALL_EVENTS, DISCOVER_EVENTS } = Api()
 
@@ -104,32 +93,12 @@ const getEvents = async () => {
     })
 }
 
-// const getEvents = async () => {
-//   isLoading.value = true
-
-//   await fetch(`${GET_ALL_EVENTS}`, {
-//     method: 'GET'
-//   })
-//     .then((res) => res.json())
-//     .then((response) => {
-//       events.value = response.data
-//       console.log(response.data)
-//       isLoading.value = false
-//     })
-//     .catch((error: any) => {
-//       toast.error('Error fetching event details')
-//       console.log(error)
-//       isLoading.value = false
-//     })
-// }
-
 const filteredEvents = computed(() => {
   return events.value.filter((event) => {
     return event.location.city === selectedCity.value;
-    // return event.city === selectedCity.value;
     // return (
-    //   event.city === selectedCity.value &&
-    //   moment(event.eventDate, 'DD MMM, YYYY').isSameOrAfter(moment().subtract(1, 'day'), 'day')
+    //   event.location.city === selectedCity.value &&
+    //   moment(event.date, 'DD MMM, YYYY').isSameOrAfter(moment().subtract(1, 'day'), 'day')
     // )
   })
 })
