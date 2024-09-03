@@ -53,7 +53,7 @@
           :location="event.venue"
           :status="event.status"
           :eventName="event.event_name"
-          :eventDate="event.date"
+          :eventDate="moment(event.date).format('MMMM Do, YYYY')"
         />
       </div>
     </div>
