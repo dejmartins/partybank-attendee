@@ -4,6 +4,7 @@
       <div class="w-full fixed top-32 left-0 right-0 bg-white z-50 px-5 pt-3 md:px-20">
         <div class="flex justify-between items-center border-b-2 pb-2 px-6 md:px-10">
           <p class="font-bold whitespace-nowrap">Discover Events</p>
+
           <div class="flex items-center gap-[10px]">
             <div class="whitespace-nowrap flex gap-[10px] overflow-x-auto text-sm w-40 w-full md:text-lg">
               <Button
@@ -21,7 +22,7 @@
       </div>
     </div>
 
-    <div class="content-container">
+    <div class="p-8">
       <img
         v-if="isLoading"
         src="@/assets/images/explore-loader.gif"
@@ -29,27 +30,19 @@
         alt="Explore Gif Loader"
       />
 
-      <div v-if="!isLoading && filteredEvents.length === 0" class="m-20 text-center flex flex-col items-center fixed right-0 left-0 top-56 my-20 text-lg">
-        <img
-          src="@/assets/images/EmptyState.png"
-          class="h-32"
-          alt="Phones Icons"
-        />
-        <p class="font-bold">No events</p>
-        <p class="text-[#4A4A4A]">There are no events in {{ selectedCity }} at the moment</p>
-      </div>
+      <NoEvent v-if="!isLoading && filteredEvents.length === 0" :selected-city='selectedCity' />
       
-      <div v-else class="flex justify-center mt-20 mb-10 flex-wrap">
+      <div v-else class="grid grid-cols-1 sm:grid-cols-2 mt-20 mb-10 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-center">
         <EventCard
           v-for="event in filteredEvents"
-          :key="event.eventReference"
-          :eventId="event.eventReference"
+          :key="event.id"
+          :eventId="event.event_reference"
           :imageUrl="event.eventImage"
-          :creator="event.createdBy"
+          :series_logo="event.series_logo"
           :location="event.venue"
           :status="event.status"
-          :eventName="event.eventName"
-          :eventDate="event.eventDate"
+          :eventName="event.event_name"
+          :eventDate="moment(event.date).format('MMMM Do, YYYY')"
         />
       </div>
     </div>
@@ -60,6 +53,7 @@
 
 <script setup lang="ts">
 import EventCard from '@/components/main/EventCard.vue'
+import NoEvent from '@/components/events/NoEvent.vue'
 import { ref, onMounted, computed } from 'vue'
 import Api from '@/utils/api'
 import { useToast } from 'vue-toastification'
@@ -71,9 +65,9 @@ const toast = useToast()
 const isLoading = ref(false)
 const events = ref<Array<Event>>([])
 const selectedCity = ref('Warri')
-const cities = ref(['Warri', 'Asaba'])
+const cities = ref(['Warri', 'Asaba', 'PHC'])
 const visibleCities = ref(cities.value.slice(0, 3))
-const { GET_ALL_EVENTS } = Api()
+const { DISCOVER_EVENTS } = Api()
 
 // Methods
 const selectCity = (city: string) => {
@@ -83,17 +77,17 @@ const selectCity = (city: string) => {
 const getEvents = async () => {
   isLoading.value = true
 
-  await fetch(`${GET_ALL_EVENTS}`, {
+  await fetch(`${DISCOVER_EVENTS}?page=1&size=90`, {
     method: 'GET'
   })
     .then((res) => res.json())
     .then((response) => {
-      events.value = response.data
-      console.log(response.data)
+      events.value = response
+      // console.log(response)
       isLoading.value = false
     })
     .catch((error: any) => {
-      toast.error('Error fetching event details')
+      // toast.error('Error fetching event details')
       console.log(error)
       isLoading.value = false
     })
@@ -101,11 +95,11 @@ const getEvents = async () => {
 
 const filteredEvents = computed(() => {
   return events.value.filter((event) => {
-    // return event.city === selectedCity.value;
-    return (
-      event.city === selectedCity.value &&
-      moment(event.eventDate, 'DD MMM, YYYY').isSameOrAfter(moment().subtract(1, 'day'), 'day')
-    )
+    return event.location.city === selectedCity.value;
+    // return (
+    //   event.location.city === selectedCity.value &&
+    //   moment(event.date, 'DD MMM, YYYY').isSameOrAfter(moment().subtract(1, 'day'), 'day')
+    // )
   })
 })
 
@@ -113,21 +107,3 @@ onMounted(() => {
   getEvents()
 })
 </script>
-
-<style scoped>
-.content-container {
-  flex: 1;
-  overflow-y: auto;
-  padding-top: 40px;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-@media (max-width: 765px) {
-  .content-container {
-    padding-top: 20px;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-}
-</style>

@@ -39,7 +39,7 @@
           <p class="text-lg md:text-xl font-bold mb-4">Ticket Summary</p>
           <Summary
             :eventImage="event?.eventImage || ''"
-            :eventName="event?.eventName || ''"
+            :eventName="event?.event_name || ''"
             :ticketQuantity="ticketQuantities[selectedTicket] || 0"
             :ticketType="selectedTicket || ''"
             :ticketAmount="
@@ -53,7 +53,7 @@
     </Modal>
   </transition>
 
-  <TicketSent @close="ticketSentModal" v-if="isTicketSent":eventImage="event?.eventImage" :eventName="event?.eventName" :attendeeEmail="emailAddress" />
+  <TicketSent @close="ticketSentModal" v-if="isTicketSent":eventImage="event?.eventImage" :eventName="event?.event_name" :attendeeEmail="emailAddress" />
 </template>
 
 <script setup lang="ts">
@@ -72,7 +72,7 @@ import { usePaymentStore } from '@/stores/payment'
 
 const route = useRoute()
 const toast = useToast()
-const { GET_EVENT, PAY } = Api()
+const { PAY, GET_EVENT_BY_REFERENCE } = Api()
 
 const event = ref<Event | null>(null)
 const isPayTime = ref(false)
@@ -106,17 +106,17 @@ const ticketSentModal = () => {
 const getEvents = async () => {
   isLoading.value = true
 
-  await fetch(`${GET_EVENT}/${eventReference}`, {
+  await fetch(`${GET_EVENT_BY_REFERENCE}/${eventReference}`, {
     method: 'GET'
   })
     .then((res) => res.json())
     .then((response) => {
-      event.value = response.data
-      // console.log(response.data)
+      event.value = response
+      // console.log(response)
       isLoading.value = false
     })
     .catch((error: any) => {
-      toast.error('Error fetching event details')
+      // toast.error('Error fetching event details')
       // console.log(error)
       isLoading.value = false
     })

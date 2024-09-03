@@ -7,7 +7,7 @@
               class="event-image w-full"
               :style="{
                 backgroundImage:
-                  'url(' + (event?.eventImage || '@/assets/images/defaultImage.jpeg') + ')'
+                  'url(' + (event?.eventImage || '/defaultImage.png') + ')'
               }"
             ></div>
           </div>
@@ -15,13 +15,13 @@
           <div class="event-info mt-5">
             <p class="font-light">Hosted By</p>
             <hr class="mb-[10px]" />
-            <p class="font-semibold">{{ event?.createdBy }}</p>
+            <p class="font-semibold">{{ event?.date }}</p>
             <a href="#" class="text-gray-400 text-sm font-bold block">Contact the Host</a>
           </div>
         </div>
 
         <div class="event-details flex-1">
-          <p class="text-2xl md:text-3xl lg:text-4xl font-bold">{{ event?.eventName }}</p>
+          <p class="text-2xl md:text-3xl lg:text-4xl font-bold">{{ event?.event_name }}</p>
 
           <div>
             <div class="text-gray-500 mt-3 leading-7">
@@ -36,12 +36,12 @@
 
               <p>
                 <fa-icon class="mr-1" :icon="['far', 'calendar-days']" style="color: #b0b0b0" />
-                {{ event?.eventDate }}
+                {{ moment(event?.date).format('MMMM Do, YYYY') }}
               </p>
 
               <p>
                 <fa-icon class="mr-1" :icon="['far', 'clock']" style="color: #b0b0b0" />
-                {{ event?.timeFrame }}
+                {{ event?.time }}
               </p>
             </div>
 
@@ -80,6 +80,7 @@
 <script setup lang="ts">
 import { type Event } from '@/utils/types';
 import Tickets from '@/components/layouts/GetTickets.vue'
+import moment from 'moment';
 
 defineProps<{
   event: Event | null

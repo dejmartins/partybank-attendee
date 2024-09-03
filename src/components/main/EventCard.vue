@@ -1,6 +1,6 @@
 <template>
   <router-link :to="{ name: 'event-details', params: { eventReference: eventId } }">
-    <div class="event-container">
+    <div class="event-container relative flex flex-col border h-[300px] rounded-[10px]">
       <div class="event-image" :style="{ backgroundImage: `url(${imageUrl ? imageUrl : defaultImage})` }">
         <slot></slot>
       </div>
@@ -19,13 +19,13 @@
           </a>
           <div
             class="profile-icon"
-            :style="{ backgroundImage: `url(https://res.cloudinary.com/drddoxnsi/image/upload/v1720742531/PARTYBANK/rave_cmqhw8.png)` }"
+            :style="{ backgroundImage: `url(${series_logo})` }"
           ></div>
         </div>
         <p :class="clsx('event-status absolute top-0 left-3 border-2', {
-          'text-[#FF0F00] bg-[#FFE3E1] border-[#FF0F00]' : status === 'Sold out',
-          'text-[#084300] border-[#4CAF50] bg-[#ddf7da]' : status === 'Available',
-          'text-[#FFA800] border-[#FFA800] bg-[#FFF5E2]' : status === 'Few tickets left',
+          'text-[#FF0F00] bg-[#FFE3E1] border-[#FF0F00]' : status === 'PAST',
+          'text-[#084300] border-[#4CAF50] bg-[#ddf7da]' : status === 'ACTIVE',
+          'text-[#FFA800] border-[#FFA800] bg-[#FFF5E2]' : status === 'UPCOMING',
         })" v-if="status">{{ status }}</p>
       </div>
     </div>
@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 import clsx from 'clsx';
-import defaultImage from '@/assets/images/defaultImage.jpeg';
+import defaultImage from '/defaultImage.png';
 
 defineProps<{
   eventId: string;
@@ -43,7 +43,7 @@ defineProps<{
   eventDate: string;
   eventName: string;
   location: string;
-  creator: string;
+  series_logo: string;
   status?: string;
 }>();
 </script>
@@ -51,15 +51,7 @@ defineProps<{
 
 <style scoped>
 .event-container {
-  width: 350px;
-  min-height: 300px;
-  margin: 10px;
-  display: flex;
-  flex-direction: column;
-  border-radius: 15px;
-  background-color: #fff;
   transition: transform 0.2s, box-shadow 0.2s;
-  position: relative;
 }
 
 .event-container:hover {
@@ -106,11 +98,6 @@ defineProps<{
 }
 
 @media (max-width: 765px) {
-  .event-container {
-    flex-direction: column;
-    width: 300px;
-  }
-
   .event-image {
     height: 200px;
   }

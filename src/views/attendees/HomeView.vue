@@ -1,13 +1,14 @@
 <template>
-  <div class="landing-container" ref="landingContainer">
+  <div class="landing-container" :style="{ backgroundImage: isBgLoaded ? `url(${bgImageSrc})` : '' }">
     <div class="flex flex-col items-center">
       <div
         class="action-call bg-[color:var(--pb-c-white)] w-[70vw] flex justify-between items-center rounded-full p-5 px-10"
       >
         <img class="logo h-10 z-50 cursor-pointer" src="@/assets/logo.svg" alt="Partybank Logo" />
-        <RoundedButton :disabled="isDisabled" action="Discover Events" @click="discover" class="pulse-animation">
-          <fa-icon :icon="['far', 'calendar-days']" style="color: #ffffff" />
-        </RoundedButton>
+        <div class="flex gap-2">
+          <RoundedButton :disabled="isDisabled" action="Sign In" @click="showSignIn" class="flex justify-center font-[700] bg-[--pb-c-bright-blue] text-[var(--pb-c-blue)]"></RoundedButton>
+          <RoundedButton :disabled="isDisabled" action="Create Account" @click="showSignUp" class="flex justify-center font-[700] bg-[--pb-c-blue] text-[color:var(--pb-c-white)] hidden md:block"></RoundedButton>
+        </div>
       </div>
 
       <div class="organizer-cue mt-24 text-center" :class="{ 'text-black': !isBgLoaded, 'text-white': isBgLoaded }">
@@ -18,29 +19,27 @@
         <p class="font-semibold text-[18px] my-5">Where Every Ticket Holds A Celebration</p>
       </div>
 
+      <RoundedButton :disabled="isDisabled" action="Discover Events" @click="discover" class="pulse-animation my-8 w-[200px] h-[50px] flex justify-center font-[700] bg-[--pb-c-blue] text-[color:var(--pb-c-white)]">
+        <fa-icon :icon="['far', 'calendar-days']" style="color: #ffffff" />
+      </RoundedButton>
+
       <div
         class="organizer-core bg-[color:var(--pb-c-white)] w-[50vw] flex justify-between items-center rounded-full p-3 px-8 mt-4"
       >
         <div class="flex mr-2 profile-container">
           <div
             class="profile-icon"
-            style="
-              background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/EUPHORIA_ASABA_drzuhq.avif');
-            "
+            v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/EUPHORIA_ASABA_drzuhq.avif'"
           ></div>
           <div
             class="profile-icon"
-            style="
-              background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1718653098/PARTYBANK/Rave_Experience_Port-Harcourt_c5redm.avif');
-              margin-left: -10px;
-            "
+            v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653098/PARTYBANK/Rave_Experience_Port-Harcourt_c5redm.avif'"
+            style="margin-left: -10px;"
           ></div>
           <div
             class="profile-icon"
-            style="
-              background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1718653097/PARTYBANK/euphoria_jds29k_o4spxf.avif');
-              margin-left: -10px;
-            "
+            v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653097/PARTYBANK/euphoria_jds29k_o4spxf.avif'"
+            style="margin-left: -10px;"
           ></div>
         </div>
         <p class="text-[color:var(--pb-c-black-soft)]">
@@ -49,49 +48,59 @@
       </div>
     </div>
 
-    <div class="bubbles-container">
-      <div class="bubble"></div>
-      <div class="bubble"></div>
-      <div class="bubble"></div>
-      <div class="bubble"></div>
-      <div class="bubble"></div>
-    </div>
+    <AuthModal v-if="showModal" :is-sign-up="isSignUp" @close="closeModal" />
   </div>
 </template>
 
-
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import RoundedButton from '@/components/buttons/RoundedButton.vue'
-import { useRouter } from 'vue-router'
-const isDisabled = ref(false)
-const isBgLoaded = ref(false)
-const router = useRouter()
-const landingContainer = ref(null)
+import RoundedButton from '@/components/buttons/RoundedButton.vue';
+import AuthModal from '@/components/auth/SignIn.vue';
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+
+const isDisabled = ref(false);
+const isBgLoaded = ref(false);
+const showModal = ref(false);
+const isSignUp = ref(false); 
+const router = useRouter();
+
+const bgImageSrc = 'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/attendee-landing-bg_pbptyw.avif';
 
 // Methods
 const discover = () => {
-  isDisabled.value = true
-  router.push('/discover')
-}
+  isDisabled.value = true;
+  router.push('/discover');
+};
+
+const showSignIn = () => {
+  isSignUp.value = false;
+  showModal.value = true;
+};
+
+const showSignUp = () => {
+  isSignUp.value = true;
+  showModal.value = true;
+};
 
 const handleBgLoad = () => {
-  isBgLoaded.value = true
-}
+  isBgLoaded.value = true;
+};
+
+const closeModal = () => {
+  showModal.value = false;
+};
 
 onMounted(() => {
-  const bgImage = new Image()
-  bgImage.src = 'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/attendee-landing-bg_pbptyw.avif'
-  bgImage.onload = handleBgLoad
-})
+  const bgImage = new Image();
+  bgImage.src = bgImageSrc;
+  bgImage.onload = handleBgLoad;
+});
 </script>
-
 
 <style scoped>
 .landing-container {
   height: 100vh;
   width: 100vw;
-  background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/attendee-landing-bg_pbptyw.avif');
   background-position: center;
   background-size: cover;
   display: flex;

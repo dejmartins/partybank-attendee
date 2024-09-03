@@ -1,10 +1,18 @@
 <template>
   <div class="popup">
-    <div class="inner-popup">
+    <div :class="['inner-popup', additionalClasses]">
       <slot />
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+
+defineProps<{
+  additionalClasses?: string
+}>()
+</script>
+
 <style scoped>
 .popup {
   position: fixed;
@@ -21,10 +29,8 @@
 
 .inner-popup {
   background-color: white;
-  min-width: 30vw;
-  min-height: 27vh;
   padding: 25px;
-  border-radius: 10px;
+  border-radius: 30px;
   border: 1px solid rgb(178, 178, 178);
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
 }
