@@ -29,15 +29,7 @@
         alt="Explore Gif Loader"
       />
 
-      <div v-if="!isLoading && filteredEvents.length === 0" class="m-20 text-center flex flex-col items-center fixed right-0 left-0 top-56 my-20 text-lg">
-        <img
-          src="@/assets/images/EmptyState.png"
-          class="h-32"
-          alt="Phones Icons"
-        />
-        <p class="font-bold">No events</p>
-        <p class="text-[#4A4A4A]">There are no events in {{ selectedCity }} at the moment</p>
-      </div>
+      <NoEvent v-if="!isLoading && filteredEvents.length === 0" :selected-city='selectedCity' />
       
       <div v-else class="flex justify-center mt-20 mb-10 flex-wrap">
         <EventCard
@@ -60,6 +52,7 @@
 
 <script setup lang="ts">
 import EventCard from '@/components/main/EventCard.vue'
+import NoEvent from '@/components/events/NoEvent.vue'
 import { ref, onMounted, computed } from 'vue'
 import Api from '@/utils/api'
 import { useToast } from 'vue-toastification'

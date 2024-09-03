@@ -51,19 +51,19 @@
         </div>
       </Listbox>
     </div>
-    <div class="form-group" :class="{ error: error.emailError }">
+    <!-- <div class="form-group" :class="{ error: error.emailError }">
       <label class="form-label font-bold">Email Address:</label>
       <input v-model="userInfo.emailAddress" type="email" class="form-input" />
     </div>
     <div class="form-group" :class="{ error: error.phoneError }">
       <label class="form-label font-bold">Phone Number:</label>
       <input v-model="userInfo.phoneNumber" type="tel" class="form-input" maxlength="15" @input="filterNonDigits" />
-    </div>
+    </div> -->
     <div class="flex flex-col">
-      <label class="flex items-center text-gray-300">
+      <!-- <label class="flex items-center text-gray-300">
         <input type="checkbox" v-model="emailValidated" class="w-[10px] h-[10px] md:w-[15px] md:h-[15px] mr-[10px] mt-[15px] text-[10px]" />
         I confirm my Email Address is correct
-      </label>
+      </label> -->
       <label class="flex items-center text-gray-300">
         <input type="checkbox" v-model="isAdult" class="w-[10px] h-[10px] md:w-[15px] md:h-[15px] mr-[10px] mt-[15px] text-[10px]" />
         I confirm I am 18 years old or older
