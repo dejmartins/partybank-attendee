@@ -4,6 +4,10 @@
         <router-link to="/">
           <img class="h-10 z-50 cursor-pointer" src="@/assets/logo.svg" alt="Partybank Logo" />
         </router-link>
+
+        <div class="flex items-center justify-center rounded-full h-9 w-9 bg-[#D1B44E] cursor-pointer">
+          <P class="font-[700] text-[20px] text-white">D</P>
+        </div>
       </div>
     </div>
 </template>

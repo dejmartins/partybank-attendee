@@ -14,6 +14,7 @@ export type Event = {
     status: string
     location: any
     id: number
+    created_by: string
 }
 
 export type Ticket = {

@@ -15,7 +15,7 @@
           <div class="event-info mt-5">
             <p class="font-light">Hosted By</p>
             <hr class="mb-[10px]" />
-            <p class="font-semibold">{{ event?.date }}</p>
+            <p class="font-semibold">{{ event?.created_by }}</p>
             <a href="#" class="text-gray-400 text-sm font-bold block">Contact the Host</a>
           </div>
         </div>

@@ -65,7 +65,7 @@ const toast = useToast()
 const isLoading = ref(false)
 const events = ref<Array<Event>>([])
 const selectedCity = ref('Warri')
-const cities = ref(['Warri', 'Asaba', 'PHC'])
+const cities = ref(['Warri', 'Asaba', 'Port-Harcourt'])
 const visibleCities = ref(cities.value.slice(0, 3))
 const { DISCOVER_EVENTS } = Api()
 
@@ -83,7 +83,7 @@ const getEvents = async () => {
     .then((res) => res.json())
     .then((response) => {
       events.value = response
-      // console.log(response)
+      console.log(response)
       isLoading.value = false
     })
     .catch((error: any) => {
