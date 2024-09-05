@@ -21,6 +21,6 @@
 </template>
 
 <script setup lang="ts">
-import Header from '@/components/layouts/HeaderBar.vue'
+import Header from '@/components/ui/HeaderBar.vue'
 import ForgotPasswordForm from '@/components/auth/ForgotPasswordForm.vue';
 </script>

@@ -79,7 +79,7 @@
 
 <script setup lang="ts">
 import { type Event } from '@/utils/types';
-import Tickets from '@/components/layouts/GetTickets.vue'
+import Tickets from '@/components/events/tickets/GetTickets.vue'
 import moment from 'moment';
 
 defineProps<{

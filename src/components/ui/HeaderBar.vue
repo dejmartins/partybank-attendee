@@ -5,14 +5,13 @@
           <img class="h-10 z-50 cursor-pointer" src="@/assets/logo.svg" alt="Partybank Logo" />
         </router-link>
 
-        <div class="flex items-center justify-center rounded-full h-9 w-9 bg-[#D1B44E] cursor-pointer">
-          <P class="font-[700] text-[20px] text-white">D</P>
-        </div>
+        <ProfileIcon />
       </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import ProfileIcon from './ProfileIcon.vue';
 defineProps<{
   additionalClasses?: string
 }>()

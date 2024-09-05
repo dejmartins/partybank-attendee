@@ -52,7 +52,7 @@
 
 
 <script setup lang="ts">
-import EventCard from '@/components/main/EventCard.vue'
+import EventCard from '@/components/events/EventCard.vue'
 import NoEvent from '@/components/events/NoEvent.vue'
 import { ref, onMounted, computed } from 'vue'
 import Api from '@/utils/api'

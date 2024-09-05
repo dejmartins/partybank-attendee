@@ -34,13 +34,13 @@ const router = createRouter({
     {
       path: '/:eventReference/validate',
       name: 'validate',
-      component: () => import('@/views/organizers/ValidateTicket.vue'),
+      component: () => import('@/views/ticketers/ValidateTicket.vue'),
       meta: { requiresAuth: true }
     },
     {
       path: '/:eventReference/admin',
       name: 'admin',
-      component: () => import('@/views/organizers/TicketterAccess.vue')
+      component: () => import('@/views/ticketers/TicketterAccess.vue')
     },
     {
       path: '/forgotPassword',

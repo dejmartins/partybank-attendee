@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import Header from '@/components/layouts/HeaderBar.vue'
+import Header from '@/components/ui/HeaderBar.vue'
 import { ref } from 'vue'
 import { auth } from '@/firebase'
 import { signInWithEmailAndPassword } from 'firebase/auth'

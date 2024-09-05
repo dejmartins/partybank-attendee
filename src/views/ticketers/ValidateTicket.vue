@@ -83,14 +83,14 @@
 
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from 'vue'
-import Header from '@/components/layouts/HeaderBar.vue'
+import Header from '@/components/ui/HeaderBar.vue'
 import Loader from '@/components/loaders/SpinLoader.vue'
 import { Html5Qrcode } from 'html5-qrcode'
 import { useRoute } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import Api from '@/utils/api'
 import { type TicketDetail } from '@/utils/types'
-import TicketType from '@/components/main/TicketTypeCount.vue'
+import TicketType from '@/components/events/tickets/TicketTypeCount.vue'
 
 const { SEARCH_TICKET, VALIDATE_TICKET, GET_PURCHASED_TICKETS } = Api()
 

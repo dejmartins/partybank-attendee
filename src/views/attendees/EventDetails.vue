@@ -59,14 +59,14 @@
 <script setup lang="ts">
 import Modal from '@/components/modals/PaymentModal.vue'
 import { ref, onMounted } from 'vue'
-import Info from '@/components/main/AttendeeInfo.vue'
-import Summary from '@/components/main/TicketSummary.vue'
+import Info from '@/components/events/tickets/AttendeeInfo.vue'
+import Summary from '@/components/events/tickets/TicketSummary.vue'
 import { useRoute } from 'vue-router'
 import Api from '@/utils/api'
 import { useToast } from 'vue-toastification'
 import TicketSent from '@/components/modals/TicketSent.vue'
 import { type Event, type UserInfo } from '@/utils/types'
-import EventInfo from '@/components/layouts/EventInfo.vue'
+import EventInfo from '@/components/events/EventInfo.vue'
 import { watch } from 'vue'
 import { usePaymentStore } from '@/stores/payment'
 
