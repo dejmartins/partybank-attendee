@@ -65,7 +65,7 @@ const toast = useToast()
 const isLoading = ref(false)
 const events = ref<Array<Event>>([])
 const selectedCity = ref('Warri')
-const cities = ref(['Warri', 'Asaba', 'Port-Harcourt'])
+const cities = ref(['Asaba', 'Port-Harcourt'])
 const visibleCities = ref(cities.value.slice(0, 3))
 const { DISCOVER_EVENTS } = Api()
 
