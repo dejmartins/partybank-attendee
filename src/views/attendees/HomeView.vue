@@ -48,7 +48,11 @@
       </div>
     </div>
 
-    <AuthModal v-if="showModal" :is-sign-up="isSignUp" @close="closeModal" />
+    <AuthModal 
+        v-if="showModal" :is-sign-up="isSignUp" 
+        @close="closeModal" 
+        sign-in-message="Welcome back! Please sign in to your account" 
+    />
   </div>
 </template>
 

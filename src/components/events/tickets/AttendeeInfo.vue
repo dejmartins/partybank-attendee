@@ -66,7 +66,12 @@
     />
 
   </form>
-  <SignIn v-if="showSignInModal" @close="closeModal" :is-sign-up="false"/>
+  <SignIn
+      v-if="showSignInModal" 
+      @close="closeModal" 
+      :is-sign-up="false"
+      sign-in-message="To purchase ticket, sign in to your account"
+  />
 </template>
 
 <script setup lang="ts">

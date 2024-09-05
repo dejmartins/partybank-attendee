@@ -10,7 +10,7 @@
                 {{ isSignUp ? 'Create Account' : 'Sign In' }}
                 </h3>
                 <p class="leading-5 text-sm">
-                {{ isSignUp ? 'Please enter your details to create a Partybank account' : 'Welcome back! Please sign in to your account' }}
+                {{ isSignUp ? 'Please enter your details to create a Partybank account' : `${signInMessage}` }}
                 </p>
             </div>
   
@@ -41,7 +41,7 @@ import Modal from '@/components/modals/BaseModal.vue';
 import SignUpForm from './CreateAccountForm.vue';
 import SignInForm from './SignInForm.vue';
 
-const props = defineProps<{ isSignUp: boolean }>();
+const props = defineProps<{ isSignUp: boolean, signInMessage: string }>();
 const emit = defineEmits(['close']);
 
 const isSignUp = ref(props.isSignUp);
