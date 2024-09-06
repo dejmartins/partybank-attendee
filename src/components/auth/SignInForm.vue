@@ -1,70 +1,84 @@
 <template>
-    <div class="w-full">
-      <form @submit.prevent="handleSignUp">
-        <div class="">
-          <input
-            type="email"
-            id="email"
-            v-model="email"
-            required
-            class="mt-1 p-2 w-full rounded-md outline-0 focus:ring-1 focus:ring-[var(--pb-c-blue)]"
-            placeholder="Enter your email"
-          />
-        </div>
-  
-        <div class="">
-          <input
-            type="password"
-            id="password"
-            v-model="password"
-            required
-            class="mt-1 p-2 w-full rounded-md outline-0 focus:ring-1 focus:ring-[var(--pb-c-blue)]"
-            placeholder="Enter your password"
-          />
-        </div>
+  <div class="w-full">
+    <form @submit.prevent="handleSignUp">
+      <div>
+        <input
+          type="email"
+          id="email"
+          v-model="userInfo.email"
+          class="mt-1 p-2 w-full rounded-md outline-0 focus:ring-1 focus:ring-[var(--pb-c-blue)]"
+          placeholder="Enter your email"
+          :class="{ error: error.emailError }"
+        />
+      </div>
 
-        <RouterLink to="/forgotPassword">
-            <p class="text-right text-sm text-[var(--pb-c-blue)] mb-32 hover:underline cursor-pointer">Forgot Password?</p>
-        </RouterLink>
-  
-        <button
-          type="submit"
-          class="w-full cursor-pointer bg-[var(--pb-c-blue)] text-white py-2 rounded-md hover:bg-blue-600 transition-colors mb-3"
-        >
-          Continue
-        </button>
-      </form>
-    </div>
+      <div>
+        <input
+          type="password"
+          id="password"
+          v-model="userInfo.password"
+          class="mt-1 p-2 w-full rounded-md outline-0 focus:ring-1 focus:ring-[var(--pb-c-blue)]"
+          placeholder="Enter your password"
+          :class="{ error: error.passwordError }"
+        />
+      </div>
+
+      <RouterLink to="/forgotPassword">
+        <p class="text-right text-sm text-[var(--pb-c-blue)] mb-3 hover:underline cursor-pointer">Forgot Password?</p>
+      </RouterLink>
+
+      <button
+        type="submit"
+        class="w-full cursor-pointer bg-[var(--pb-c-blue)] text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
+      >
+        Continue
+      </button>
+    </form>
+  </div>
 </template>
-  
+
 <script setup lang="ts">
-import { ref } from 'vue';
+import { reactive, computed } from 'vue';
 import { RouterLink } from 'vue-router';
 
-const email = ref('');
-const phone = ref('');
-const password = ref('');
-const confirmPassword = ref('');
+const userInfo = reactive({
+  email: '',
+  password: '',
+});
+
+const error = reactive({
+  emailError: false,
+  passwordError: false
+});
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Methods
+const validateUserInfo = () => {
+  error.emailError = userInfo.email === '' || !emailRegex.test(userInfo.email);
+  error.passwordError = userInfo.password === '';
+};
 
 const handleSignUp = () => {
-    if (password.value !== confirmPassword.value) {
-        alert('Passwords do not match!');
-        return;
-    }
+  validateUserInfo();
 
-    alert(`Sign-Up successful for ${email.value} with phone ${phone.value}!`);
+  if (isUserInfoValidated.value) {
+    alert(`Sign-Up successful for ${userInfo.email}!`);
+    return;
+  }
 
-    email.value = '';
-    phone.value = '';
-    password.value = '';
-    confirmPassword.value = '';
+  userInfo.email = '';
+  userInfo.password = '';
 };
+
+// Computed Properties
+const isUserInfoValidated = computed(() => {
+  return !error.emailError && !error.passwordError;
+})
 </script>
 
 <style scoped>
-.sign-up-container {
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
+.error {
+  border-color: red;
 }
 </style>
