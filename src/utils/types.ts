@@ -1,6 +1,6 @@
 export type Event = {
     image_url: string
-    series_logo: string
+    series_logo: string | undefined
     event_name: string
     venue: string
     date: string
