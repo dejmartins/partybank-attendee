@@ -37,7 +37,7 @@
           v-for="event in filteredEvents"
           :key="event.id"
           :eventId="event.event_reference"
-          :imageUrl="event.eventImage"
+          :imageUrl="event.image_url"
           :series_logo="event.series_logo"
           :location="event.venue"
           :status="event.status"
@@ -64,7 +64,7 @@ import moment from 'moment'
 const toast = useToast()
 const isLoading = ref(false)
 const events = ref<Array<Event>>([])
-const selectedCity = ref('Warri')
+const selectedCity = ref('Asaba')
 const cities = ref(['Asaba', 'Port-Harcourt'])
 const visibleCities = ref(cities.value.slice(0, 3))
 const { DISCOVER_EVENTS } = Api()

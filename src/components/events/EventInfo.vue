@@ -7,7 +7,7 @@
               class="event-image w-full"
               :style="{
                 backgroundImage:
-                  'url(' + (event?.eventImage || '/defaultImage.png') + ')'
+                  'url(' + (event?.image_url || '/defaultImage.png') + ')'
               }"
             ></div>
           </div>
@@ -39,6 +39,7 @@
                 {{ moment(event?.date).format('MMMM Do, YYYY') }}
               </p>
 
+              <!-- Format time to am/pm -->
               <p>
                 <fa-icon class="mr-1" :icon="['far', 'clock']" style="color: #b0b0b0" />
                 {{ event?.time }}

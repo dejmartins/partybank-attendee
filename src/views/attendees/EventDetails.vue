@@ -38,13 +38,13 @@
         <div>
           <p class="text-lg md:text-xl font-bold mb-4">Ticket Summary</p>
           <Summary
-            :eventImage="event?.eventImage || ''"
+            :eventImage="event?.image_url || ''"
             :eventName="event?.event_name || ''"
             :ticketQuantity="ticketQuantities[selectedTicket] || 0"
             :ticketType="selectedTicket || ''"
             :ticketAmount="
               selectedTicket
-                ? event?.ticketTypes.find((t) => t.name === selectedTicket)?.price || 0
+                ? event?.tickets.find((t) => t.name === selectedTicket)?.price || 0
                 : 0
             "
           />
@@ -53,7 +53,7 @@
     </Modal>
   </transition>
 
-  <TicketSent @close="ticketSentModal" v-if="isTicketSent":eventImage="event?.eventImage" :eventName="event?.event_name" :attendeeEmail="emailAddress" />
+  <TicketSent @close="ticketSentModal" v-if="isTicketSent":eventImage="event?.image_url" :eventName="event?.event_name" :attendeeEmail="emailAddress" />
 </template>
 
 <script setup lang="ts">
@@ -123,8 +123,8 @@ const getEvents = async () => {
 }
 
 const selectTicketByDefault = () => {
-  if (event.value?.ticketTypes && event.value.ticketTypes.length > 0) {
-    const firstTicket = event.value.ticketTypes[0]
+  if (event.value?.tickets && event.value.tickets.length > 0) {
+    const firstTicket = event.value.tickets[0]
     selectedTicket.value = firstTicket.name
     ticketQuantities.value[firstTicket.name] = 1
   }

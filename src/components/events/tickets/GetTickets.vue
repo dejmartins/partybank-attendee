@@ -2,10 +2,10 @@
     <div class="mt-4">
       <p class="text-lg font-semibold">Get tickets</p>
       <p class="text-sm font-bold">Which ticket type are you going for?</p>
-      <div v-if="event?.ticketTypes && event.ticketTypes.length > 0" class="ticket mt-2">
+      <div v-if="event?.tickets && event.tickets.length > 0" class="ticket mt-2">
         <ul>
           <li
-            v-for="ticket in event.ticketTypes"
+            v-for="ticket in event.tickets"
             :key="ticket.name"
             class="ticket-item"
             :class="{ selected: selectedTicket === ticket.name }"
@@ -85,8 +85,9 @@ if (ticketQuantities.value[ticketName] && ticketQuantities.value[ticketName] > 1
 };
 
 const selectTicketByDefault = () => {
-  if (event?.ticketTypes && event.ticketTypes.length > 0) {
-    const firstTicket = event.ticketTypes[0]
+  console.log(event?.tickets)
+  if (event?.tickets && event.tickets.length > 0) {
+    const firstTicket = event.tickets[0]
     selectedTicket.value = firstTicket.name
     ticketQuantities.value[firstTicket.name] = 1
   }

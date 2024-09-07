@@ -1,11 +1,11 @@
 export type Event = {
-    eventImage: string
+    image_url: string
     series_logo: string
     event_name: string
     venue: string
     date: string
     time: string
-    ticketTypes: Array<Ticket>
+    tickets: Array<Ticket>
     map_url: string
     map_embedded_url: string
     eventThemes: string
@@ -20,6 +20,11 @@ export type Event = {
 export type Ticket = {
     name: string
     price: number
+    ticket_type: string
+    purchase_limit: number
+    ticket_reference: string
+    colour: string
+    is_ticket_sale_done: boolean
 }
 
 export type UserInfo = {
@@ -36,3 +41,22 @@ export type TicketDetail = {
     sold_count: number
     colour: string
 }
+
+
+// "tickets": [
+//       {
+//         "ticket_type": "paid",
+//         "name": "early bird",
+//         "stock": "unlimited",
+//         "price": 7000,
+//         "purchase_limit": 5,
+//         "discount_type": "string",
+//         "discount_code": "string",
+//         "ticket_reference": "",
+//         "colour": "",
+//         "is_ticket_sale_done": false,
+//         "ticket_sale_end_date": "24-11-11",
+//         "ticket_sales_end_time": "6:00"
+//       }
+//     ],
+//     "publication_state": "PUBLISHED"
