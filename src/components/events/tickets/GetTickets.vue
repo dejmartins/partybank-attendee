@@ -31,6 +31,7 @@
           <button
             class="border flex flex-col border-gray-300 w-full p-2 mb-2 rounded-md hover:border-gray-500"
             @click="selectTicket(ticket.name)"
+            :disabled="!isTicketAvailable(ticket)"
           >
             <div class="flex justify-between w-full">
               <span class="font-medium">{{ ticket.name }}</span>
@@ -65,19 +66,18 @@
   </div>
 </template>
 
-
-
   
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { type Event } from '@/utils/types';
+import { type Event, type Ticket } from '@/utils/types';
 import { onMounted } from 'vue';
-import GetTicket from '@/components/buttons/ButtonComponent.vue'
+import GetTicket from '@/components/buttons/ButtonComponent.vue';
 import { usePaymentStore } from '@/stores/payment';
 
+// Props
 const { event } = defineProps<{
-    event: Event | null
-}>()
+    event: Event | null;
+}>();
 
 const selectedTicket = ref<string>('');
 const ticketQuantities = ref<{ [key: string]: number }>({});
@@ -86,6 +86,17 @@ const paymentStore = usePaymentStore();
 const hasPerks = computed(() => {
   return event?.tickets.some(ticket => ticket.ticket_perks && ticket.ticket_perks.length > 0);
 });
+
+const isTicketAvailable = (ticket: Ticket) => {
+  const currentDate = new Date();
+
+  const saleStartDate = new Date(`${ticket.ticket_sale_start_date}T${ticket.ticket_sale_start_time}`);
+  const saleEndDate = new Date(`${ticket.ticket_sale_end_date}T${ticket.ticket_sales_end_time}`);
+
+  console.log(saleStartDate)
+  console.log(saleEndDate)
+  return currentDate >= saleStartDate && currentDate <= saleEndDate;
+};
 
 const selectTicket = (ticketName: string) => {
   if (selectedTicket.value === ticketName) {
@@ -111,26 +122,25 @@ const decrementTicket = (ticketName: string) => {
 
 const selectTicketByDefault = () => {
   if (event?.tickets && event.tickets.length > 0) {
-    const firstTicket = event.tickets[0]
-    selectedTicket.value = firstTicket.name
-    ticketQuantities.value[firstTicket.name] = 1
+    const firstTicket = event.tickets[0];
+    selectedTicket.value = firstTicket.name;
+    ticketQuantities.value[firstTicket.name] = 1;
   }
-}
+};
 
 onMounted(() => {
-  selectTicketByDefault()
-})
+  selectTicketByDefault();
+});
 
 const togglePaymentPopup = () => {
-  updateTicketInfo()
+  updateTicketInfo();
   paymentStore.openPaymentPopup();
 };
 
 const updateTicketInfo = () => {
-  paymentStore.updateTicketInfo(selectedTicket.value, ticketQuantities.value)
-}
+  paymentStore.updateTicketInfo(selectedTicket.value, ticketQuantities.value);
+};
 </script>
-
   
 <style scoped>
 .ticket ul {
@@ -162,9 +172,20 @@ const updateTicketInfo = () => {
   background-color: #cceeff;
 }
 
-.ticket-item button .hover-border {
-  border-color: var(--pb-c-blue);
+.ticket-item button.disabled {
+  background-color: #d3d3d3;
+  cursor: not-allowed;
+  border-color: #d3d3d3;
+}
+
+.ticket-item button:disabled {
+  background-color: #f0f0f0;
+  border-color: #d3d3d3;
+  color: #a9a9a9;
+  cursor: not-allowed;
+}
+
+.ticket-item button:disabled:hover {
+  background-color: #d3d3d3;
 }
 </style>
-
-  

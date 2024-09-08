@@ -25,7 +25,11 @@ export type Ticket = {
     ticket_reference: string
     colour: string
     is_ticket_sale_done: boolean
-    ticket_perks: string[];
+    ticket_perks: string[]
+    ticket_sale_end_date: string
+    ticket_sales_end_time: string
+    ticket_sale_start_date: string
+    ticket_sale_start_time: string
 }
 
 export type UserInfo = {
