@@ -70,8 +70,8 @@ import moment from 'moment'
 const toast = useToast()
 const isLoading = ref(false)
 const events = ref<Array<Event>>([])
-const selectedCity = ref('Warri')
-const cities = ref(['Warri', 'Asaba'])
+const selectedCity = ref('PHC')
+const cities = ref(['PHC', 'Asaba'])
 const visibleCities = ref(cities.value.slice(0, 3))
 const { GET_ALL_EVENTS } = Api()
 
