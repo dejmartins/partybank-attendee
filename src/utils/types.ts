@@ -25,6 +25,7 @@ export type Ticket = {
     ticket_reference: string
     colour: string
     is_ticket_sale_done: boolean
+    ticket_perks: string[];
 }
 
 export type UserInfo = {
