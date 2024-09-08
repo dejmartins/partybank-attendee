@@ -7,13 +7,15 @@ const Api = () => {
   const SEARCH_TICKET = `${BASE_URL}/api/v1/search`
   const VALIDATE_TICKET = `${BASE_URL}/api/v1/validate`
   const GET_PURCHASED_TICKETS = `${BASE_URL}/api/v1/tickets`
+  const GET_VALIDATIONS = `${BASE_URL}/api/v1/tickets/validations`
 
   return {
     GET_ALL_EVENTS,
     SUBSCRIBE,
     GET_EVENT,
     PAY, SEARCH_TICKET, VALIDATE_TICKET,
-    GET_PURCHASED_TICKETS
+    GET_PURCHASED_TICKETS,
+    GET_VALIDATIONS
   }
 }
 
