@@ -6,8 +6,7 @@
       >
         <img class="logo h-10 z-50 cursor-pointer" src="@/assets/logo.svg" alt="Partybank Logo" />
         <div class="flex gap-2">
-          <RoundedButton :disabled="isDisabled" action="Sign In" @click="showSignIn" class="flex justify-center font-[700] bg-[--pb-c-bright-blue] text-[var(--pb-c-blue)]"></RoundedButton>
-          <RoundedButton :disabled="isDisabled" action="Create Account" @click="showSignUp" class="flex justify-center font-[700] bg-[--pb-c-blue] text-[color:var(--pb-c-white)] hidden md:block"></RoundedButton>
+          <RoundedButton :disabled="isDisabled" action="Sign In" @click="showSignIn" class="flex w-28 justify-center font-[700] bg-[--pb-c-bright-blue] text-[var(--pb-c-blue)]"></RoundedButton>
         </div>
       </div>
 
@@ -78,11 +77,6 @@ const discover = () => {
 
 const showSignIn = () => {
   isSignUp.value = false;
-  showModal.value = true;
-};
-
-const showSignUp = () => {
-  isSignUp.value = true;
   showModal.value = true;
 };
 
