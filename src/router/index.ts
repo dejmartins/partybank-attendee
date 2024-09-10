@@ -74,4 +74,14 @@ router.beforeEach(async (to) => {
   }
 })
 
+router.beforeEach(async (to, from, next) => {
+  const authenticated = false;
+
+  if (to.name === 'verify-email' && !authenticated) {
+    next({ name: 'home' });
+  } else {
+    next();
+  }
+})
+
 export default router
