@@ -1,7 +1,7 @@
 <template>
   <div class="w-full">
     <form @submit.prevent="handleSignUp">
-      <div>
+      <!-- <div>
         <input
           type="text"
           id="name"
@@ -10,14 +10,14 @@
           placeholder="Enter your full name"
           :class="{ error: error.nameError }"
         />
-      </div>
+      </div> -->
 
       <div>
         <input
           type="email"
           id="email"
           v-model="userInfo.email"
-          class="mt-1 p-2 w-full rounded-md outline-0 focus:ring-1 focus:ring-[var(--pb-c-blue)]"
+          class="mt-5 p-2 w-full rounded-md outline-0 focus:ring-1 focus:ring-[var(--pb-c-blue)]"
           placeholder="Enter your email address"
           :class="{ error: error.emailError }"
         />
@@ -25,7 +25,7 @@
 
       <button
         type="submit"
-        class="mt-5 w-full cursor-pointer bg-[var(--pb-c-blue)] text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
+        class="mt-16 w-full cursor-pointer bg-[var(--pb-c-blue)] text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
       >
         Continue
       </button>

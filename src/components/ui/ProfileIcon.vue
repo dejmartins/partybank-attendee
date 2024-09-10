@@ -33,7 +33,6 @@
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 
 const links = [
-    { href: '/resetPassword', label: 'Reset Password' },
     { href: '/', label: 'Sign out' }
 ]
 </script>
