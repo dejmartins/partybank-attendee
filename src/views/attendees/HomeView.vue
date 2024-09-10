@@ -51,18 +51,23 @@
         v-if="showModal" 
         @close="closeModal"
     />
+
+    <EmailCheck v-if="showEmailSentModal" @close="closeEmailModal" />
+    
   </div>
 </template>
 
 <script setup lang="ts">
 import RoundedButton from '@/components/buttons/RoundedButton.vue';
 import AuthModal from '@/components/auth/SignIn.vue';
+import EmailCheck from '@/components/auth/EmailCheck.vue';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 const isDisabled = ref(false);
 const isBgLoaded = ref(false);
 const showModal = ref(false);
+const showEmailSentModal = ref(true);
 const router = useRouter();
 
 const bgImageSrc = 'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/attendee-landing-bg_pbptyw.avif';
@@ -83,6 +88,10 @@ const handleBgLoad = () => {
 
 const closeModal = () => {
   showModal.value = false;
+};
+
+const closeEmailModal = () => {
+  showEmailSentModal.value = false;
 };
 
 onMounted(() => {
