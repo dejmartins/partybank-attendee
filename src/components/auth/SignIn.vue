@@ -23,17 +23,11 @@
 </template>
   
 <script setup lang="ts">
-import { ref, watch, defineProps, defineEmits } from 'vue';
+import { defineEmits } from 'vue';
 import Modal from '@/components/modals/BaseModal.vue';
-import SignUpForm from './CreateAccountForm.vue';
 import SignInForm from './SignInForm.vue';
 
 const emit = defineEmits(['close']);
-
-
-// const toggleForm = () => {
-//     isSignUp.value = !isSignUp.value;
-// };
 
 const closeModal = () => {
     emit('close');

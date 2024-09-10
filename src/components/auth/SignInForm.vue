@@ -18,7 +18,7 @@
           id="email"
           v-model="userInfo.email"
           class="mt-1 p-2 w-full rounded-md outline-0 focus:ring-1 focus:ring-[var(--pb-c-blue)]"
-          placeholder="Enter your email"
+          placeholder="Enter your email address"
           :class="{ error: error.emailError }"
         />
       </div>
