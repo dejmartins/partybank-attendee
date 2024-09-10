@@ -7,29 +7,16 @@
             </div>
             <div class="mb-5">
                 <h3 class="font-[700] text-[28px]">
-                {{ isSignUp ? 'Create Account' : 'Sign In' }}
+                    Sign In
                 </h3>
                 <p class="leading-5 text-sm">
-                {{ isSignUp ? 'Please enter your details to create a Partybank account' : `${signInMessage}` }}
+                    Welcome back! Please sign in to your account
                 </p>
             </div>
   
-            <div v-if="isSignUp" class="w-full">
-                <SignUpForm />
-            </div>
-            <div v-else class="w-full">
+            <div class="w-full">
                 <SignInForm />
             </div>
-    
-            <p class="text-sm my-3">
-                {{ isSignUp ? 'Already have an account?' : "Don't have an account?" }}
-                <span
-                @click="toggleForm"
-                class="text-blue-500 cursor-pointer hover:underline"
-                >
-                {{ isSignUp ? 'Sign In' : 'Sign Up' }}
-                </span>
-            </p>
         </div>
       </Modal>
     </div>
@@ -41,19 +28,12 @@ import Modal from '@/components/modals/BaseModal.vue';
 import SignUpForm from './CreateAccountForm.vue';
 import SignInForm from './SignInForm.vue';
 
-const props = defineProps<{ isSignUp: boolean, signInMessage: string }>();
 const emit = defineEmits(['close']);
 
-const isSignUp = ref(props.isSignUp);
 
-
-watch(() => props.isSignUp, (newVal) => {
-    isSignUp.value = newVal;
-});
-
-const toggleForm = () => {
-    isSignUp.value = !isSignUp.value;
-};
+// const toggleForm = () => {
+//     isSignUp.value = !isSignUp.value;
+// };
 
 const closeModal = () => {
     emit('close');

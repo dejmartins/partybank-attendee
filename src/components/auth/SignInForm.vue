@@ -3,6 +3,17 @@
     <form @submit.prevent="handleSignUp">
       <div>
         <input
+          type="text"
+          id="name"
+          v-model="userInfo.name"
+          class="mt-1 p-2 w-full rounded-md outline-0 focus:ring-1 focus:ring-[var(--pb-c-blue)]"
+          placeholder="Enter your full name"
+          :class="{ error: error.nameError }"
+        />
+      </div>
+
+      <div>
+        <input
           type="email"
           id="email"
           v-model="userInfo.email"
@@ -12,24 +23,9 @@
         />
       </div>
 
-      <div>
-        <input
-          type="password"
-          id="password"
-          v-model="userInfo.password"
-          class="mt-1 p-2 w-full rounded-md outline-0 focus:ring-1 focus:ring-[var(--pb-c-blue)]"
-          placeholder="Enter your password"
-          :class="{ error: error.passwordError }"
-        />
-      </div>
-
-      <RouterLink to="/forgotPassword">
-        <p class="text-right text-sm text-[var(--pb-c-blue)] mb-3 hover:underline cursor-pointer">Forgot Password?</p>
-      </RouterLink>
-
       <button
         type="submit"
-        class="w-full cursor-pointer bg-[var(--pb-c-blue)] text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
+        class="mt-5 w-full cursor-pointer bg-[var(--pb-c-blue)] text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
       >
         Continue
       </button>
@@ -43,12 +39,12 @@ import { RouterLink } from 'vue-router';
 
 const userInfo = reactive({
   email: '',
-  password: '',
+  name: '',
 });
 
 const error = reactive({
   emailError: false,
-  passwordError: false
+  nameError: false
 });
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -56,7 +52,7 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // Methods
 const validateUserInfo = () => {
   error.emailError = userInfo.email === '' || !emailRegex.test(userInfo.email);
-  error.passwordError = userInfo.password === '';
+  error.nameError = userInfo.name === '';
 };
 
 const handleSignUp = () => {
@@ -68,12 +64,12 @@ const handleSignUp = () => {
   }
 
   userInfo.email = '';
-  userInfo.password = '';
+  userInfo.name = '';
 };
 
 // Computed Properties
 const isUserInfoValidated = computed(() => {
-  return !error.emailError && !error.passwordError;
+  return !error.emailError && !error.nameError;
 })
 </script>
 

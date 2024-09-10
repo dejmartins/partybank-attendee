@@ -48,9 +48,8 @@
     </div>
 
     <AuthModal 
-        v-if="showModal" :is-sign-up="isSignUp" 
-        @close="closeModal" 
-        sign-in-message="Welcome back! Please sign in to your account" 
+        v-if="showModal" 
+        @close="closeModal"
     />
   </div>
 </template>
@@ -64,7 +63,6 @@ import { useRouter } from 'vue-router';
 const isDisabled = ref(false);
 const isBgLoaded = ref(false);
 const showModal = ref(false);
-const isSignUp = ref(false); 
 const router = useRouter();
 
 const bgImageSrc = 'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/attendee-landing-bg_pbptyw.avif';
@@ -76,7 +74,6 @@ const discover = () => {
 };
 
 const showSignIn = () => {
-  isSignUp.value = false;
   showModal.value = true;
 };
 
