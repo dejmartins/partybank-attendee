@@ -17,7 +17,7 @@
   
             <div class="w-full">
                 <p class="text-xs mb-4">
-                    If you haven't received the email, check your spam folder or <button class="text-blue-600 underline" @click="resendVerificationEmail">click here to resend</button>.
+                    If you haven't received the email, check your spam folder or <button class="text-blue-600 underline" @click="resendAuthEmail">click here to resend</button>.
                 </p>
             </div>
         </div>
@@ -28,14 +28,24 @@
 <script setup lang="ts">
 import { defineEmits } from 'vue';
 import Modal from '@/components/modals/BaseModal.vue';
+import { handleSignIn } from './helpers/helper';
+import { useAuthStore } from '@/stores/auth';
+import Api from '@/utils/api';
 
-const emit = defineEmits(['close', 'resendVerificationEmail']);
+const { AUTH } = Api();
+const authStore = useAuthStore();
+const emit = defineEmits(['close']);
 
 const closeModal = () => {
     emit('close');
 };
 
-const resendVerificationEmail = () => {
-    emit('resendVerificationEmail');
+const resendAuthEmail = async () => {
+  const email = authStore.email;
+  if (email) {
+    await handleSignIn(email, AUTH, emit, authStore);
+  } else {
+    console.log('No email found to resend the link.');
+  }
 };
 </script>

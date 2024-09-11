@@ -1,6 +1,6 @@
 <template>
   <div class="w-full">
-    <form @submit.prevent="handleSignUp">
+    <form @submit.prevent="signIn">
       <div>
         <input
           type="email"
@@ -26,6 +26,7 @@
 import { reactive, computed, defineEmits } from 'vue';
 import Api from '@/utils/api';
 import { useAuthStore } from '@/stores/auth';
+import { handleSignIn } from './helpers/helper';
 
 const { AUTH } = Api();
 
@@ -48,38 +49,14 @@ const validateUserInfo = () => {
   error.emailError = userInfo.email === '' || !emailRegex.test(userInfo.email);
 };
 
-const handleSignUp = async () => {
+const signIn = async () => {
   validateUserInfo();
 
   if (isUserInfoValidated.value) {
-    try {
-      const response = await fetch(AUTH, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: userInfo.email,
-        }),
-      });
+      await handleSignIn(userInfo.email, AUTH, emit, authStore)
 
-      const data = await response.json();
-
-      console.log(data)
-
-      if (response.ok) {
-        emit('close')
-        emit('emailSent');
-        authStore.setEmail(userInfo.email);
-      }
-
-    } catch (error) {
-      console.error('Sign-Up error:', error);
-    }
-
-    userInfo.email = '';
-
-    return;
+      userInfo.email = '';
+      return;
   }
 };
 
