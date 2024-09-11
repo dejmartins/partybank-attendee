@@ -16,10 +16,10 @@
                 <MenuItems class="flex flex-col absolute right-3 md:right-20 mt-2 p-4 rounded-[10px] w-72 origin-top-right divide-y divide-gray-100 z-50 bg-white shadow-lg ring-1 ring-black/5 focus:outline-none gap-3">
                     <MenuItem
                         v-for="link in links"
-                        :key="link.href"
-                        :href="link.href"
-                        as="a"
+                        :key="link.label"
+                        as="button"
                         class="bg-[#EDF1FF] rounded-[500px] text-[var(--pb-c-blue)] text-center py-[10px] rounded-[5px] hover:text-white hover:bg-[var(--pb-c-blue)] ui-not-active:bg-white ui-not-active:text-black"
+                        @click="handleSignOut"
                     >
                         {{ link.label }}
                     </MenuItem>
@@ -31,8 +31,20 @@
 
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore();
+const router = useRouter();
 
 const links = [
-    { href: '/', label: 'Sign out' }
-]
+    { label: 'Sign out' }
+];
+
+// Methods
+const handleSignOut = () => {
+    authStore.clearEmail();
+
+    router.push('/login');
+};
 </script>
