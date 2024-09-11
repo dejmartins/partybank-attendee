@@ -43,7 +43,7 @@ const links = [
 
 // Methods
 const handleSignOut = () => {
-    authStore.clearEmail();
+    authStore.clearAuth();
 
     router.push('/login');
 };

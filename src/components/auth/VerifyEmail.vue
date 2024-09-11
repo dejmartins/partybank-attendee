@@ -34,37 +34,36 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { jwtDecode } from "jwt-decode";
+import { useAuthStore } from '@/stores/auth';
 
 const isOpen = ref(true);
 const backgroundVisible = ref(false);
+const authStore = useAuthStore();
 
+// Methods
 const decodeTokenFromUrl = () => {
   const router = useRouter();
   const token = router.currentRoute.value.query.token;
 
   if (token && typeof token === 'string') {
-    try {
-      const decoded = jwtDecode(token);
-      console.log('Decoded Token:', decoded);
+    const isValid = authStore.checkTokenValidity(token);
 
-      if (decoded.sub) {
-        console.log('Email from token:', decoded.sub);
-      }
-
-      const currentTime = Date.now() / 1000;
-      if (decoded.exp && decoded.exp < currentTime) {
-        console.log('Token has expired');
-      } else {
-        console.log('Token is still valid');
-      }
-    } catch (error) {
-      console.error('Error decoding token:', error);
+    if (isValid && authStore.email === authStore.decodedEmail) {
+      console.log('Token is valid and email matches:', authStore.email);
+      authStore.isAuthenticated = true;
+    } else {
+      console.log('Email:', authStore.email)
+      console.log('Decoded Email:', authStore.decodedEmail)
+      console.log('Token is invalid or email does not match');
+      authStore.isAuthenticated = false;
+      router.push('/')
     }
   } else {
     console.error('No token found in URL');
+    authStore.isAuthenticated = false;
   }
 };
+
 
 onMounted(() => {
   setTimeout(() => {

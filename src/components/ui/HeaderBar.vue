@@ -21,5 +21,5 @@ defineProps<{
 
 const authStore = useAuthStore();
 
-const isLoggedIn = computed(() => !!authStore.email);
+const isLoggedIn = computed(() => authStore.isAuthenticated);
 </script>
