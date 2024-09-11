@@ -50,9 +50,10 @@
     <AuthModal 
         v-if="showModal" 
         @close="closeModal"
+        @email-sent="emailModalToggle"
     />
 
-    <EmailCheck v-if="showEmailSentModal" @close="closeEmailModal" />
+    <EmailCheck v-if="showEmailSentModal" @close="emailModalToggle" />
     
   </div>
 </template>
@@ -88,11 +89,10 @@ const handleBgLoad = () => {
 
 const closeModal = () => {
   showModal.value = false;
-  showEmailSentModal.value = true;
 };
 
-const closeEmailModal = () => {
-  showEmailSentModal.value = false;
+const emailModalToggle = () => {
+  showEmailSentModal.value = !showEmailSentModal.value;
 };
 
 onMounted(() => {

@@ -12,4 +12,7 @@ export const useAuthStore = defineStore('auth', {
       this.email = '';
     }
   },
+  persist: {
+    storage: sessionStorage
+  }
 });

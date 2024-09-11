@@ -15,7 +15,7 @@
             </div>
   
             <div class="w-full">
-                <SignInForm @close="closeModal" />
+                <SignInForm @email-sent="emailSent" @close="closeModal" />
             </div>
         </div>
       </Modal>
@@ -27,9 +27,13 @@ import { defineEmits } from 'vue';
 import Modal from '@/components/modals/BaseModal.vue';
 import SignInForm from './SignInForm.vue';
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'email-sent']);
 
 const closeModal = () => {
     emit('close');
+};
+
+const emailSent = () => {
+    emit('email-sent');
 };
 </script>

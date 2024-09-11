@@ -1,17 +1,6 @@
 <template>
   <div class="w-full">
     <form @submit.prevent="handleSignUp">
-      <!-- <div>
-        <input
-          type="text"
-          id="name"
-          v-model="userInfo.name"
-          class="mt-1 p-2 w-full rounded-md outline-0 focus:ring-1 focus:ring-[var(--pb-c-blue)]"
-          placeholder="Enter your full name"
-          :class="{ error: error.nameError }"
-        />
-      </div> -->
-
       <div>
         <input
           type="email"
@@ -52,7 +41,7 @@ const error = reactive({
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['emailSent', 'close']);
 
 // Methods
 const validateUserInfo = () => {
@@ -79,20 +68,19 @@ const handleSignUp = async () => {
       console.log(data)
 
       if (response.ok) {
-        emit('close');
+        emit('close')
+        emit('emailSent');
         authStore.setEmail(userInfo.email);
       }
 
     } catch (error) {
-      // Handle error
-      alert('An error occurred during sign-up. Please try again.');
       console.error('Sign-Up error:', error);
     }
 
+    userInfo.email = '';
+
     return;
   }
-
-  userInfo.email = '';
 };
 
 // Computed Properties
