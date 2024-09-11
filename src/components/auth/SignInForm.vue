@@ -36,8 +36,11 @@
 <script setup lang="ts">
 import { reactive, computed, defineEmits } from 'vue';
 import Api from '@/utils/api';
+import { useAuthStore } from '@/stores/auth';
 
 const { AUTH } = Api();
+
+const authStore = useAuthStore();
 
 const userInfo = reactive({
   email: '',
@@ -77,7 +80,7 @@ const handleSignUp = async () => {
 
       if (response.ok) {
         emit('close');
-        console.log(data.data.username);
+        authStore.setEmail(userInfo.email);
       }
 
     } catch (error) {
