@@ -43,9 +43,9 @@ const router = createRouter({
       component: () => import('@/views/ticketers/TicketterAccess.vue')
     },
     {
-      path: '/verifyEmail',
-      name: 'verify-email',
-      component: () => import('@/views/attendees/auth/VerifyEmail.vue')
+      path: '/validate-token',
+      name: 'validate-token',
+      component: () => import('@/views/attendees/auth/ValidateToken.vue')
     }
   ]
 })
