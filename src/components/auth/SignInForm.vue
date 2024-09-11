@@ -34,42 +34,67 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed } from 'vue';
-import { RouterLink } from 'vue-router';
+import { reactive, computed, defineEmits } from 'vue';
+import Api from '@/utils/api';
+
+const { AUTH } = Api();
 
 const userInfo = reactive({
   email: '',
-  name: '',
 });
 
 const error = reactive({
   emailError: false,
-  nameError: false
 });
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const emit = defineEmits(['close']);
+
 // Methods
 const validateUserInfo = () => {
   error.emailError = userInfo.email === '' || !emailRegex.test(userInfo.email);
-  error.nameError = userInfo.name === '';
 };
 
-const handleSignUp = () => {
+const handleSignUp = async () => {
   validateUserInfo();
 
   if (isUserInfoValidated.value) {
-    alert(`Sign-Up successful for ${userInfo.email}!`);
+    try {
+      const response = await fetch(AUTH, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: userInfo.email,
+        }),
+      });
+
+      const data = await response.json();
+
+      console.log(data)
+
+      if (response.ok) {
+        emit('close');
+        console.log(data.data.username);
+      }
+
+    } catch (error) {
+      // Handle error
+      alert('An error occurred during sign-up. Please try again.');
+      console.error('Sign-Up error:', error);
+    }
+
     return;
   }
 
   userInfo.email = '';
-  userInfo.name = '';
 };
 
 // Computed Properties
 const isUserInfoValidated = computed(() => {
-  return !error.emailError && !error.nameError;
+  return !error.emailError;
 })
 </script>
 

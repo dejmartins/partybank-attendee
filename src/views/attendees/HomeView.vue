@@ -88,6 +88,7 @@ const handleBgLoad = () => {
 
 const closeModal = () => {
   showModal.value = false;
+  showEmailSentModal.value = true;
 };
 
 const closeEmailModal = () => {

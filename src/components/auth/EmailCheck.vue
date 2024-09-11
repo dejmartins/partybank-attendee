@@ -11,7 +11,7 @@
                     Check Your Email
                 </h3>
                 <p class="leading-5 text-sm">
-                    We've sent a verification email to the address you provided. Please check your email and click on the verification link to proceed with authentication.
+                    We've sent an authentication link to the email address you provided. Please check your email and click the link to continue.
                 </p>
             </div>
   

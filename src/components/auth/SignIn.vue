@@ -15,7 +15,7 @@
             </div>
   
             <div class="w-full">
-                <SignInForm />
+                <SignInForm @close="closeModal" />
             </div>
         </div>
       </Modal>
