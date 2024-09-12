@@ -12,22 +12,24 @@
         />
       </div>
 
-      <button
-        type="submit"
-        class="mt-16 w-full cursor-pointer bg-[var(--pb-c-blue)] text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
-      >
-        Continue
-      </button>
+      <Button 
+        action="Continue" 
+        :loading="isLoading" 
+        :disabled="isLoading" 
+        additional-classes="mt-16 text-white w-full bg-[var(--pb-c-blue)]"
+        additionalLoaderClasses="border-2 border-t-[var(--pb-c-blue)]"
+      />
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, computed, defineEmits } from 'vue';
+import { reactive, computed, defineEmits, ref } from 'vue';
 import Api from '@/utils/api';
 import { useAuthStore } from '@/stores/auth';
 import { handleSignIn } from './helpers/helper';
 import { useRouter } from 'vue-router';
+import Button from '../buttons/LoaderButton.vue';
 
 const { AUTH } = Api();
 
@@ -47,6 +49,8 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const emit = defineEmits(['emailSent', 'close']);
 
+const isLoading = ref(false);
+
 // Methods
 const validateUserInfo = () => {
   error.emailError = userInfo.email === '' || !emailRegex.test(userInfo.email);
@@ -58,10 +62,13 @@ const signIn = async () => {
   if (isUserInfoValidated.value) {
     storeCurrentPage();
     
+    isLoading.value = true;
     await handleSignIn(userInfo.email, AUTH, emit, authStore)
+      .finally(() => {
+        isLoading.value = false;
+      });
 
     userInfo.email = '';
-    return;
   }
 };
 
