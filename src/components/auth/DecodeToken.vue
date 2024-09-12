@@ -51,6 +51,16 @@ const decodeTokenFromUrl = () => {
     if (isValid && authStore.email === authStore.decodedEmail) {
       console.log('Token is valid and email matches:', authStore.email);
       authStore.isAuthenticated = true;
+
+      let previousPage = localStorage.getItem('previousPage');
+
+      if (!previousPage || previousPage === '/') {
+        previousPage = '/discover';
+      }
+
+      localStorage.removeItem('previousPage');
+
+      router.push(previousPage);
     } else {
       console.log('Email:', authStore.email)
       console.log('Decoded Email:', authStore.decodedEmail)

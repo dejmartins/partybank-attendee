@@ -44,7 +44,5 @@ const links = [
 // Methods
 const handleSignOut = () => {
     authStore.clearAuth();
-
-    router.push('/login');
 };
 </script>

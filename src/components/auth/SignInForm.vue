@@ -27,10 +27,13 @@ import { reactive, computed, defineEmits } from 'vue';
 import Api from '@/utils/api';
 import { useAuthStore } from '@/stores/auth';
 import { handleSignIn } from './helpers/helper';
+import { useRouter } from 'vue-router';
 
 const { AUTH } = Api();
 
 const authStore = useAuthStore();
+
+const router = useRouter();
 
 const userInfo = reactive({
   email: '',
@@ -53,11 +56,19 @@ const signIn = async () => {
   validateUserInfo();
 
   if (isUserInfoValidated.value) {
-      await handleSignIn(userInfo.email, AUTH, emit, authStore)
+    storeCurrentPage();
+    
+    await handleSignIn(userInfo.email, AUTH, emit, authStore)
 
-      userInfo.email = '';
-      return;
+    userInfo.email = '';
+    return;
   }
+};
+
+
+const storeCurrentPage = () => {
+  const currentPage = router.currentRoute.value.fullPath;
+  localStorage.setItem('previousPage', currentPage);
 };
 
 // Computed Properties

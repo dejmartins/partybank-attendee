@@ -28,12 +28,10 @@
         />
       </div>
 
-      <div
-        class="flex flex-col-reverse md:flex-row md:justify-center text-white justify-center md:justify-start"
-      >
+      <div class="flex flex-col-reverse md:flex-row md:justify-center text-white justify-center md:justify-start">
         <div class="mt-8 md:mt-0 md:mr-8">
           <p class="text-lg md:text-xl font-bold mb-4">Your Info</p>
-          <Info @proceed="pay" />
+          <Info @proceed="checkAuthAndProceed" />
         </div>
         <div>
           <p class="text-lg md:text-xl font-bold mb-4">Ticket Summary</p>
@@ -53,82 +51,112 @@
     </Modal>
   </transition>
 
-  <TicketSent @close="ticketSentModal" v-if="isTicketSent":eventImage="event?.image_url" :eventName="event?.event_name" :attendeeEmail="emailAddress" />
+  <SignInModal
+    v-if="showSignInModal"
+    @close="toggleSignInModal"
+    @email-sent="emailModalToggle"
+  />
+
+  <EmailSentModal v-if="showEmailSentModal" @close="emailModalToggle" />
+
+  <TicketSent
+    @close="ticketSentModal"
+    v-if="isTicketSent"
+    :eventImage="event?.image_url"
+    :eventName="event?.event_name"
+    :attendeeEmail="emailAddress"
+  />
 </template>
 
 <script setup lang="ts">
-import Modal from '@/components/modals/PaymentModal.vue'
-import { ref, onMounted } from 'vue'
-import Info from '@/components/events/tickets/AttendeeInfo.vue'
-import Summary from '@/components/events/tickets/TicketSummary.vue'
-import { useRoute } from 'vue-router'
-import Api from '@/utils/api'
-import { useToast } from 'vue-toastification'
-import TicketSent from '@/components/modals/TicketSent.vue'
-import { type Event, type UserInfo } from '@/utils/types'
-import EventInfo from '@/components/events/EventInfo.vue'
-import { watch } from 'vue'
-import { usePaymentStore } from '@/stores/payment'
+import Modal from '@/components/modals/PaymentModal.vue';
+import { ref, onMounted } from 'vue';
+import Info from '@/components/events/tickets/AttendeeInfo.vue';
+import Summary from '@/components/events/tickets/TicketSummary.vue';
+import { useRoute } from 'vue-router';
+import Api from '@/utils/api';
+import { useToast } from 'vue-toastification';
+import TicketSent from '@/components/modals/TicketSent.vue';
+import { type Event, type UserInfo } from '@/utils/types';
+import EventInfo from '@/components/events/EventInfo.vue';
+import { watch } from 'vue';
+import { usePaymentStore } from '@/stores/payment';
+import { useAuthStore } from '@/stores/auth';
+import SignInModal from '@/components/auth/SignIn.vue';
+import EmailSentModal from '@/components/auth/EmailCheck.vue';
 
-const route = useRoute()
-const toast = useToast()
-const { PAY, GET_EVENT_BY_REFERENCE } = Api()
+const route = useRoute();
+const toast = useToast();
+const { PAY, GET_EVENT_BY_REFERENCE } = Api();
 
-const event = ref<Event | null>(null)
-const isPayTime = ref(false)
-const isLoading = ref(true)
-const isTicketSent = ref(false)
-const emailAddress = ref('')
-const selectedTicket = ref<string>('')
-const ticketQuantities = ref<{ [key: string]: number }>({})
+const event = ref<Event | null>(null);
+const isPayTime = ref(false);
+const isLoading = ref(true);
+const isTicketSent = ref(false);
+const emailAddress = ref('');
+const selectedTicket = ref<string>('');
+const ticketQuantities = ref<{ [key: string]: number }>({});
+const showSignInModal = ref(false);
+const showEmailSentModal = ref(false);
 
-const eventReference = route.params.eventReference
+const eventReference = route.params.eventReference;
 const paymentStore = usePaymentStore();
+const authStore = useAuthStore();
 
+// Methods
 const togglePaymentPopup = () => {
-  isPayTime.value = !isPayTime.value
-}
+  isPayTime.value = !isPayTime.value;
+};
 
-watch(() => paymentStore.isPaymentPopup, (newValue, oldValue) => {
-  if(newValue) {
-    selectedTicket.value = paymentStore.selectedTicket
-    ticketQuantities.value = paymentStore.ticketQuantities
-    
-    togglePaymentPopup();
-    paymentStore.resetTicketInfo();
+const toggleSignInModal = () => {
+  showSignInModal.value = !showSignInModal.value;
+  isPayTime.value = false;
+};
+
+const emailModalToggle = () => {
+  showEmailSentModal.value = !showEmailSentModal.value;
+};
+
+watch(
+  () => paymentStore.isPaymentPopup,
+  (newValue) => {
+    if (newValue) {
+      selectedTicket.value = paymentStore.selectedTicket;
+      ticketQuantities.value = paymentStore.ticketQuantities;
+      togglePaymentPopup();
+      paymentStore.resetTicketInfo();
+    }
   }
-})
+);
 
 const ticketSentModal = () => {
-  isTicketSent.value = !isTicketSent.value
-}
+  isTicketSent.value = !isTicketSent.value;
+};
 
 const getEvents = async () => {
-  isLoading.value = true
+  isLoading.value = true;
 
   await fetch(`${GET_EVENT_BY_REFERENCE}/${eventReference}`, {
-    method: 'GET'
+    method: 'GET',
   })
     .then((res) => res.json())
     .then((response) => {
-      event.value = response
-      console.log(response)
-      isLoading.value = false
+      event.value = response;
+      isLoading.value = false;
     })
     .catch((error: any) => {
-      // toast.error('Error fetching event details')
-      // console.log(error)
-      isLoading.value = false
-    })
-}
+      toast.error('Error fetching event details');
+      isLoading.value = false;
+    });
+};
 
-const selectTicketByDefault = () => {
-  if (event.value?.tickets && event.value.tickets.length > 0) {
-    const firstTicket = event.value.tickets[0]
-    selectedTicket.value = firstTicket.name
-    ticketQuantities.value[firstTicket.name] = 1
+const checkAuthAndProceed = (value: UserInfo) => {
+  if (authStore.isAuthenticated) {
+    pay(value);
+  } else {
+    toggleSignInModal();
   }
-}
+};
 
 const pay = async (value: UserInfo) => {
   const payload = {
@@ -142,52 +170,40 @@ const pay = async (value: UserInfo) => {
     discountRecordReference: false,
     discounted: false,
     ticketType: selectedTicket.value,
-    eventReference: eventReference
-  }
-
-  console.log(payload);
+    eventReference: eventReference,
+  };
 
   try {
     const response = await fetch(`${PAY}`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(payload)
-    })
-
-    console.log(response);
-    
+      body: JSON.stringify(payload),
+    });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
+      throw new Error(`HTTP error! status: ${response.status}`);
     } else {
-      // @ts-ignore
       response.json().then((res) => {
-        if(res.data.url){
-          console.log(res.data);
-          window.location.href = res.data.url
+        if (res.data.url) {
+          window.location.href = res.data.url;
         } else {
           emailAddress.value = value.emailAddress;
           isTicketSent.value = true;
         }
         togglePaymentPopup();
-      })
+      });
     }
   } catch (error) {
-    toast.error('Payment Unsuccessful')
-    console.error('Payment failed', error)
-    togglePaymentPopup()
-  } finally {
-    // isDisabled.value = false
-    // emit('close')
+    toast.error('Payment Unsuccessful');
+    togglePaymentPopup();
   }
-}
+};
 
 onMounted(async () => {
-  await getEvents()
-  selectTicketByDefault()
-})
+  await getEvents();
+});
 </script>
 
 <style scoped>

@@ -1,7 +1,7 @@
 <template>
-  <EmailVerification />
+  <DecodeToken />
 </template>
 
 <script setup lang="ts">
-import EmailVerification from '@/components/auth/VerifyEmail.vue'
+import DecodeToken from '@/components/auth/DecodeToken.vue'
 </script>
