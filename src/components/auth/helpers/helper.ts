@@ -18,6 +18,7 @@ export const handleSignIn = async (email: string, AUTH: string, emit: any, authS
         emit('close')
         emit('emailSent');
         authStore.setEmail(email);
+        localStorage.setItem('email', email);
       }
   
     } catch (error) {

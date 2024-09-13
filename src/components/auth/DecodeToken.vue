@@ -48,9 +48,10 @@ const decodeTokenFromUrl = () => {
   if (token && typeof token === 'string') {
     const isValid = authStore.checkTokenValidity(token);
 
-    if (isValid && authStore.email === authStore.decodedEmail) {
+    if (isValid && localStorage.getItem('email') === authStore.decodedEmail) {
       console.log('Token is valid and email matches:', authStore.email);
       authStore.isAuthenticated = true;
+      authStore.setToken(token);
 
       let previousPage = localStorage.getItem('previousPage');
 

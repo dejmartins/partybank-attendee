@@ -93,8 +93,6 @@ const isTicketAvailable = (ticket: Ticket) => {
   const saleStartDate = new Date(`${ticket.ticket_sale_start_date}T${ticket.ticket_sale_start_time}`);
   const saleEndDate = new Date(`${ticket.ticket_sale_end_date}T${ticket.ticket_sales_end_time}`);
 
-  console.log(saleStartDate)
-  console.log(saleEndDate)
   return currentDate >= saleStartDate && currentDate <= saleEndDate;
 };
 

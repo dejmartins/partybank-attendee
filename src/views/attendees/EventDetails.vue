@@ -151,7 +151,7 @@ const getEvents = async () => {
 };
 
 const checkAuthAndProceed = (value: UserInfo) => {
-  if (authStore.isAuthenticated) {
+  if (authStore.isAuthenticated && authStore.checkTokenValidity(authStore.token)) {
     pay(value);
   } else {
     toggleSignInModal();
