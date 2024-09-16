@@ -63,6 +63,14 @@
       @click="togglePaymentPopup"
       additional-classes="bg-[var(--pb-c-blue)] text-white w-full py-2 mt-4 rounded-md"
     />
+
+    <SignInModal
+      v-if="showSignInModal"
+      @close="toggleSignInModal"
+      @email-sent="emailModalToggle"
+    />
+
+    <EmailSentModal v-if="showEmailSentModal" @close="emailModalToggle" />
   </div>
 </template>
 
@@ -73,6 +81,13 @@ import { type Event, type Ticket } from '@/utils/types';
 import { onMounted } from 'vue';
 import GetTicket from '@/components/buttons/ButtonComponent.vue';
 import { usePaymentStore } from '@/stores/payment';
+import { useAuthStore } from '@/stores/auth';
+import Api from '@/utils/api';
+import SignInModal from '@/components/auth/SignIn.vue';
+import EmailSentModal from '@/components/auth/EmailCheck.vue';
+
+const { RESERVE_TICKET } = Api();
+const authStore = useAuthStore();
 
 // Props
 const { event } = defineProps<{
@@ -81,6 +96,8 @@ const { event } = defineProps<{
 
 const selectedTicket = ref<string>('');
 const ticketQuantities = ref<{ [key: string]: number }>({});
+const showSignInModal = ref(false);
+const showEmailSentModal = ref(false);
 const paymentStore = usePaymentStore();
 
 const hasPerks = computed(() => {
@@ -94,6 +111,14 @@ const isTicketAvailable = (ticket: Ticket) => {
   const saleEndDate = new Date(`${ticket.ticket_sale_end_date}T${ticket.ticket_sales_end_time}`);
 
   return currentDate >= saleStartDate && currentDate <= saleEndDate;
+};
+
+const toggleSignInModal = () => {
+  showSignInModal.value = !showSignInModal.value;
+};
+
+const emailModalToggle = () => {
+  showEmailSentModal.value = !showEmailSentModal.value;
 };
 
 const selectTicket = (ticketName: string) => {
@@ -126,13 +151,44 @@ const selectTicketByDefault = () => {
   }
 };
 
+const reserveTicket = async () => {
+  await fetch(RESERVE_TICKET, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: authStore.decodedEmail,
+        numberOfTickets: ticketQuantities.value[selectedTicket.value],
+        ticketType: selectedTicket.value,
+        eventReference: event?.event_reference
+      }),
+  })
+    .then((res) => res.json())
+    .then((response) => {
+      console.log({
+        email: authStore.decodedEmail,
+        numberOfTickets: ticketQuantities.value[selectedTicket.value],
+        ticketType: selectedTicket.value,
+        eventReference: event?.event_reference
+      }, 'payload')
+      console.log(response)
+    })
+}
+
 onMounted(() => {
   selectTicketByDefault();
 });
 
 const togglePaymentPopup = () => {
-  updateTicketInfo();
-  paymentStore.openPaymentPopup();
+  if (authStore.isAuthenticated && authStore.checkTokenValidity(authStore.token)) {
+    reserveTicket();
+  
+    updateTicketInfo();
+    paymentStore.openPaymentPopup();
+  } else {
+    toggleSignInModal();
+  }
 };
 
 const updateTicketInfo = () => {

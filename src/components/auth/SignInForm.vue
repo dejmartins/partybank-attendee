@@ -20,6 +20,12 @@
         additionalLoaderClasses="border-2 border-t-[var(--pb-c-blue)]"
       />
     </form>
+
+    <button class="border border-black w-full mt-2 p-2 cursor-pointer"
+      @click="signInWithGoogle"
+    >
+      Sign In With Google
+    </button>
   </div>
 </template>
 
@@ -31,7 +37,7 @@ import { handleSignIn } from './helpers/helper';
 import { useRouter } from 'vue-router';
 import Button from '../buttons/LoaderButton.vue';
 
-const { AUTH } = Api();
+const { AUTH, GOOGLE_AUTH } = Api();
 
 const authStore = useAuthStore();
 
@@ -70,6 +76,17 @@ const signIn = async () => {
 
     userInfo.email = '';
   }
+};
+
+const signInWithGoogle = async () => {
+  storeCurrentPage();
+  
+  const response = await fetch(GOOGLE_AUTH, {
+    method: 'GET'
+  })
+
+  const data = response.json();
+  console.log(data)
 };
 
 

@@ -150,6 +150,7 @@ const getEvents = async () => {
     });
 };
 
+
 const checkAuthAndProceed = (value: UserInfo) => {
   if (authStore.isAuthenticated && authStore.checkTokenValidity(authStore.token)) {
     pay(value);
@@ -160,7 +161,7 @@ const checkAuthAndProceed = (value: UserInfo) => {
 
 const pay = async (value: UserInfo) => {
   const payload = {
-    email: value.emailAddress,
+    email: authStore.decodedEmail,
     phoneNumber: value.phoneNumber,
     city: value.location,
     emailValidated: value.emailValidated,
@@ -189,7 +190,7 @@ const pay = async (value: UserInfo) => {
         if (res.data.url) {
           window.location.href = res.data.url;
         } else {
-          emailAddress.value = value.emailAddress;
+          emailAddress.value = authStore.decodedEmail;
           isTicketSent.value = true;
         }
         togglePaymentPopup();
