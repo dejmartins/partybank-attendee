@@ -16,16 +16,17 @@
         action="Continue" 
         :loading="isLoading" 
         :disabled="isLoading" 
-        additional-classes="mt-16 text-white w-full bg-[var(--pb-c-blue)]"
+        additional-classes="mt-10 text-white w-full bg-[var(--pb-c-blue)]"
         additionalLoaderClasses="border-2 border-t-[var(--pb-c-blue)]"
       />
     </form>
-
-    <button class="border border-black w-full mt-2 p-2 cursor-pointer"
-      @click="signInWithGoogle"
-    >
-      Sign In With Google
-    </button>
+    
+    <GoogleLogin
+      :clientId="googleClientId"
+      :onSuccess="handleGoogleSuccess"
+      :onFailure="handleGoogleFailure"
+      class="w-full mt-3"
+    />
   </div>
 </template>
 
@@ -36,11 +37,10 @@ import { useAuthStore } from '@/stores/auth';
 import { handleSignIn } from './helpers/helper';
 import { useRouter } from 'vue-router';
 import Button from '../buttons/LoaderButton.vue';
+import { GoogleLogin } from 'vue3-google-login';
 
 const { AUTH, GOOGLE_AUTH } = Api();
-
 const authStore = useAuthStore();
-
 const router = useRouter();
 
 const userInfo = reactive({
@@ -54,8 +54,9 @@ const error = reactive({
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const emit = defineEmits(['emailSent', 'close']);
-
 const isLoading = ref(false);
+
+const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 // Methods
 const validateUserInfo = () => {
@@ -78,17 +79,29 @@ const signIn = async () => {
   }
 };
 
-const signInWithGoogle = async () => {
-  storeCurrentPage();
-  
-  const response = await fetch(GOOGLE_AUTH, {
-    method: 'GET'
-  })
+const handleGoogleSuccess = async (response: any) => {
+  try {
+    console.log('Google login success:', response);
 
-  const data = response.json();
-  console.log(data)
+    // const res = await fetch(GOOGLE_AUTH, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({ token: response.tokenId }),
+    // });
+
+    // const data = await res.json();
+    // console.log('Backend response:', data);
+
+  } catch (error) {
+    console.error('Error during Google login:', error);
+  }
 };
 
+const handleGoogleFailure = (error: any) => {
+  console.error('Google login failed:', error);
+};
 
 const storeCurrentPage = () => {
   const currentPage = router.currentRoute.value.fullPath;
