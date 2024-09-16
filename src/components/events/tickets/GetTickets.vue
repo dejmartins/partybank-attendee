@@ -145,11 +145,25 @@ const decrementTicket = (ticketName: string) => {
 
 const selectTicketByDefault = () => {
   if (event?.tickets && event.tickets.length > 0) {
-    const firstTicket = event.tickets[0];
-    selectedTicket.value = firstTicket.name;
-    ticketQuantities.value[firstTicket.name] = 1;
+    const currentDate = new Date();
+
+    const availableTickets = event.tickets.filter((ticket) => {
+      const startDate = new Date(ticket.ticket_sale_start_date);
+      const endDate = new Date(ticket.ticket_sale_end_date);
+      
+      return currentDate >= startDate && currentDate <= endDate;
+    });
+
+    if (availableTickets.length > 0) {
+      const firstTicket = availableTickets[0];
+      selectedTicket.value = firstTicket.name;
+      ticketQuantities.value[firstTicket.name] = 1;
+    } else {
+      console.log('No tickets available for selection.');
+    }
   }
 };
+
 
 const reserveTicket = async () => {
   await fetch(RESERVE_TICKET, {
