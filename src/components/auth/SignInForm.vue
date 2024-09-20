@@ -20,13 +20,8 @@
         additionalLoaderClasses="border-2 border-t-[var(--pb-c-blue)]"
       />
     </form>
-    
-    <GoogleLogin
-      :clientId="googleClientId"
-      :onSuccess="handleGoogleSuccess"
-      :onFailure="handleGoogleFailure"
-      class="w-full mt-3"
-    />
+
+    <button @click="handleGoogleSuccess">Google Login</button>
   </div>
 </template>
 
@@ -37,7 +32,6 @@ import { useAuthStore } from '@/stores/auth';
 import { handleSignIn } from './helpers/helper';
 import { useRouter } from 'vue-router';
 import Button from '../buttons/LoaderButton.vue';
-import { GoogleLogin } from 'vue3-google-login';
 
 const { AUTH, GOOGLE_AUTH } = Api();
 const authStore = useAuthStore();
@@ -55,8 +49,6 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const emit = defineEmits(['emailSent', 'close']);
 const isLoading = ref(false);
-
-const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 // Methods
 const validateUserInfo = () => {
@@ -83,16 +75,13 @@ const handleGoogleSuccess = async (response: any) => {
   try {
     console.log('Google login success:', response);
 
-    // const res = await fetch(GOOGLE_AUTH, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({ token: response.tokenId }),
-    // });
+    const res = await fetch(GOOGLE_AUTH, {
+      method: 'GET',
+    });
 
-    // const data = await res.json();
-    // console.log('Backend response:', data);
+    const data = await res.json();
+    console.log('Backend response:', data);
+    window.location.href = data.data;
 
   } catch (error) {
     console.error('Error during Google login:', error);
@@ -101,6 +90,10 @@ const handleGoogleSuccess = async (response: any) => {
 
 const handleGoogleFailure = (error: any) => {
   console.error('Google login failed:', error);
+};
+
+const handleLoginError = () => {
+  console.error("Login failed");
 };
 
 const storeCurrentPage = () => {
