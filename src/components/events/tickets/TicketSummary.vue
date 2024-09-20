@@ -1,7 +1,7 @@
 <template>
     <div class="ticket-summary-container">
       <div class="event-details">
-        <div class="event-image" :style="{ backgroundImage: `url(${eventImage})` }"></div>
+        <div class="event-image" :style="{ backgroundImage: `url(${eventImage ? eventImage : defaultImage})` }"></div>
         <div class="event-info">
           <p class="event-name">{{ eventName }}</p>
           <p class="event-date">{{ currentDate }}</p>
@@ -43,6 +43,7 @@
   </template>
   
   <script setup lang="ts">
+  import defaultImage from '/defaultImage.png'
   import { ref, watch } from 'vue'
   import moment from 'moment'
   

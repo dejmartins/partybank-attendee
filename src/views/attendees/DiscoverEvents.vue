@@ -37,7 +37,7 @@
           v-for="event in filteredEvents"
           :key="event.id"
           :eventId="event.event_reference"
-          :imageUrl="event.eventImage"
+          :imageUrl="event.image_url"
           :series_logo="event.series_logo"
           :location="event.venue"
           :status="event.status"
@@ -52,7 +52,7 @@
 
 
 <script setup lang="ts">
-import EventCard from '@/components/main/EventCard.vue'
+import EventCard from '@/components/events/EventCard.vue'
 import NoEvent from '@/components/events/NoEvent.vue'
 import { ref, onMounted, computed } from 'vue'
 import Api from '@/utils/api'
@@ -64,8 +64,8 @@ import moment from 'moment'
 const toast = useToast()
 const isLoading = ref(false)
 const events = ref<Array<Event>>([])
-const selectedCity = ref('Warri')
-const cities = ref(['Warri', 'Asaba', 'PHC'])
+const selectedCity = ref('Asaba')
+const cities = ref(['Asaba', 'Port-Harcourt'])
 const visibleCities = ref(cities.value.slice(0, 3))
 const { DISCOVER_EVENTS } = Api()
 
@@ -83,7 +83,7 @@ const getEvents = async () => {
     .then((res) => res.json())
     .then((response) => {
       events.value = response
-      // console.log(response)
+      console.log(response)
       isLoading.value = false
     })
     .catch((error: any) => {

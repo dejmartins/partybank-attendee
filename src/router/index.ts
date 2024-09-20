@@ -34,24 +34,19 @@ const router = createRouter({
     {
       path: '/:eventReference/validate',
       name: 'validate',
-      component: () => import('@/views/organizers/ValidateTicket.vue'),
+      component: () => import('@/views/ticketers/ValidateTicket.vue'),
       meta: { requiresAuth: true }
     },
     {
       path: '/:eventReference/admin',
       name: 'admin',
-      component: () => import('@/views/organizers/TicketterAccess.vue')
+      component: () => import('@/views/ticketers/TicketterAccess.vue')
     },
     {
-      path: '/forgotPassword',
-      name: 'forgot-password',
-      component: () => import('@/views/attendees/auth/ForgotPassword.vue')
-    },
-    {
-      path: '/resetPassword',
-      name: 'reset-password',
-      component: () => import('@/views/attendees/auth/ResetPassword.vue')
-    },
+      path: '/validate-token',
+      name: 'validate-token',
+      component: () => import('@/views/attendees/auth/ValidateToken.vue')
+    }
   ]
 })
 
@@ -76,6 +71,16 @@ router.beforeEach(async (to) => {
       name: 'admin',
       query: { redirect: to.fullPath }
     }
+  }
+})
+
+router.beforeEach(async (to, from, next) => {
+  const authenticated = false;
+
+  if (to.name === 'verify-email' && !authenticated) {
+    next({ name: 'home' });
+  } else {
+    next();
   }
 })
 

@@ -1,70 +1,114 @@
 <template>
-    <div class="w-full">
-      <form @submit.prevent="handleSignUp">
-        <div class="">
-          <input
-            type="email"
-            id="email"
-            v-model="email"
-            required
-            class="mt-1 p-2 w-full rounded-md outline-0 focus:ring-1 focus:ring-[var(--pb-c-blue)]"
-            placeholder="Enter your email"
-          />
-        </div>
-  
-        <div class="">
-          <input
-            type="password"
-            id="password"
-            v-model="password"
-            required
-            class="mt-1 p-2 w-full rounded-md outline-0 focus:ring-1 focus:ring-[var(--pb-c-blue)]"
-            placeholder="Enter your password"
-          />
-        </div>
+  <div class="w-full">
+    <form @submit.prevent="signIn">
+      <div>
+        <input
+          type="email"
+          id="email"
+          v-model="userInfo.email"
+          class="mt-5 p-2 w-full rounded-md outline-0 focus:ring-1 focus:ring-[var(--pb-c-blue)]"
+          placeholder="Enter your email address"
+          :class="{ error: error.emailError }"
+        />
+      </div>
 
-        <RouterLink to="/forgotPassword">
-            <p class="text-right text-sm text-[var(--pb-c-blue)] mb-32 hover:underline cursor-pointer">Forgot Password?</p>
-        </RouterLink>
-  
-        <button
-          type="submit"
-          class="w-full cursor-pointer bg-[var(--pb-c-blue)] text-white py-2 rounded-md hover:bg-blue-600 transition-colors mb-3"
-        >
-          Continue
-        </button>
-      </form>
-    </div>
+      <Button 
+        action="Continue" 
+        :loading="isLoading" 
+        :disabled="isLoading" 
+        additional-classes="mt-10 text-white w-full bg-[var(--pb-c-blue)]"
+        additionalLoaderClasses="border-2 border-t-[var(--pb-c-blue)]"
+      />
+    </form>
+
+    <button @click="handleGoogleSuccess">Google Login</button>
+  </div>
 </template>
-  
+
 <script setup lang="ts">
-import { ref } from 'vue';
-import { RouterLink } from 'vue-router';
+import { reactive, computed, defineEmits, ref } from 'vue';
+import Api from '@/utils/api';
+import { useAuthStore } from '@/stores/auth';
+import { handleSignIn } from './helpers/helper';
+import { useRouter } from 'vue-router';
+import Button from '../buttons/LoaderButton.vue';
 
-const email = ref('');
-const phone = ref('');
-const password = ref('');
-const confirmPassword = ref('');
+const { AUTH, GOOGLE_AUTH } = Api();
+const authStore = useAuthStore();
+const router = useRouter();
 
-const handleSignUp = () => {
-    if (password.value !== confirmPassword.value) {
-        alert('Passwords do not match!');
-        return;
-    }
+const userInfo = reactive({
+  email: '',
+});
 
-    alert(`Sign-Up successful for ${email.value} with phone ${phone.value}!`);
+const error = reactive({
+  emailError: false,
+});
 
-    email.value = '';
-    phone.value = '';
-    password.value = '';
-    confirmPassword.value = '';
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const emit = defineEmits(['emailSent', 'close']);
+const isLoading = ref(false);
+
+// Methods
+const validateUserInfo = () => {
+  error.emailError = userInfo.email === '' || !emailRegex.test(userInfo.email);
 };
+
+const signIn = async () => {
+  validateUserInfo();
+
+  if (isUserInfoValidated.value) {
+    storeCurrentPage();
+    
+    isLoading.value = true;
+    await handleSignIn(userInfo.email, AUTH, emit, authStore)
+      .finally(() => {
+        isLoading.value = false;
+      });
+
+    userInfo.email = '';
+  }
+};
+
+const handleGoogleSuccess = async (response: any) => {
+  try {
+    console.log('Google login success:', response);
+
+    const res = await fetch(GOOGLE_AUTH, {
+      method: 'GET',
+    });
+
+    const data = await res.json();
+    console.log('Backend response:', data);
+    window.location.href = data.data;
+
+  } catch (error) {
+    console.error('Error during Google login:', error);
+  }
+};
+
+const handleGoogleFailure = (error: any) => {
+  console.error('Google login failed:', error);
+};
+
+const handleLoginError = () => {
+  console.error("Login failed");
+};
+
+const storeCurrentPage = () => {
+  const currentPage = router.currentRoute.value.fullPath;
+  localStorage.setItem('previousPage', currentPage);
+};
+
+// Computed Properties
+const isUserInfoValidated = computed(() => {
+  return !error.emailError;
+})
 </script>
 
 <style scoped>
-.sign-up-container {
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
+.error {
+  border-color: red;
 }
 </style>

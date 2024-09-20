@@ -6,8 +6,7 @@
       >
         <img class="logo h-10 z-50 cursor-pointer" src="@/assets/logo.svg" alt="Partybank Logo" />
         <div class="flex gap-2">
-          <RoundedButton :disabled="isDisabled" action="Sign In" @click="showSignIn" class="flex justify-center font-[700] bg-[--pb-c-bright-blue] text-[var(--pb-c-blue)]"></RoundedButton>
-          <RoundedButton :disabled="isDisabled" action="Create Account" @click="showSignUp" class="flex justify-center font-[700] bg-[--pb-c-blue] text-[color:var(--pb-c-white)] hidden md:block"></RoundedButton>
+          <RoundedButton :disabled="isDisabled" action="Sign In" @click="showSignIn" class="flex w-28 justify-center font-[700] bg-[--pb-c-bright-blue] text-[var(--pb-c-blue)]"></RoundedButton>
         </div>
       </div>
 
@@ -48,20 +47,28 @@
       </div>
     </div>
 
-    <AuthModal v-if="showModal" :is-sign-up="isSignUp" @close="closeModal" />
+    <AuthModal 
+        v-if="showModal" 
+        @close="closeModal"
+        @email-sent="emailModalToggle"
+    />
+
+    <EmailCheck v-if="showEmailSentModal" @close="emailModalToggle" />
+    
   </div>
 </template>
 
 <script setup lang="ts">
 import RoundedButton from '@/components/buttons/RoundedButton.vue';
 import AuthModal from '@/components/auth/SignIn.vue';
+import EmailCheck from '@/components/auth/EmailCheck.vue';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 const isDisabled = ref(false);
 const isBgLoaded = ref(false);
 const showModal = ref(false);
-const isSignUp = ref(false); 
+const showEmailSentModal = ref(false);
 const router = useRouter();
 
 const bgImageSrc = 'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/attendee-landing-bg_pbptyw.avif';
@@ -73,12 +80,6 @@ const discover = () => {
 };
 
 const showSignIn = () => {
-  isSignUp.value = false;
-  showModal.value = true;
-};
-
-const showSignUp = () => {
-  isSignUp.value = true;
   showModal.value = true;
 };
 
@@ -88,6 +89,10 @@ const handleBgLoad = () => {
 
 const closeModal = () => {
   showModal.value = false;
+};
+
+const emailModalToggle = () => {
+  showEmailSentModal.value = !showEmailSentModal.value;
 };
 
 onMounted(() => {

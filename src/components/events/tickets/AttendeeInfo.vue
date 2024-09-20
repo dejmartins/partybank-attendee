@@ -51,19 +51,11 @@
         </div>
       </Listbox>
     </div>
-    <!-- <div class="form-group" :class="{ error: error.emailError }">
-      <label class="form-label font-bold">Email Address:</label>
-      <input v-model="userInfo.emailAddress" type="email" class="form-input" />
-    </div>
     <div class="form-group" :class="{ error: error.phoneError }">
       <label class="form-label font-bold">Phone Number:</label>
       <input v-model="userInfo.phoneNumber" type="tel" class="form-input" maxlength="15" @input="filterNonDigits" />
-    </div> -->
+    </div>
     <div class="flex flex-col">
-      <!-- <label class="flex items-center text-gray-300">
-        <input type="checkbox" v-model="emailValidated" class="w-[10px] h-[10px] md:w-[15px] md:h-[15px] mr-[10px] mt-[15px] text-[10px]" />
-        I confirm my Email Address is correct
-      </label> -->
       <label class="flex items-center text-gray-300">
         <input type="checkbox" v-model="isAdult" class="w-[10px] h-[10px] md:w-[15px] md:h-[15px] mr-[10px] mt-[15px] text-[10px]" />
         I confirm I am 18 years old or older
@@ -93,26 +85,21 @@ const locations = [
   { id: 5, name: 'Calabar', unavailable: false }
 ]
 const selectedLocation = ref(locations[0])
-let emailRegex = ref(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
 const phoneRegex = ref(/^\+?\d{11,14}$/)
 const emit = defineEmits(['proceed'])
 const isDisabled = ref<boolean>(false)
-const emailValidated = ref<boolean>(false)
 const isAdult = ref<boolean>(false)
 
 const userInfo = reactive({
-  emailAddress: '',
   phoneNumber: ''
 })
 
 const error = reactive({
-  phoneError: false,
-  emailError: false
+  phoneError: false
 })
 
 // Methods
 const validateUserInfo = () => {
-  error.emailError = userInfo.emailAddress === '' || !emailRegex.value.test(userInfo.emailAddress)
   error.phoneError = userInfo.phoneNumber === '' || !phoneRegex.value.test(userInfo.phoneNumber)
 }
 
@@ -129,8 +116,7 @@ const proceedToPayment = () => {
     isDisabled.value = true
     emit('proceed', { 
       ...userInfo, 
-      location: selectedLocation.value.name, 
-      emailValidated: emailValidated.value, 
+      location: selectedLocation.value.name,
       termsAndConditionsAccepted: isAdult.value 
     })
   }
@@ -138,7 +124,7 @@ const proceedToPayment = () => {
 
 // Computed Properties
 const isUserInfoValidated = computed(() => {
-  return !error.emailError && !error.phoneError && isAdult.value && emailValidated.value
+  return !error.phoneError && isAdult.value;
 })
 </script>
 

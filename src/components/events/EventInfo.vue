@@ -7,7 +7,7 @@
               class="event-image w-full"
               :style="{
                 backgroundImage:
-                  'url(' + (event?.eventImage || '/defaultImage.png') + ')'
+                  'url(' + (event?.image_url || '/defaultImage.png') + ')'
               }"
             ></div>
           </div>
@@ -15,7 +15,7 @@
           <div class="event-info mt-5">
             <p class="font-light">Hosted By</p>
             <hr class="mb-[10px]" />
-            <p class="font-semibold">{{ event?.date }}</p>
+            <p class="font-semibold">{{ event?.created_by }}</p>
             <a href="#" class="text-gray-400 text-sm font-bold block">Contact the Host</a>
           </div>
         </div>
@@ -26,7 +26,7 @@
           <div>
             <div class="text-gray-500 mt-3 leading-7">
               <a
-                :href="event?.mapUrl"
+                :href="event?.map_url"
                 target="_blank"
                 class="location flex items-center"
               >
@@ -39,6 +39,7 @@
                 {{ moment(event?.date).format('MMMM Do, YYYY') }}
               </p>
 
+              <!-- Format time to am/pm -->
               <p>
                 <fa-icon class="mr-1" :icon="['far', 'clock']" style="color: #b0b0b0" />
                 {{ event?.time }}
@@ -62,7 +63,7 @@
               <hr class="my-2" />
               <div class="mt-4">
                 <iframe
-                  :src="event?.mapEmbeddedUrl"
+                  :src="event?.map_embedded_url"
                   width="100%"
                   height="250"
                   style="border-radius: 10px"
@@ -79,7 +80,7 @@
 
 <script setup lang="ts">
 import { type Event } from '@/utils/types';
-import Tickets from '@/components/layouts/GetTickets.vue'
+import Tickets from '@/components/events/tickets/GetTickets.vue'
 import moment from 'moment';
 
 defineProps<{

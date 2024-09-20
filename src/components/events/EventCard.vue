@@ -43,7 +43,7 @@ defineProps<{
   eventDate: string;
   eventName: string;
   location: string;
-  series_logo: string;
+  series_logo: string | undefined;
   status?: string;
 }>();
 </script>
