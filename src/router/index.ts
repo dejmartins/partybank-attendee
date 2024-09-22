@@ -12,7 +12,12 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('@/views/attendees/HomeView.vue')
+      component: () => import('@/views/HomePage.vue')
+    },
+    {
+      path: '/signin',
+      name: 'sign-in',
+      component: () => import('@/views/auth/SignIn.vue')
     },
     {
       path: '/discover',
@@ -45,7 +50,7 @@ const router = createRouter({
     {
       path: '/validate-token',
       name: 'validate-token',
-      component: () => import('@/views/attendees/auth/ValidateToken.vue')
+      component: () => import('@/views/auth/ValidateToken.vue')
     }
   ]
 })
