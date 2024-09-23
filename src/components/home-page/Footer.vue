@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import { RouterLink } from 'vue-router';
+</script>
+
 <template>
     <footer class="bg-[#1D0509] text-[#FBD1D9] mt-10">
         <div class="p-12 container mx-auto flex flex-col md:flex-row justify-between gap-12 text-center md:text-left">
@@ -8,7 +12,7 @@
               </div>
               <ul class="space-y-2">
                 <li><a href="#" class="hover:text-white">About Us</a></li>
-                <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                <li><RouterLink to="/policy" class="hover:text-white">Privacy Policy</RouterLink></li>
                 <li><a href="#" class="hover:text-white">Terms and Conditions</a></li>
               </ul>
             </div>
@@ -70,5 +74,5 @@
         <div className="mt-16 text-center text-sm pb-12">
             © 2024 PartyBank. All rights reserved.
         </div>
-        </footer>
+    </footer>
 </template>
