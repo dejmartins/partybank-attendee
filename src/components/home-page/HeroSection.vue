@@ -4,10 +4,10 @@
       >
         <div class="absolute inset-0 bg-black opacity-80 rounded-b-[30px]"></div>
   
-        <div class="relative z-10 text-center flex flex-col items-center">
-            <h1 class="text-4xl md:text-6xl mb-8 transform rotate-[-1deg]">
+        <div class="z-10 text-center flex flex-col items-center">
+            <h1 class="text-3xl md:text-6xl my-8 transform rotate-[-2deg]">
                 <span class="font-bold inline-block">Celebrations secured,</span> <br />
-                <span class="block mt-3 font-bold text-3xl md:text-6xl">
+                <span class="block mt-3 font-bold text-2xl md:text-6xl">
                     Best 
                     <span 
                         class="relative inline-block text-[var(--pb-c-red)] italic" 
@@ -17,6 +17,7 @@
                     deposited
                 </span>
             </h1>
+
   
             <p class="text-lg md:text-xl mb-12 max-w-lg mx-auto">
                 Where every ticket holds a celebration
@@ -28,7 +29,7 @@
                 </RouterLink>
             </div>
 
-            <div class="organizer-core bg-[color:var(--pb-c-white)] w-[50vw] flex justify-between items-center rounded-full p-3 px-8 mt-16">
+            <div class="organizer-core bg-[color:var(--pb-c-white)] w-[50vw] flex justify-between items-center rounded-full p-3 px-8 mt-24">
                 <div class="flex mr-2 profile-container">
                     <div
                         class="profile-icon"
