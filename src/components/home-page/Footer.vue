@@ -11,9 +11,9 @@ import { RouterLink } from 'vue-router';
                 <h4 class="text-xl font-bold">Company</h4>
               </div>
               <ul class="space-y-2">
-                <li><a href="#" class="hover:text-white">About Us</a></li>
+                <!-- <li><a href="#" class="hover:text-white">About Us</a></li> -->
                 <li><RouterLink to="/policy" class="hover:text-white">Privacy Policy</RouterLink></li>
-                <li><a href="#" class="hover:text-white">Terms and Conditions</a></li>
+                <li><RouterLink to="/termsandconditions" class="hover:text-white">Terms and Conditions</RouterLink></li>
               </ul>
             </div>
 
@@ -24,7 +24,7 @@ import { RouterLink } from 'vue-router';
               </div>
               <ul class="space-y-2">
                 <li><a href="https://organizer.thepartybank.com/" class="hover:text-white">Create Event</a></li>
-                <li><a href="#" class="hover:text-white">Attend Event</a></li>
+                <li><a href="https://thepartybank.com/discover" class="hover:text-white">Attend Event</a></li>
               </ul>
             </div>
 
@@ -34,7 +34,6 @@ import { RouterLink } from 'vue-router';
                 <h4 class="text-xl font-bold">Support</h4>
               </div>
               <ul class="space-y-2">
-                <li><a href="#" class="hover:text-white">Terms and Conditions</a></li>
                 <li><a href="mailto:partybankexperience@gmail.com" class="hover:text-white">Email Us</a></li>
               </ul>
             </div>

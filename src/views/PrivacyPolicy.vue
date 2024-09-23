@@ -33,7 +33,7 @@
                 <ul class="list-disc list-inside space-y-4 mt-4">
                     <li>Provide Services: Manage your account and transactions.</li>
                     <li>Communicate with You: Send updates, notifications, and confirmations.</li>
-                    <li>Improve Our Platform: Analyze usage to enhance the platform’s performance.</li>
+                    <li>Improve Our Platform: Analyze usage to enhance the platform&apos;s performance.</li>
                     <li>Marketing: Send promotional materials with your consent.</li>
                     <li>Security and Fraud Prevention: Safeguard your data and prevent fraud.</li>
                 </ul>
