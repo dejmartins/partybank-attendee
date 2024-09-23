@@ -1,15 +1,15 @@
 <template>
     <section class="py-16 bg-[#FFFFFF] my-5 rounded-[20px]">
-      <div class="container mx-auto px-3 md:px-6">
-        <p class="text-[24px] md:text-[50px] font-[300] text-center mb-3">
-          More than <span class="italic font-[700]">memories</span> created
-        </p>
-        <p class="text-[15px] md:text-[18px] text-center mb-12 max-w-3xl mx-auto font-[300] text-[color:var(--pb-c-black-soft)]">
-          Stay in the loop with the hottest events happening daily on PartyBank. Don&apos;t miss the chance to discover unforgettable experiences and exciting moments, wherever you are!
-        </p>
-      </div>
+        <div class="container mx-auto px-3 md:px-6">
+            <p class="text-[24px] md:text-[50px] font-[300] text-center mb-3">
+            More than <span class="italic font-[700]">memories</span> created
+            </p>
+            <p class="text-[15px] md:text-[18px] text-center mb-12 max-w-3xl mx-auto font-[300] text-[color:var(--pb-c-black-soft)]">
+            Stay in the loop with the hottest events happening daily on Partybank. Don&apos;t miss the chance to discover unforgettable experiences and exciting moments, wherever you are!
+            </p>
+        </div>
   
-      <div class="container mx-auto px-3 md:px-6 flex flex-col justify-between items-center">
+        <div class="container mx-auto px-3 md:px-6 flex flex-col justify-between items-center">
             <div class="flex flex-col md:flex-row gap-5">
                 <div class="flex flex-col w-full md:w-[500px] gap-5">
                     <div class="rounded-[30px] bg-cover p-6 flex-grow flex flex-col justify-center items-center"
@@ -17,21 +17,21 @@
                         <div class="flex mr-2">
                             <div
                                 class="profile-icon"
-                                v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/EUPHORIA_ASABA_drzuhq.avif'"
+                                v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1727074881/PARTYBANK/abstral-official-B6cciwK4tZk-unsplash_jxpouo.jpg'"
                             ></div>
                             <div
                                 class="profile-icon"
-                                v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653098/PARTYBANK/Rave_Experience_Port-Harcourt_c5redm.avif'"
+                                v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1727074882/PARTYBANK/aliane-schwartzhaupt-2Y2NvdlSTls-unsplash_duizot.jpg'"
                                 style="margin-left: -10px;"
                             ></div>
                             <div
                                 class="profile-icon"
-                                v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653097/PARTYBANK/euphoria_jds29k_o4spxf.avif'"
+                                v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1727074880/PARTYBANK/abstral-official-YmARYcXP6xc-unsplash_vvijgq.jpg'"
                                 style="margin-left: -10px;"
                             ></div>
                             <div
                                 class="profile-icon"
-                                v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653097/PARTYBANK/euphoria_jds29k_o4spxf.avif'"
+                                v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1727074872/PARTYBANK/jeff-tumale-2vSYfLxQ6UE-unsplash_byxtoe.jpg'"
                                 style="margin-left: -10px;"
                             ></div>
                         </div>
@@ -65,7 +65,7 @@
                     </p>
                 </div>
             </div>
-      </div>
+        </div>
     </section>
 </template>
 
