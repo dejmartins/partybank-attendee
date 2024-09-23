@@ -2,16 +2,16 @@
     <section class="py-16 bg-[#FFFFFF] my-5 rounded-[20px]">
         <div class="container mx-auto px-3 md:px-6">
             <p class="text-[24px] md:text-[50px] font-[300] text-center mb-3">
-            More than <span class="italic font-[700]">memories</span> created
+                More than <span class="italic font-[700]">memories</span> created
             </p>
             <p class="text-[15px] md:text-[18px] text-center mb-12 max-w-3xl mx-auto font-[300] text-[color:var(--pb-c-black-soft)]">
-            Stay in the loop with the hottest events happening daily on Partybank. Don&apos;t miss the chance to discover unforgettable experiences and exciting moments, wherever you are!
+                Stay in the loop with the hottest events happening daily on Partybank. Don&apos;t miss the chance to discover unforgettable experiences and exciting moments, wherever you are!
             </p>
         </div>
   
         <div class="container mx-auto px-3 md:px-6 flex flex-col justify-between items-center">
             <div class="flex flex-col md:flex-row gap-5">
-                <div class="flex flex-col w-full md:w-[500px] gap-5">
+                <div class="flex flex-col w-full gap-5 w-full md:w-1/2">
                     <div class="rounded-[30px] bg-cover p-6 flex-grow flex flex-col justify-center items-center"
                         v-lazy:background-image="'/defaultRemix.png'">
                         <div class="flex mr-2">
@@ -41,15 +41,21 @@
                         </p>
                     </div>
 
-                    <div class="bg-gray-200 rounded-lg p-6 flex-grow">
-                        <h3 class="text-xl font-semibold">Card 2 Title</h3>
-                        <p class="mt-2">
-                            Some description for the second card. More event-related content.
+                    <div class="relative bg-[#4E0916] rounded-[30px] p-6 flex flex-col flex-grow w-full justify-center items-center">
+                        <div class="absolute top-0 left-0 h-[90px] w-[90px] border-b-8 border-r-8 rounded-br-full border-white"></div>
+                        <div class="absolute bottom-0 right-0 h-[90px] w-[90px] border-t-8 border-l-8 rounded-tl-full border-white"></div>
+                        <img 
+                            src="/logo-white.png" 
+                            alt="PartyBank Logo" 
+                            className="w-[90px]"
+                        />
+                        <p class="mt-3 px-8 text-white text-center font-[200]">
+                            Get ready for an unforgettable experience, and enjoy the best moments!
                         </p>
                     </div>
                 </div>
         
-                <div class="bg-[#F9F8F7] border border-[#CED2FE] rounded-[30px] p-3 w-full md:w-[500px] md:h-full h-full">
+                <div class="bg-[#F9F8F7] border border-[#CED2FE] rounded-[30px] p-3 w-full md:w-1/2 md:h-full">
                     <div class="rounded-[30px] h-56 md:h-64 bg-center"
                         v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1727033775/PARTYBANK/Frame_1000002156_i9yg3i.png'"
                     >

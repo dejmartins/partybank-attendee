@@ -5,9 +5,9 @@
         <div class="absolute inset-0 bg-black opacity-80 rounded-b-[30px]"></div>
   
         <div class="z-10 text-center flex flex-col items-center">
-            <h1 class="text-3xl md:text-6xl my-8 transform rotate-[-2deg]">
+            <h1 class="text-3xl md:text-6xl my-8 transform md:rotate-[-2deg]">
                 <span class="font-bold inline-block">Celebrations secured,</span> <br />
-                <span class="block mt-3 font-bold text-2xl md:text-6xl">
+                <span class="block mt-3 font-bold text-[28px] md:text-6xl">
                     Best 
                     <span 
                         class="relative inline-block text-[var(--pb-c-red)] italic" 
@@ -25,7 +25,7 @@
   
             <div class="flex gap-4">
                 <RouterLink to="/discover" class="bg-[var(--pb-c-red)] text-white font-[500] border-[2px] border-[#4E0916] p-3 rounded-[8px] px-10 font-[700]">
-                Explore Events
+                    Explore Events
                 </RouterLink>
             </div>
 
