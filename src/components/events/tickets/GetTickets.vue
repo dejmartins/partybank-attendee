@@ -79,7 +79,7 @@
 import { ref, computed } from 'vue';
 import { type Event, type Ticket } from '@/utils/types';
 import { onMounted } from 'vue';
-import GetTicket from '@/components/buttons/ButtonComponent.vue';
+import GetTicket from '@/components/buttons/Button.vue';
 import { usePaymentStore } from '@/stores/payment';
 import { useAuthStore } from '@/stores/auth';
 import Api from '@/utils/api';

@@ -14,7 +14,7 @@
                 :disabled=false
                 @click="selectCity(city)"
                 :additionalClasses="`py-[4px] px-[9px] text-sm md:text-lg md:py-[7px] md:px-[18px] border rounded-[22px] text-[#797979] 
-                          ${city === selectedCity ? 'bg-[#1E1E1E] border-[#1E1E1E] text-white' : 'border-[#797979] bg-[#FBFBFB]'}`"
+                          ${city === selectedCity ? 'bg-[var(--pb-c-red)] border-[#4E0916] text-white' : 'border-[#797979] bg-[#FBFBFB]'}`"
               />
             </div>
           </div>
@@ -56,12 +56,10 @@ import EventCard from '@/components/events/EventCard.vue'
 import NoEvent from '@/components/events/NoEvent.vue'
 import { ref, onMounted, computed } from 'vue'
 import Api from '@/utils/api'
-import { useToast } from 'vue-toastification'
-import Button from '@/components/buttons/ButtonComponent.vue'
+import Button from '@/components/buttons/Button.vue'
 import { type Event } from '@/utils/types'
 import moment from 'moment'
 
-const toast = useToast()
 const isLoading = ref(false)
 const events = ref<Array<Event>>([])
 const selectedCity = ref('Asaba')
