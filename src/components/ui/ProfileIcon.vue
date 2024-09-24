@@ -31,11 +31,9 @@
 
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
-import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore();
-const router = useRouter();
 
 const links = [
     { label: 'Sign out' }
