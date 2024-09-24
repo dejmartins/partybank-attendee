@@ -38,7 +38,7 @@ import Button from '../buttons/LoaderButton.vue';
 import Api from '@/utils/api';
 import { reactive, computed, defineEmits, ref } from 'vue';
 import { useAuthStore } from '@/stores/auth';
-import { handleSignIn } from './helpers/helper';
+import { handleSignIn } from '@/utils/actions';
 import { useRouter } from 'vue-router';
 import { isValidEmail } from '@/utils/actions';
 

@@ -84,7 +84,7 @@ import { usePaymentStore } from '@/stores/payment';
 import { useAuthStore } from '@/stores/auth';
 import Api from '@/utils/api';
 import SignInModal from '@/components/auth/SignIn.vue';
-import EmailSentModal from '@/components/auth/EmailCheck.vue';
+import EmailSentModal from '@/components/auth/CheckEmailModal.vue';
 
 const { RESERVE_TICKET } = Api();
 const authStore = useAuthStore();

@@ -83,7 +83,7 @@ import { watch } from 'vue';
 import { usePaymentStore } from '@/stores/payment';
 import { useAuthStore } from '@/stores/auth';
 import SignInModal from '@/components/auth/SignIn.vue';
-import EmailSentModal from '@/components/auth/EmailCheck.vue';
+import EmailSentModal from '@/components/auth/CheckEmailModal.vue';
 
 const route = useRoute();
 const toast = useToast();
