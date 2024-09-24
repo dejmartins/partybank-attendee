@@ -10,7 +10,7 @@ import { RouterView } from 'vue-router';
             <div
                 className="flex-shrink-0 mb-6 md:mb-10 lg:mb-0 lg:mr-6 rounded-[40px] overflow-hidden w-full h-[150px] md:h-[300px] lg:h-auto lg:w-[60%] bg-cover bg-center"
                 :style="{
-                    backgroundImage: 'url(https://res.cloudinary.com/drddoxnsi/image/upload/v1724406331/PARTYBANK/ORGANIZER/hero-image_xqdvny.png)',
+                    backgroundImage: 'url(https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/attendee-landing-bg_pbptyw.avif)',
                 }"
             ></div>
             
