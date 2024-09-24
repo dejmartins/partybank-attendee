@@ -1,31 +1,113 @@
 <template>
-    <form className='text-left w-full'>
-        <label className="text-[18px] font-[500]">Email</label>
-        <input className="w-full rounded-[10px] p-[10px] mt-[8px] mb-[30px] focus:outline-none focus:ring-2 focus:ring-[var(--pb-c-red)] focus:border-[var(--pb-c-red)]" 
-                placeholder="Enter email address" />
-
+    <form class='text-left w-full' @submit.prevent="signIn">
+        <label class="text-lg font-[500]">Email Address</label>
+        <input 
+            class="w-full rounded-[10px] p-[10px] mt-[8px] mb-[30px] focus:outline-none focus:ring-2 focus:ring-[var(--pb-c-red)] focus:border-[var(--pb-c-red)]" 
+            placeholder="Enter your email address"
+            v-model="userInfo.email"
+            :class="{ error: error.emailError }"
+        />
+    
         <Button 
             action="Sign In"
-            :disabled="false"
-            :loading="false"
+            :disabled="isLoading"
+            :loading="isLoading"
             additional-classes="bg-[var(--pb-c-red)] border-[var(--pb-c-red)] text-[var(--pb-c-white)] w-full"
             text-style="text-[18px] font-[700]"
+            additional-loader-classes="border-4 border-t-[var(--pb-c-red)]"
         />
-
-        <hr className='my-6 md:my-8 border-[1px]' />
-
-        <Button
-            action="Continue with Google"
-            additional-classes="bg-[var(--pb-c-white)] w-full"
-            text-style="text-[16px] font-[500]"
-            :disabled="false"
-            :loading="false"
-        >
-            <img src="/google-icon.png" alt='Google Icon' className='w-[22px] h-[22px]' />
-        </Button>
+        <hr class="my-6 md:my-8 border-[1px]" />
     </form>
+  
+  
+    <Button
+        action="Continue with Google"
+        additional-classes="bg-[var(--pb-c-white)] w-full"
+        text-style="text-[16px] font-[500]"
+        :disabled="isLoadingGoogle"
+        :loading="false"
+        @click="handleGoogleSuccess"
+        additional-loader-classes="border-4 border-t-[var(--pb-c-blue)]"
+    >
+        <img src="/google-icon.png" alt='Google Icon' class='w-[22px] h-[22px]' />
+    </Button>
 </template>
-
+  
 <script setup lang="ts">
 import Button from '../buttons/LoaderButton.vue';
+import Api from '@/utils/api';
+import { reactive, computed, defineEmits, ref } from 'vue';
+import { useAuthStore } from '@/stores/auth';
+import { handleSignIn } from './helpers/helper';
+import { useRouter } from 'vue-router';
+import { isValidEmail } from '@/utils/actions';
+
+const { AUTH, GOOGLE_AUTH } = Api();
+const authStore = useAuthStore();
+const router = useRouter();
+
+const userInfo = reactive({
+    email: '',
+});
+
+const error = reactive({
+    emailError: false,
+});
+
+const emit = defineEmits(['emailSent', 'close']);
+const isLoading = ref(false);
+const isLoadingGoogle = ref(false);
+  
+// Methods
+const validateUserInfo = () => {
+    error.emailError = userInfo.email === '' || !isValidEmail(userInfo.email);
+};
+
+const storeCurrentPage = () => {
+    const currentPage = router.currentRoute.value.fullPath;
+    localStorage.setItem('previousPage', currentPage);
+};
+
+const signIn = async () => {
+    validateUserInfo();
+
+    if (isUserInfoValidated.value) {
+        storeCurrentPage();
+        
+        isLoading.value = true;
+        await handleSignIn(userInfo.email, AUTH, emit, authStore)
+        .finally(() => {
+            isLoading.value = false;
+        });
+
+        userInfo.email = '';
+    }
+};
+
+const handleGoogleSuccess = async () => {
+    try {
+        isLoadingGoogle.value = true;
+        storeCurrentPage();
+
+        const res = await fetch(GOOGLE_AUTH, {
+        method: 'GET',
+        });
+
+        const data = await res.json();
+        console.log('Backend response:', data);
+
+        window.location.href = data.data;
+
+    } catch (error) {
+        console.error('Error during Google login:', error);
+    } finally {
+        isLoadingGoogle.value = false;
+    }
+};
+
+// Computed Properties
+const isUserInfoValidated = computed(() => {
+    return !error.emailError;
+})
 </script>
+  

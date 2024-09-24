@@ -1,10 +1,6 @@
-<script setup lang="ts">
-import { RouterView } from 'vue-router';
-</script>
-
 <template>
     <div className="flex flex-col min-h-[100vh] bg-[var(--pb-c-soft-grey)] overflow-x-hidden">
-        <!-- <TopNav /> -->
+        <TopNav />
 
         <div className="flex flex-col lg:flex-row flex-grow p-6 lg:p-8 bg-[var(--pb-c-white)] mt-10">
             <div
@@ -20,3 +16,8 @@ import { RouterView } from 'vue-router';
         </div>
     </div>
 </template>
+
+<script setup lang="ts">
+import { RouterView } from 'vue-router';
+import TopNav from '@/components/auth/TopNav.vue';
+</script>

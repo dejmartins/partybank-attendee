@@ -56,7 +56,7 @@ const decodeTokenFromUrl = () => {
 
       let previousPage = localStorage.getItem('previousPage');
 
-      if (!previousPage || previousPage === '/') {
+      if (!previousPage || previousPage === '/auth') {
         previousPage = '/discover';
       }
 

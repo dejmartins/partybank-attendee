@@ -50,8 +50,6 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const emit = defineEmits(['emailSent', 'close']);
 const isLoading = ref(false);
 
-const googleClientId = "162477595372-uj1h25cs2q57rtiq00dfct4dmg7p5gff.apps.googleusercontent.com";
-
 // Methods
 const validateUserInfo = () => {
   error.emailError = userInfo.email === '' || !emailRegex.test(userInfo.email);
