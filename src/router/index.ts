@@ -15,9 +15,16 @@ const router = createRouter({
       component: () => import('@/views/HomePage.vue')
     },
     {
-      path: '/signin',
-      name: 'sign-in',
-      component: () => import('@/views/auth/SignIn.vue')
+      path: '/auth',
+      name: 'auth',
+      component: () => import('@/layouts/auth/SignInLayout.vue'),
+      children: [
+        {
+          path: '',
+          name: 'sign-in',
+          component: () => import('@/views/auth/SignIn.vue')
+        }
+      ]
     },
     {
       path: '/policy',

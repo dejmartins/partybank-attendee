@@ -75,7 +75,7 @@
     </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { CursorArrowRaysIcon } from '@heroicons/vue/24/solid'
 </script>
 
