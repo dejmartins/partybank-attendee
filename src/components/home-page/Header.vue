@@ -10,10 +10,10 @@
                     />
                 </div>
     
-                <nav class="hidden md:flex space-x-6">
-                    <Link href="/about" class="hover:text-red-500 transition">About Us</Link>
-                    <Link href="/faqs" class="hover:text-red-500 transition">FAQs</Link>
-                    <Link href="/contact" class="hover:text-red-500 transition">Contact</Link>
+                <nav class="hidden md:hidden space-x-6">
+                    <a href="/about" class="hover:text-red-500 transition">About Us</a>
+                    <a href="/faqs" class="hover:text-red-500 transition">FAQs</a>
+                    <a href="/contact" class="hover:text-red-500 transition">Contact</a>
                 </nav>
             </div>
   

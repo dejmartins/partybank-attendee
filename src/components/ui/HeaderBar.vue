@@ -1,19 +1,23 @@
 <template>
-  <div :class="['w-full flex px-10 py-10 justify-center fixed top-0 md:px-20 z-50', additionalClasses]">
-    <div class="border w-full flex justify-between items-center rounded-full p-2 px-7">
-      <router-link to="/">
-        <img class="h-10 z-50 cursor-pointer" src="@/assets/logo.svg" alt="Partybank Logo" />
-      </router-link>
-
-      <ProfileIcon v-if="isLoggedIn" />
+  <header class="fixed top-0 left-0 w-full bg-[#FFFFFF] border-b text-[#080D18] py-4 z-50">
+    <div class="flex justify-between items-center px-6">
+          <RouterLink to="/">
+              <img
+                  src="/pb-logo.png"
+                  class="w-[65px]"
+                  alt="Partybank Logo"
+              />
+          </RouterLink>
+        <ProfileIcon v-if="isLoggedIn" />
     </div>
-  </div>
+  </header>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import ProfileIcon from './ProfileIcon.vue';
+import { RouterLink } from 'vue-router';
 
 defineProps<{
   additionalClasses?: string
