@@ -1,23 +1,23 @@
 <template>
-    <div class="flex flex-col md:flex-row w-full h-full rounded-[20px] bg-[#F9F7F7] p-10 mt-2">
-      <div class="hidden md:block md:w-1/3 bg-gray-100 sticky top-0">
+    <div class="flex flex-col md:flex-row w-full h-[calc(100vh-260px)] rounded-[20px] bg-[#F9F7F7] p-6 md:p-10 mt-2">
+      <div class="hidden md:block md:w-1/3 sticky top-0">
         <div class="relative w-full h-full flex flex-col text-left">
-          <img :src="stateImage" alt="State Image" class="w-full h-[330px] object-cover rounded-[20px]" />
+          <img :src="stateImage" alt="State Image" class="w-full aspect-square object-cover rounded-[20px]" />
           <div class="mt-4 text-left">
-            <h2 class="text-2xl font-bold text-left">{{ selectedState }}, Nigeria</h2>
+            <h2 class="text-2xl font-bold">{{ selectedState }}, Nigeria</h2>
             <p class="text-lg text-gray-600 mt-2 italic">{{ stateSlogan }}</p>
           </div>
         </div>
       </div>
   
-      <div class="w-full md:w-2/3 px-0 md:px-8 overflow-y-auto h-[calc(100vh-300px)] custom-scrollbar">
+      <div class="w-full md:w-2/3 px-0 md:px-8 overflow-y-auto h-[calc(100vh-340px)] custom-scrollbar">
         <div v-if="isLoading" class="text-center py-6">Loading events...</div>
   
         <div v-else-if="filteredEvents.length === 0" class="text-center py-6">
           <p>No events found for {{ selectedState }}.</p>
         </div>
   
-        <div v-else class="grid grid-cols-1">
+        <div v-else class="">
           <div v-for="event in filteredEvents" :key="event.id" class="p-4 border rounded-lg">
             <img :src="event.image_url || '/default-event-image.png'" alt="Event Image" class="w-full h-[150px] object-cover rounded-md mb-2" />
             <h3 class="text-xl font-bold">{{ event.event_name }}</h3>
@@ -91,7 +91,7 @@ onMounted(() => {
 
 <style scoped>
 .custom-scrollbar::-webkit-scrollbar {
-  width: 12px;
+  width: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {

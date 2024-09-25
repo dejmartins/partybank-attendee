@@ -20,10 +20,10 @@
 
 <script setup lang="ts">
 import BackButton from '@/components/buttons/BackButton.vue';
-import StateDropDown from '@/components/events/StateDropDown.vue';
+import StateDropDown from '@/components/events/StateDropdown.vue';
 import AllEvents from '@/components/events/AllEvents.vue';
 import { ref } from 'vue';
 
-const selectedState = ref('Lagos');
-const states = ref(['Lagos', 'Rivers', 'Edo', 'Delta']);
+const selectedState = ref('Delta');
+const states = ref(['Delta', 'Rivers', 'Edo', 'Lagos']);
 </script>
