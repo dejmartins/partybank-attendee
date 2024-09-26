@@ -39,7 +39,11 @@
                 <hr class="my-8">
 
                 <div>
-                    <p>My Activities</p>
+                    <p class="text-[23px] md:text-[25px] font-[700]">My Activities</p>
+
+                    <div class="w-full flex items-center justify-center mt-8">
+                        <p>No Activities yet!</p>
+                    </div>
                 </div>
             </div>
         </div>

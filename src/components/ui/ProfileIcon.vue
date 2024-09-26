@@ -5,7 +5,7 @@
                 <div class="flex items-center gap-3 cursor-pointer">
                     <div class="flex items-center gap-2">
                         <div class="relative w-8 h-8 rounded-full overflow-hidden">
-                            <div class="absolute inset-0  bg-gradient-to-b from-[#950ECD] to-[#5CF4D8]"></div>
+                            <div class="absolute inset-0  bg-gradient-to-b from-[#E91B41] to-[#9E3AC3]"></div>
                             <div class="absolute inset-[4px] bg-white rounded-full flex items-center justify-center">
                                 <UserCircleIcon class="w-7 stroke-black stroke-1" />
                             </div>
