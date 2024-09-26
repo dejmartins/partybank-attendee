@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     email: '',
+    name: '',
     token: '',
     isAuthenticated: false,
     decodedEmail: ''
