@@ -15,6 +15,11 @@ const router = createRouter({
       component: () => import('@/views/HomePage.vue')
     },
     {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('@/views/MyProfile.vue')
+    },
+    {
       path: '/auth',
       name: 'auth',
       component: () => import('@/layouts/auth/SignInLayout.vue'),

@@ -29,7 +29,7 @@
                         :key="link.label"
                         as="button"
                         class="bg-[#EDF1FF] rounded-[500px] text-[var(--pb-c-blue)] text-center py-[10px] rounded-[5px] hover:text-white hover:bg-[var(--pb-c-blue)] ui-not-active:bg-white ui-not-active:text-black"
-                        @click="handleSignOut"
+                        @click="handleClick(link)"
                     >
                         {{ link.label }}
                     </MenuItem>
@@ -42,16 +42,31 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
 import { ChevronDownIcon, UserCircleIcon } from '@heroicons/vue/24/solid';
 
 const authStore = useAuthStore();
+const router = useRouter();
 
 const links = [
-    { label: 'Sign out' }
+    { label: 'My Profile', to: '/profile' },
+    { label: 'Sign out', action: 'signOut' },
 ];
 
 // Methods
+const handleClick = (link: { label: string, to?: string, action?: string }) => {
+    const currentPage = router.currentRoute.value.fullPath;
+    localStorage.setItem('previousPage', currentPage);
+    
+    if (link.to) {
+        router.push(link.to);
+    } else if (link.action === 'signOut') {
+        handleSignOut();
+    }
+};
+
 const handleSignOut = () => {
     authStore.clearAuth();
+    router.push('/');
 };
 </script>
