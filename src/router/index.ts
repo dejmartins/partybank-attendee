@@ -46,11 +46,11 @@ const router = createRouter({
           name: 'discover-events',
           component: () => import('@/views/events/DiscoverEvents.vue')
         },
-        // {
-        //   path: ':eventReference',
-        //   name: 'event-details',
-        //   component: () => import('@/views/attendees/EventDetails.vue')
-        // }
+        {
+          path: ':eventReference',
+          name: 'event-details',
+          component: () => import('@/views/attendees/EventDetails.vue')
+        }
       ]
     },
     {
