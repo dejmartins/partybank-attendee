@@ -54,7 +54,7 @@ const router = createRouter({
         {
           path: ':eventReference',
           name: 'event-details',
-          component: () => import('@/views/attendees/EventDetails.vue')
+          component: () => import('@/views/events/ViewEvent.vue')
         }
       ]
     },
