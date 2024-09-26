@@ -1,6 +1,6 @@
 <template>
-    <div class="flex flex-col md:flex-row w-full h-[calc(100vh-260px)] rounded-[20px] bg-[#F9F7F7] p-6 md:p-10 mt-2 border border-[#DDE0E3]">
-      <div class="hidden md:block md:w-1/3 sticky top-0">
+    <div class="flex flex-col md:flex-row w-full h-[calc(100vh-260px)] overflow-y-auto md:overflow-y-hidden rounded-[20px] bg-[#F9F7F7] p-6 md:p-10 mt-2 border border-[#DDE0E3] custom-scrollbar">
+      <div class="md:w-1/3 md:sticky md:top-0">
         <div class="relative w-full h-full flex flex-col text-left">
           <img :src="stateImage" alt="State Image" class="w-full aspect-square object-cover rounded-[20px] border border-[#DDE0E3]" />
           <div class="mt-3 text-left">
@@ -10,7 +10,7 @@
         </div>
       </div>
   
-      <div class="w-full md:w-2/3 px-0 md:px-8 overflow-y-auto h-[calc(100vh-340px)] custom-scrollbar">
+      <div class="w-full md:w-2/3 px-0 md:px-8 md:overflow-y-auto h-[calc(100vh-340px)] custom-scrollbar">
         <div v-if="isLoading" class="flex justify-center items-center text-center py-6">
           <img
             src="@/assets/images/explore-loader.gif"
@@ -23,12 +23,7 @@
           <p>No events found for {{ selectedState }}.</p>
         </div>
   
-        <div v-else class="flex flex-col gap-4">
-          <!-- <div v-for="event in filteredEvents" :key="event.id" class="p-4 border rounded-lg">
-            <img :src="event.image_url || '/default-event-image.png'" alt="Event Image" class="w-full h-[150px] object-cover rounded-md mb-2" />
-            <h3 class="text-xl font-bold">{{ event.event_name }}</h3>
-            <p class="text-sm text-gray-600">{{ event.location.city }}, {{ event.date }}</p>
-          </div> -->
+        <div v-else class="flex flex-col gap-4 mt-5 md:mt-0">
           <EventCard
             v-for="event in filteredEvents"
             :key="event.event_reference"
@@ -66,10 +61,10 @@ const isLoading = ref(false);
 
 const stateImage = computed(() => {
     const stateImages = {
-        Lagos: '',
+        Lagos: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1727310997/PARTYBANK/image_6_cvzkev.png',
         Rivers: '',
         Edo: '',
-        Delta: ''
+        Delta: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1727311013/PARTYBANK/asaba-2_fxxbxy.jpg'
     };
     // @ts-ignore
     return stateImages[props.selectedState] || '/defaultImage.png';
