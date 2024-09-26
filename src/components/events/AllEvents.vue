@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col md:flex-row w-full h-[calc(100vh-260px)] overflow-y-auto md:overflow-y-hidden rounded-[20px] bg-[#F9F7F7] p-6 md:p-10 mt-2 border border-[#DDE0E3] custom-scrollbar">
-      <div class="md:w-1/3 md:sticky md:top-0">
+      <div class="md:w-1/3 md:sticky md:top-0 md:border-r-2 md:border-[#DDE0E3] md:pr-6">
         <div class="relative w-full h-full flex flex-col text-left">
           <img :src="stateImage" alt="State Image" class="w-full aspect-square object-cover rounded-[20px] border border-[#DDE0E3]" />
           <div class="mt-3 text-left">
@@ -19,8 +19,8 @@
           />
         </div>
   
-        <div v-else-if="filteredEvents.length === 0" class="text-center py-6">
-          <p>No events found for {{ selectedState }}.</p>
+        <div v-else-if="filteredEvents.length === 0" class="flex justify-center items-center text-center py-6">
+          <NoEvent :selected-state='selectedState' />
         </div>
   
         <div v-else class="flex flex-col gap-4 mt-5 md:mt-0">
@@ -42,10 +42,11 @@
   
 <script setup lang="ts">
 import Api from '@/utils/api';
-import type { Event } from '@/utils/types';
-import { ref, computed, onMounted } from 'vue';
 import EventCard from './EventCard.vue';
 import moment from 'moment';
+import NoEvent from './NoEvent.vue';
+import type { Event } from '@/utils/types';
+import { ref, computed, onMounted } from 'vue';
 
 const { DISCOVER_EVENTS } = Api();
 

@@ -30,7 +30,7 @@
         alt="Explore Gif Loader"
       />
 
-      <NoEvent v-if="!isLoading && filteredEvents.length === 0" :selected-city='selectedCity' />
+      <NoEvent v-if="!isLoading && filteredEvents.length === 0" :selected-state='selectedCity' />
       
       <div v-else class="grid grid-cols-1 sm:grid-cols-2 mt-20 mb-10 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-center">
         <EventCard

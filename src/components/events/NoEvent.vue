@@ -1,17 +1,19 @@
 <template>
-    <div class="m-20 text-center flex flex-col items-center fixed right-0 left-0 top-56 my-20 text-lg">
-        <img
-          src="@/assets/images/EmptyState.png"
-          class="h-32"
-          alt="Phones Icons"
-        />
-        <p class="font-bold">No events</p>
-        <p class="text-[#4A4A4A]">There are no events in {{ selectedCity }} at the moment</p>
+    <div class="text-center flex flex-col items-center text-lg">
+        <div class="flex justify-center items-center bg-[#F3F4F4] rounded-[60px] p-3 h-[200px] w-[200px]">
+            <img
+              src="@/assets/images/EmptyState.png"
+              class="h-[100px]"
+              alt="Phones Icons"
+            />
+        </div>
+        <p class="font-bold mt-5">No events found!</p>
+        <p class="text-[#4A4A4A]">Currently, there are no events in {{ selectedState }}.</p>
     </div>
 </template>
 
 <script setup lang="ts">
 defineProps<{
-    selectedCity: string
+    selectedState: string
 }>()
 </script>
