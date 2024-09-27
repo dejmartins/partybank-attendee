@@ -62,7 +62,7 @@
 
 <script setup lang="ts">
 import GetTicket from '@/components/buttons/Button.vue';
-import SignInModal from '@/components/auth/SignIn.vue';
+import SignInModal from '@/views/auth/SignInModal.vue';
 import EmailSentModal from '@/components/auth/CheckEmailModal.vue';
 import { ref, onMounted } from 'vue';
 import { type Event, type Ticket } from '@/utils/types';
@@ -105,12 +105,12 @@ const emailModalToggle = () => {
 };
 
 const selectTicket = (ticketName: string) => {
-  if (selectedTicket.value === ticketName) {
-    selectedTicket.value = '';
-  } else {
+  // if (selectedTicket.value === ticketName) {
+  //   selectedTicket.value = '';
+  // } else {
     selectedTicket.value = ticketName;
     ticketQuantities.value[ticketName] = 1;
-  }
+  // }
 };
 
 const selectTicketByDefault = () => {

@@ -1,116 +1,115 @@
 <template>
-  <div class="w-full">
-    <form @submit.prevent="signIn">
-      <div>
-        <input
-          type="email"
-          id="email"
-          v-model="userInfo.email"
-          class="mt-5 p-2 w-full rounded-md outline-0 focus:ring-1 focus:ring-[var(--pb-c-blue)]"
-          placeholder="Enter your email address"
-          :class="{ error: error.emailError }"
+    <form class='text-left w-full' @submit.prevent="signIn">
+        <label class="text-lg font-[500]">Email Address</label>
+        <input 
+            class="w-full rounded-[10px] p-[10px] mt-[8px] mb-[30px] focus:outline-none focus:ring-2 focus:ring-[var(--pb-c-red)] focus:border-[var(--pb-c-red)]" 
+            placeholder="Enter your email address"
+            v-model="userInfo.email"
+            :class="{ error: error.emailError }"
         />
-      </div>
-
-      <Button 
-        action="Continue" 
-        :loading="isLoading" 
-        :disabled="isLoading" 
-        additional-classes="mt-10 text-white w-full bg-[var(--pb-c-blue)]"
-        additionalLoaderClasses="border-2 border-t-[var(--pb-c-blue)]"
-      />
+    
+        <Button 
+            action="Sign In"
+            :disabled="isLoading"
+            :loading="isLoading"
+            additional-classes="bg-[var(--pb-c-red)] border-[var(--pb-c-red)] text-[var(--pb-c-white)] w-full"
+            text-style="text-[18px] font-[700]"
+            additional-loader-classes="border-4 border-t-[var(--pb-c-red)]"
+        />
+        <hr class="my-6 md:my-8 border-[1px]" />
     </form>
+  
+  
+    <Button
+        action="Continue with Google"
+        additional-classes="bg-[var(--pb-c-white)] w-full"
+        text-style="text-[16px] font-[500]"
+        :disabled="isLoadingGoogle"
+        :loading="false"
+        @click="handleGoogleSuccess"
+        additional-loader-classes="border-4 border-t-[var(--pb-c-blue)]"
+    >
+        <img src="/google-icon.png" alt='Google Icon' class='w-[22px] h-[22px]' />
+    </Button>
 
-    <button @click="handleGoogleSuccess">Google Login</button>
-  </div>
+    <p className='text-[15px] leading-[20.81px] md:text-[18px] font-[200] md:leading-[23.81px] mt-8'>By continuing, you agree to have read and accepted partybank <span className='text-[var(--pb-c-red)] font-[500] underline underline-offset-4 cursor-pointer'><RouterLink to="/termsandconditions">terms and conditions</RouterLink></span></p>
 </template>
-
+  
 <script setup lang="ts">
-import { reactive, computed, defineEmits, ref } from 'vue';
+import Button from '../buttons/LoaderButton.vue';
 import Api from '@/utils/api';
+import { reactive, computed, defineEmits, ref } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { handleSignIn } from '@/utils/actions';
 import { useRouter } from 'vue-router';
-import Button from '../buttons/LoaderButton.vue';
+import { isValidEmail } from '@/utils/actions';
 
 const { AUTH, GOOGLE_AUTH } = Api();
 const authStore = useAuthStore();
 const router = useRouter();
 
 const userInfo = reactive({
-  email: '',
+    email: '',
 });
 
 const error = reactive({
-  emailError: false,
+    emailError: false,
 });
-
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const emit = defineEmits(['emailSent', 'close']);
 const isLoading = ref(false);
-
+const isLoadingGoogle = ref(false);
+  
 // Methods
 const validateUserInfo = () => {
-  error.emailError = userInfo.email === '' || !emailRegex.test(userInfo.email);
-};
-
-const signIn = async () => {
-  validateUserInfo();
-
-  if (isUserInfoValidated.value) {
-    storeCurrentPage();
-    
-    isLoading.value = true;
-    await handleSignIn(userInfo.email, AUTH, emit, authStore)
-      .finally(() => {
-        isLoading.value = false;
-      });
-
-    userInfo.email = '';
-  }
-};
-
-const handleGoogleSuccess = async (response: any) => {
-  try {
-    console.log('Google login success:', response);
-    storeCurrentPage();
-
-    const res = await fetch(GOOGLE_AUTH, {
-      method: 'GET',
-    });
-
-    const data = await res.json();
-    console.log('Backend response:', data);
-
-    window.location.href = data.data;
-
-  } catch (error) {
-    console.error('Error during Google login:', error);
-  }
-};
-
-const handleGoogleFailure = (error: any) => {
-  console.error('Google login failed:', error);
-};
-
-const handleLoginError = () => {
-  console.error("Login failed");
+    error.emailError = userInfo.email === '' || !isValidEmail(userInfo.email);
 };
 
 const storeCurrentPage = () => {
-  const currentPage = router.currentRoute.value.fullPath;
-  localStorage.setItem('previousPage', currentPage);
+    const currentPage = router.currentRoute.value.fullPath;
+    localStorage.setItem('previousPage', currentPage);
+};
+
+const signIn = async () => {
+    validateUserInfo();
+
+    if (isUserInfoValidated.value) {
+        storeCurrentPage();
+        
+        isLoading.value = true;
+        await handleSignIn(userInfo.email, AUTH, emit, authStore)
+        .finally(() => {
+            isLoading.value = false;
+        });
+
+        userInfo.email = '';
+    }
+};
+
+const handleGoogleSuccess = async () => {
+    try {
+        isLoadingGoogle.value = true;
+        storeCurrentPage();
+
+        const res = await fetch(GOOGLE_AUTH, {
+        method: 'GET',
+        });
+
+        const data = await res.json();
+        console.log('Backend response:', data);
+
+        window.location.href = data.data;
+
+    } catch (error) {
+        console.error('Error during Google login:', error);
+    } finally {
+        isLoadingGoogle.value = false;
+    }
 };
 
 // Computed Properties
 const isUserInfoValidated = computed(() => {
-  return !error.emailError;
+    return !error.emailError;
 })
 </script>
-
-<style scoped>
-.error {
-  border-color: red;
-}
-</style>
+  
