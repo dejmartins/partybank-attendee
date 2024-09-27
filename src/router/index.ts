@@ -59,6 +59,11 @@ const router = createRouter({
       ]
     },
     {
+      path: '/purchase',
+      name: 'ticket-purchase',
+      component: () => import('@/views/tickets/TicketPurchase.vue')
+    },
+    {
       path: '/:eventReference/validate',
       name: 'validate',
       component: () => import('@/views/ticketers/ValidateTicket.vue'),
