@@ -44,18 +44,19 @@ const authStore = useAuthStore();
 const decodeTokenFromUrl = () => {
   const router = useRouter();
   const token = router.currentRoute.value.query.token;
+  const type = router.currentRoute.value.query.type;
 
   if (token && typeof token === 'string') {
     const isValid = authStore.checkTokenValidity(token);
 
-    if (isValid && localStorage.getItem('email') === authStore.decodedEmail) {
+    if (isValid && (localStorage.getItem('email') === authStore.decodedEmail || type === 'google')) {
       console.log('Token is valid and email matches:', authStore.email);
       authStore.isAuthenticated = true;
       authStore.setToken(token);
 
       let previousPage = localStorage.getItem('previousPage');
 
-      if (!previousPage || previousPage === '/') {
+      if (!previousPage || previousPage === '/auth') {
         previousPage = '/discover';
       }
 

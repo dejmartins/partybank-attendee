@@ -1,7 +1,7 @@
 <template>
     <button
       :disabled="disabled"
-      :class="['flex items-center justify-center', additionalClasses]"
+      :class="['flex items-center justify-center rounded-[10px]', additionalClasses]"
       v-bind="$attrs"
     >
       {{ action }}

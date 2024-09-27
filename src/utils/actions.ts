@@ -26,3 +26,12 @@ export const handleSignIn = async (email: string, AUTH: string, emit: any, authS
     }
   };
   
+  
+export const isValidEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+};
+
+export function formatAmountWithCommas(amount: number | string) {
+  return amount.toLocaleString();
+}

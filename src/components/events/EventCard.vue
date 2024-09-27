@@ -1,32 +1,46 @@
 <template>
   <router-link :to="{ name: 'event-details', params: { eventReference: eventId } }">
-    <div class="event-container relative flex flex-col border h-[300px] rounded-[10px]">
-      <div class="event-image" :style="{ backgroundImage: `url(${imageUrl ? imageUrl : defaultImage})` }">
+    <div class="border flex items-start md:items-center p-3 rounded-[10px] gap-3 bg-[#FAF9F9]">
+      <div class="min-w-[100px] min-h-[100px] border bg-cover bg-center rounded-[10px] overflow-hidden" :style="{ backgroundImage: `url(${imageUrl ? imageUrl : defaultImage})` }">
         <slot></slot>
       </div>
-      <div class="mt-4 mx-3">
+      
+      <div>
         <div class="w-full flex items-center justify-between pb-2">
-          <p class="text-[15px] font-bold">{{ eventName }}</p>
+          <p class="text-[15px] md:text-[24px] font-[600]">{{ eventName }}</p>
         </div>
-        <p class="text-gray-600 text-sm my-1">
-          <fa-icon class="mr-1" :icon="['far', 'calendar']" style="color: #b0b0b0;" />
-          {{ eventDate }}
-        </p>
-        <div class="pb-3 w-full flex justify-between items-center">
-          <a href="https://maps.app.goo.gl/3fRgCyAeWZ6TxqWJ8" target="_blank" class="location text-gray-500 text-sm">
-            <fa-icon class="mr-1" :icon="['fas', 'location-dot']" style="color: #b0b0b0;" />
-            {{ location }}
-          </a>
-          <div
-            class="profile-icon"
-            :style="{ backgroundImage: `url(${series_logo})` }"
-          ></div>
+
+        <div class="flex flex-wrap justify-between gap-2 md:gap-4">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 flex items-center justify-center rounded-full bg-[#F7F4F4]">
+              <MapPinIcon class="size-6" />
+            </div>
+            <div>
+              <p class="text-[17px] font-[500]">
+                {{ location.city }}, {{ location.country }}
+              </p>
+              <p className="text-[15px] font-[200] line-clamp-1">{{ venue }}</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 flex items-center justify-center rounded-full bg-[#F7F4F4] p-2">
+              <CalendarDaysIcon class="size-6" />
+            </div>
+            <p className="text-[15px] line-clamp-2 font-[200]">{{ eventDate }}</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 flex items-center justify-center rounded-full bg-[#F7F4F4]">
+              <ClockIcon class="size-6" />
+            </div>
+            <p class="text-[15px] line-clamp-2 font-[200]">{{ moment(time, 'H:mm').format('LT') }}</p>
+          </div>
         </div>
-        <p :class="clsx('event-status absolute top-0 left-3 border-2', {
+
+        <!-- <p :class="clsx('event-status absolute top-0 left-3 border-2', {
           'text-[#FF0F00] bg-[#FFE3E1] border-[#FF0F00]' : status === 'PAST',
           'text-[#084300] border-[#4CAF50] bg-[#ddf7da]' : status === 'ACTIVE',
           'text-[#FFA800] border-[#FFA800] bg-[#FFF5E2]' : status === 'UPCOMING',
-        })" v-if="status">{{ status }}</p>
+        })" v-if="status">{{ status }}</p> -->
       </div>
     </div>
   </router-link>
@@ -34,40 +48,24 @@
 
 
 <script setup lang="ts">
-import clsx from 'clsx';
 import defaultImage from '/defaultImage.png';
+import { CalendarDaysIcon, ClockIcon, MapPinIcon } from '@heroicons/vue/24/outline';
+import moment from 'moment';
 
 defineProps<{
   eventId: string;
   imageUrl?: string;
   eventDate: string;
   eventName: string;
-  location: string;
-  series_logo: string | undefined;
+  location: { city: string, country: string };
   status?: string;
+  time: string;
+  venue: string
 }>();
 </script>
 
 
 <style scoped>
-.event-container {
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.event-container:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(130, 130, 130, 0.2);
-}
-
-.event-image {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  border-top-right-radius: 15px;
-  border-top-left-radius: 15px;
-  flex: 1;
-}
-
 .event-status {
   padding: 3px 10px;
   font-weight: bold;
@@ -95,15 +93,5 @@ defineProps<{
   line-height: 130%;
   letter-spacing: 0%;
   font-size: 13px;
-}
-
-@media (max-width: 765px) {
-  .event-image {
-    height: 200px;
-  }
-
-  .location:hover {
-    color: rgb(0, 66, 0);
-  }
 }
 </style>

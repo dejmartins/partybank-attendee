@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     email: '',
+    name: '',
     token: '',
     isAuthenticated: false,
     decodedEmail: ''
@@ -24,6 +25,8 @@ export const useAuthStore = defineStore('auth', {
       this.token = '';
       this.isAuthenticated = false;
       this.decodedEmail = '';
+
+      sessionStorage.clear();
     },
 
     checkTokenValidity(token: string): boolean {

@@ -12,22 +12,49 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('@/views/attendees/HomeView.vue')
+      component: () => import('@/views/HomePage.vue')
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('@/views/MyProfile.vue')
+    },
+    {
+      path: '/auth',
+      name: 'auth',
+      component: () => import('@/layouts/auth/SignInLayout.vue'),
+      children: [
+        {
+          path: '',
+          name: 'sign-in',
+          component: () => import('@/views/auth/SignIn.vue')
+        }
+      ]
+    },
+    {
+      path: '/policy',
+      name: 'privacy-policy',
+      component: () => import('@/views/PrivacyPolicy.vue')
+    },
+    {
+      path: '/termsandconditions',
+      name: 'terms-condition',
+      component: () => import('@/views/TermsAndConditions.vue')
     },
     {
       path: '/discover',
       name: 'discover',
-      component: () => import('@/views/attendees/AllEvents.vue'),
+      component: () => import('@/layouts/event/EventsLayout.vue'),
       children: [
         {
           path: '',
           name: 'discover-events',
-          component: () => import('@/views/attendees/DiscoverEvents.vue')
+          component: () => import('@/views/events/DiscoverEvents.vue')
         },
         {
           path: ':eventReference',
           name: 'event-details',
-          component: () => import('@/views/attendees/EventDetails.vue')
+          component: () => import('@/views/events/ViewEvent.vue')
         }
       ]
     },
@@ -45,7 +72,7 @@ const router = createRouter({
     {
       path: '/validate-token',
       name: 'validate-token',
-      component: () => import('@/views/attendees/auth/ValidateToken.vue')
+      component: () => import('@/views/auth/ValidateToken.vue')
     }
   ]
 })

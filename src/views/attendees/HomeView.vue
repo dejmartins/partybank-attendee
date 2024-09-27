@@ -60,8 +60,8 @@
 
 <script setup lang="ts">
 import RoundedButton from '@/components/buttons/RoundedButton.vue';
-import AuthModal from '@/components/auth/SignIn.vue';
-import EmailCheck from '@/components/auth/EmailCheck.vue';
+import AuthModal from '@/views/auth/SignInModal.vue';
+import EmailCheck from '@/components/auth/CheckEmailModal.vue';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
