@@ -21,21 +21,21 @@
               <p :class="['font-[600] text-[18px]', selectedTicket === ticket.name ? 'text-[var(--pb-c-red)]' : 'text-black']">
                 {{ ticket.name[0].toUpperCase() + ticket.name.slice(1) }}
               </p>
-              <p class="font-[300] text-[16px] text-black">NGN {{ ticket.price }}</p>
+              <p class="font-[300] text-[16px] text-black">NGN {{ formatAmountWithCommas(ticket.price) }}</p>
             </div>
-            <div v-if="ticket.name !== 'FREE'" class="flex items-center" :class="selectedTicket === ticket.name ? 'flex' : 'hidden'">
+            <div v-if="ticket.name !== 'FREE'" class="ticket-qty flex items-center bg-[#FFFFFF] rounded-[20px] px-[3px]" :class="selectedTicket === ticket.name ? 'flex' : 'hidden'">
               <button
                 @click.stop="decrementTicket(ticket.name)"
-                class="border border-gray-300 mx-1 w-6 h-6 flex justify-center items-center rounded hover:border-gray-500 hover:bg-gray-200"
+                class="w-8 h-8 flex items-center justify-center rounded-full"
               >
-                -
+                <MinusCircleIcon class="size-6" />
               </button>
-              <span class="mx-2">{{ ticketQuantities[ticket.name] || 0 }}</span>
+              <span class="mx-2 text-[var(--pb-c-red)]">{{ ticketQuantities[ticket.name] || 0 }}</span>
               <button
                 @click.stop="incrementTicket(ticket.name)"
-                class="border border-gray-300 mx-1 w-6 h-6 flex justify-center items-center rounded hover:border-gray-500 hover:bg-gray-200"
+                class="w-8 h-8 flex items-center justify-center rounded-full"
               >
-                +
+                <PlusCircleIcon class="size-6" />
               </button>
             </div>
           </div>
@@ -69,6 +69,8 @@ import { type Event, type Ticket } from '@/utils/types';
 import { useAuthStore } from '@/stores/auth';
 import { usePaymentStore } from '@/stores/payment';
 import Api from '@/utils/api';
+import { MinusCircleIcon, PlusCircleIcon } from '@heroicons/vue/24/outline';
+import { formatAmountWithCommas } from '@/utils/actions';
 
 const { RESERVE_TICKET } = Api();
 const authStore = useAuthStore();
@@ -203,9 +205,9 @@ const togglePaymentPopup = () => {
   cursor: not-allowed;
 }
 
-/* .ticket-item button:disabled:hover {
-  background-color: #d3d3d3;
-} */
+.ticket-item.selected .ticket-qty button {
+  background-color: #F7F4F4;
+}
 
 @media (min-width: 768px) {
   .ticket-grid {

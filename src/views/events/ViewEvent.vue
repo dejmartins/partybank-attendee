@@ -24,7 +24,7 @@
         </button>
       </div>
 
-      <EventInfoo
+      <EventInfo
         v-else
         :event-reference="eventReference"
         :event="event"
@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 import BackButton from '@/components/buttons/BackButton.vue';
-import EventInfoo from '@/components/events/EventInfoo.vue';
+import EventInfo from '@/components/events/EventInfo.vue';
 import Api from '@/utils/api';
 import type { Event } from '@/utils/types';
 import { onMounted, ref } from 'vue';
