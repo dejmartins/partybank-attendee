@@ -47,6 +47,8 @@ const decodeTokenFromUrl = () => {
   const type = router.currentRoute.value.query.type;
 
   if (token && typeof token === 'string') {
+    authStore.setToken(token);
+    
     const isValid = authStore.checkTokenValidity(token);
 
     if (isValid && (localStorage.getItem('email') === authStore.decodedEmail || type === 'google')) {
