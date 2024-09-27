@@ -46,7 +46,7 @@
     <GetTicket 
       action="Get Ticket" 
       :disabled="false"
-      @click="togglePaymentPopup"
+      @click="proceedToPay"
       additional-classes="bg-[var(--pb-c-red)] border-[var(--pb-c-red)] text-[var(--pb-c-white)] w-full px-5 py-3 mt-3 text-[18px] font-[700]"
     />
     
@@ -64,17 +64,19 @@
 import GetTicket from '@/components/buttons/Button.vue';
 import SignInModal from '@/views/auth/SignInModal.vue';
 import EmailSentModal from '@/components/auth/CheckEmailModal.vue';
+import Api from '@/utils/api';
 import { ref, onMounted } from 'vue';
 import { type Event, type Ticket } from '@/utils/types';
 import { useAuthStore } from '@/stores/auth';
 import { usePaymentStore } from '@/stores/payment';
-import Api from '@/utils/api';
 import { MinusCircleIcon, PlusCircleIcon } from '@heroicons/vue/24/outline';
 import { formatAmountWithCommas } from '@/utils/actions';
+import { useRouter } from 'vue-router';
 
 const { RESERVE_TICKET } = Api();
 const authStore = useAuthStore();
 const paymentStore = usePaymentStore();
+const router = useRouter();
 
 const { event } = defineProps<{
   event: Event | null;
@@ -151,20 +153,25 @@ const reserveTicket = async () => {
   await fetch(RESERVE_TICKET, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      email: authStore.decodedEmail,
-      numberOfTickets: ticketQuantities.value[selectedTicket.value],
-      ticketType: selectedTicket.value,
-      eventReference: event?.event_reference
-    }),
-  });
-};
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: authStore.decodedEmail,
+        numberOfTickets: ticketQuantities.value[selectedTicket.value],
+        ticketType: selectedTicket.value,
+        eventReference: event?.event_reference
+      }),
+  })
+    .then((res) => res.json())
+    .then((response) => {
+      console.log(response)
+    })
+}
 
-const togglePaymentPopup = () => {
+const proceedToPay = () => {
   if (authStore.isAuthenticated && authStore.checkTokenValidity(authStore.token)) {
     reserveTicket();
+    router.push('/purchase');
     paymentStore.openPaymentPopup();
   } else {
     toggleSignInModal();
