@@ -2,7 +2,7 @@
     <div class="flex flex-col md:flex-row w-full h-[calc(100vh-210px)] overflow-y-auto md:overflow-y-hidden rounded-[20px] bg-[#F9F7F7] p-6 md:p-10 mt-4 border border-[#DDE0E3] custom-scrollbar">
         <div class="md:w-1/3 md:sticky md:top-0 md:border-r-2 md:border-[#DDE0E3] md:pr-6">
             <div class="relative w-full h-full flex flex-col text-left">
-            <img :src="event?.image_url" alt="Event Image" class="w-full aspect-square object-cover rounded-[20px] border border-[#DDE0E3]" />
+            <img :src="event?.image_url" alt="Event Image" class="w-full h-auto object-cover rounded-[20px] border border-[#DDE0E3]" />
             </div>
         </div>
   

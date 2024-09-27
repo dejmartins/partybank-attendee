@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import Toast, { type PluginOptions, POSITION } from 'vue-toastification'
 import VueLazyload from 'vue-lazyload'
-import '@fontsource-variable/urbanist'
+import '@fontsource-variable/red-hat-display';
 import 'vue-toastification/dist/index.css'
 
 import App from './App.vue'
