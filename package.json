@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "@fontsource-variable/red-hat-display": "^5.1.0",
-    "@fontsource-variable/urbanist": "^5.0.21",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-brands-svg-icons": "^6.5.2",
     "@fortawesome/free-regular-svg-icons": "^6.5.2",

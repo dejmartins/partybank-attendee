@@ -69,6 +69,7 @@ import { ref, onMounted } from 'vue';
 import { type Event, type Ticket } from '@/utils/types';
 import { useAuthStore } from '@/stores/auth';
 import { usePaymentStore } from '@/stores/payment';
+import { useEventStore } from '@/stores/event';
 import { MinusCircleIcon, PlusCircleIcon } from '@heroicons/vue/24/outline';
 import { formatAmountWithCommas } from '@/utils/actions';
 import { useRouter } from 'vue-router';
@@ -76,6 +77,7 @@ import { useRouter } from 'vue-router';
 const { RESERVE_TICKET } = Api();
 const authStore = useAuthStore();
 const paymentStore = usePaymentStore();
+const eventStore = useEventStore();
 const router = useRouter();
 
 const { event } = defineProps<{
@@ -171,6 +173,24 @@ const reserveTicket = async () => {
 const proceedToPay = () => {
   if (authStore.isAuthenticated && authStore.checkTokenValidity(authStore.token)) {
     reserveTicket();
+
+    const currentPage = router.currentRoute.value.fullPath;
+    localStorage.setItem('previousPage', currentPage);
+
+    const selectedTicketData = event?.tickets.find(ticket => ticket.name === selectedTicket.value);
+    if (!selectedTicketData) {
+      console.error('No selected ticket data found');
+      return;
+    }
+
+    eventStore.setTicketDetails({
+      eventImage: event?.image_url || '/defaultImage.png',
+      eventName: event?.event_name || 'Unknown Event',
+      ticketQuantity: ticketQuantities.value[selectedTicket.value],
+      ticketType: selectedTicketData.name[0] + selectedTicketData.name.slice(1),
+      ticketAmount: selectedTicketData.price,
+    });
+
     router.push('/purchase');
     paymentStore.openPaymentPopup();
   } else {
