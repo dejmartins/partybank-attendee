@@ -1,15 +1,15 @@
 <template>
-  <form class="form-container" @submit.prevent="proceedToPayment">
+  <form class="form-container p-3 md:p-6" @submit.prevent="proceedToPayment">
     <div class="form-group">
-      <label class="form-label font-bold">Where are you based?</label>
+      <label class="font-[600] text-[20px]">Where are you based?</label>
       <Listbox v-model="selectedLocation">
         <div class="relative mt-1">
           <ListboxButton
-            class="relative w-full cursor-default rounded-lg border border-[#ccc] py-3 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+            class="relative w-full cursor-default rounded-lg border border-[#ccc] py-3 pl-3 pr-10 text-left text-black focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
           >
             <span class="block truncate">{{ selectedLocation.name }}</span>
             <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              <fa-icon :icon="['fas', 'chevron-down']" style="color: #ffffff;" />
+              <fa-icon :icon="['fas', 'chevron-down']" style="color: black;" />
             </span>
           </ListboxButton>
 
@@ -31,7 +31,7 @@
               >
                 <li
                   :class="[
-                    active ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
+                    active ? 'bg-[#FFF2F4] text-[var(--pb-c-red)]' : 'text-gray-900',
                     'relative cursor-default select-none py-2 pl-10 pr-4'
                   ]"
                 >
@@ -40,9 +40,9 @@
                   }}</span>
                   <span
                     v-if="selected"
-                    class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
+                    class="absolute inset-y-0 left-0 flex items-center pl-3 text-[var(--pb-c-red)]"
                   >
-                    <fa-icon :icon="['fas', 'check']" style="color: #FFBF00;" />
+                    <fa-icon :icon="['fas', 'check']" style="color: var(--pb-c-red);" />
                   </span>
                 </li>
               </ListboxOption>
@@ -52,28 +52,13 @@
       </Listbox>
     </div>
     <div class="form-group" :class="{ error: error.phoneError }">
-      <label class="form-label font-bold">Phone Number:</label>
-      <input v-model="userInfo.phoneNumber" type="tel" class="form-input" maxlength="15" @input="filterNonDigits" />
+      <label class="form-label font-bold w-full">Phone Number:</label>
+      <input v-model="userInfo.phoneNumber" type="tel" class="form-input w-full" maxlength="15" @input="filterNonDigits" />
     </div>
-    <div class="flex flex-col">
-      <label class="flex items-center text-gray-300">
-        <input type="checkbox" v-model="isAdult" class="w-[10px] h-[10px] md:w-[15px] md:h-[15px] mr-[10px] mt-[15px] text-[10px]" />
-        I confirm I am 18 years old or older
-      </label>
-    </div>
-
-    <PaymentButton 
-      action="Proceed to Payment" 
-      :loading="isDisabled" 
-      :disabled="isDisabled"
-      additionalClasses="hover:bg-[var(--pb-c-blue)] border-[var(--pb-c-blue)]"
-      additionalLoaderClasses="border-2 border-t-[var(--pb-c-blue)]"
-    />
   </form>
 </template>
 
 <script setup lang="ts">
-import PaymentButton from '@/components/buttons/LoaderButton.vue'
 import { ref, reactive, computed } from 'vue'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 
@@ -135,10 +120,8 @@ const isUserInfoValidated = computed(() => {
   gap: 20px;
   max-width: 600px;
   margin: 0 auto;
-  background-color: transparent;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  color: white;
+  background-color: #FFFFFF;
+  border-radius: 20px;
 }
 
 .form-group {
@@ -148,7 +131,7 @@ const isUserInfoValidated = computed(() => {
 
 .form-label {
   margin-bottom: 8px;
-  color: #cfcfcf;
+  color: black;
 }
 
 .form-input {
@@ -157,13 +140,11 @@ const isUserInfoValidated = computed(() => {
   border: 1px solid #ccc;
   background-color: transparent;
   border-radius: 5px;
-  width: 300px;
-  box-sizing: border-box;
   transition: border-color 0.3s;
 }
 
 .form-input:focus {
-  border-color: var(--pb-c-blue);
+  border-color: var(--pb-c-red);
   outline: none;
 }
 

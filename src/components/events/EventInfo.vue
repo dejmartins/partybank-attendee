@@ -7,7 +7,7 @@
         </div>
   
         <div class="mt-5 md:mt-0 w-full md:w-2/3 px-0 md:px-8 md:overflow-y-auto h-[calc(100vh-290px)] custom-scrollbar">
-            <div class="border-b-2 pb-3">
+            <div class="border-b-[1px] pb-3">
                 <div class="max-w-[70%] flex flex-col gap-3">
                     <p class="text-[24px] md:text-[24px] font-[600]">{{ event?.event_name }}</p>
                     <div class="flex flex-wrap justify-between gap-2 md:gap-4">
@@ -38,7 +38,7 @@
     
             <GetTickets :event="event" />
 
-            <div class="mt-5 border-b-2 pb-3">
+            <div class="mt-5 border-b-[1px] pb-3">
                 <p class="text-[20px] md:text-[20px] font-[600]">About Event</p>
                 <p>{{ event?.about }}</p>
             </div>

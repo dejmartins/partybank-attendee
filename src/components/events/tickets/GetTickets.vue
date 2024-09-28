@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-4 border-b-2 pb-3">
+  <div class="mt-4 border-b-[1px] pb-3">
     <p class="text-[20px] md:text-[20px] font-[600]">Get Tickets</p>
 
     <p class="text-[16px] font-[200]">Which ticket type are you going for?</p>
@@ -21,7 +21,7 @@
               <p :class="['font-[600] text-[18px]', selectedTicket === ticket.name ? 'text-[var(--pb-c-red)]' : 'text-black']">
                 {{ ticket.name[0].toUpperCase() + ticket.name.slice(1) }}
               </p>
-              <p class="font-[300] text-[16px] text-black">NGN {{ formatAmountWithCommas(ticket.price) }}</p>
+              <p class="font-[300] text-[16px] text-black"><span class="text-[12px]">NGN</span> {{ formatAmountWithCommas(ticket.price) }}</p>
             </div>
             <div v-if="ticket.name !== 'FREE'" class="ticket-qty flex items-center bg-[#FFFFFF] rounded-[20px] px-[3px]" :class="selectedTicket === ticket.name ? 'flex' : 'hidden'">
               <button
