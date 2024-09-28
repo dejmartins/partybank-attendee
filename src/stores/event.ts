@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 
 export const useEventStore = defineStore('event', {
   state: () => ({
+    eventReference: '',
     eventImage: '',
     eventName: 'Rave',
     ticketQuantity: 0,
@@ -10,12 +11,13 @@ export const useEventStore = defineStore('event', {
   }),
 
   actions: {
-    setTicketDetails(details: { eventImage: string; eventName: string; ticketQuantity: number; ticketType: string; ticketAmount: number }) {
+    setTicketDetails(details: { eventImage: string; eventName: string; ticketQuantity: number; ticketType: string; ticketAmount: number, eventReference: string }) {
       this.eventImage = details.eventImage;
       this.eventName = details.eventName;
       this.ticketQuantity = details.ticketQuantity;
       this.ticketType = details.ticketType;
       this.ticketAmount = details.ticketAmount;
+      this.eventReference = details.eventReference;
     },
 
     resetTicketDetails() {
@@ -24,6 +26,7 @@ export const useEventStore = defineStore('event', {
       this.ticketQuantity = 0;
       this.ticketType = '';
       this.ticketAmount = 0;
+      this.eventReference = '';
     }
   },
 

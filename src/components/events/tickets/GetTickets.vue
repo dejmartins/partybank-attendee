@@ -189,6 +189,7 @@ const proceedToPay = () => {
       ticketQuantity: ticketQuantities.value[selectedTicket.value],
       ticketType: selectedTicketData.name[0] + selectedTicketData.name.slice(1),
       ticketAmount: selectedTicketData.price,
+      eventReference: event?.event_reference || ''
     });
 
     router.push('/purchase');

@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="popup">
     <div class="inner-popup">
       <slot />
@@ -30,4 +30,4 @@
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
 }
-</style>
+</style> -->
