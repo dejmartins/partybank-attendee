@@ -71,8 +71,8 @@
 <script setup lang="ts">
 import Modal from '@/components/modals/PaymentModal.vue';
 import { ref, onMounted } from 'vue';
-import Info from '@/components/events/tickets/AttendeeInfo.vue';
-import Summary from '@/components/events/tickets/TicketSummary.vue';
+// import Info from '@/components/events/tickets/AttendeeInfo.vue';
+// import Summary from '@/components/events/tickets/TicketSummaryy.vue';
 import { useRoute } from 'vue-router';
 import Api from '@/utils/api';
 import { useToast } from 'vue-toastification';

@@ -25,5 +25,9 @@ export const useEventStore = defineStore('event', {
       this.ticketType = '';
       this.ticketAmount = 0;
     }
+  },
+
+  persist: {
+    storage: sessionStorage,
   }
 });

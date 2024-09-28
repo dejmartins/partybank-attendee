@@ -1,228 +1,186 @@
 <template>
-    <div class="ticket-summary-container">
-      <div class="event-details">
-        <div class="event-image" :style="{ backgroundImage: `url(${eventImage ? eventImage : defaultImage})` }"></div>
-        <div class="event-info">
-          <p class="event-name">{{ eventName }}</p>
-          <p class="event-date">{{ currentDate }}</p>
-        </div>
+    <div class="flex flex-col md:flex-row w-full h-[calc(100vh-210px)] overflow-y-auto md:overflow-y-hidden rounded-[20px] bg-[#F9F7F7] p-6 md:p-10 mt-4 border border-[#DDE0E3] custom-scrollbar">
+      <div class="w-full md:w-1/3">
+        <p class="font-[700] text-[30px]">My Info</p>
+        <form class="form-container p-3 md:p-6 rounded-[20px]">
+          <div class="form-group">
+            <label class="font-[600] text-[20px]">Where are you based?</label>
+            <Listbox v-model="selectedLocation">
+              <div class="relative mt-1">
+                <ListboxButton class="relative w-full cursor-default rounded-lg border border-[#ccc] py-3 pl-3 pr-10 text-left text-black">
+                  <span class="block truncate">{{ selectedLocation.name }}</span>
+                  <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                    <fa-icon :icon="['fas', 'chevron-down']" style="color: black;" />
+                  </span>
+                </ListboxButton>
+  
+                <ListboxOptions class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5">
+                  <ListboxOption
+                    v-for="location in locations"
+                    :key="location.name"
+                    :value="location"
+                    as="template"
+                  >
+                    <li :class="['relative cursor-default select-none py-2 pl-10 pr-4', selectedLocation === location ? 'bg-[#FFF2F4] text-[var(--pb-c-red)]' : 'text-gray-900']">
+                      <span class="block truncate">{{ location.name }}</span>
+                      <span v-if="selectedLocation === location" class="absolute inset-y-0 left-0 flex items-center pl-3 text-[var(--pb-c-red)]">
+                        <fa-icon :icon="['fas', 'check']" />
+                      </span>
+                    </li>
+                  </ListboxOption>
+                </ListboxOptions>
+              </div>
+            </Listbox>
+          </div>
+  
+          <div>
+            <label class="font-bold w-full">Phone Number:</label>
+            <input
+              v-model="userInfo.phoneNumber"
+              type="tel"
+              class="form-input w-full"
+              maxlength="15"
+              @input="filterNonDigits"
+            />
+            <p v-if="error.phoneError" class="text-red-600 text-sm">Invalid phone number format.</p>
+          </div>
+        </form>
       </div>
   
-      <div class="tickets-section">
-        <p class="section-title">Tickets</p>
-        <div class="ticket-item">
-          <p>{{ ticketQuantity }}x {{ ticketType }}</p>
-          <p><fa-icon :icon="['fas', 'naira-sign']" style="color: #000000" />{{ ticketAmount }}</p>
-        </div>
-      </div>
+      <!-- Ticket Info -->
+      <div class="w-full md:w-2/3 px-0 md:px-8 md:overflow-y-auto h-[calc(100vh-290px)] custom-scrollbar">
+        <p class="font-[700] text-[30px] mt-5 md:mt-0">Ticket Info</p>
+        <div class="rounded-[20px] bg-[#FFFFFF] p-3 md:p-6">
+          <div class="w-full mb-4">
+            <img :src="eventStore.eventImage || '/defaultImage.png'" alt="Event Image" class="w-full h-[100px] md:h-[150px] object-cover rounded-[20px] border border-[#DDE0E3]" />
+          </div>
+          <div class="">
+            <div class="border-b pb-2">
+              <p class="font-[600] text-[27px]">{{ eventStore.eventName }}</p>
+              <p class="font-[400] text-[#B5BBC0] text-[20px]">{{ currentDate }}</p>
+            </div>
   
-      <div class="summary-section">
-        <div class="flex justify-between items-center w-full px-[10px]">
-          <p class="text-gray-500">Subtotal:</p>
-          <p class="text-gray-500">
-            <fa-icon :icon="['fas', 'naira-sign']" style="color: gray" />{{ subtotal }}
-          </p>
+            <div class="border-b pb-2">
+              <div class="flex justify-between text-[#B5BBC0] font-[400] text-[20px] my-3">
+                <p>Total Ticket</p>
+                <p>{{ eventStore.ticketQuantity }} x {{ eventStore.ticketType }}</p>
+              </div>
+              <div class="flex justify-between font-[400] text-[20px]">
+                <p class="text-[#B5BBC0]">Amount</p>
+                <p><span class="text-[12px]">NGN</span> {{ formatAmountWithCommas(eventStore.ticketAmount) }}</p>
+              </div>
+            </div>
+  
+            <div class="flex justify-between mt-4 text-[22px] md:text-[28px]">
+              <p class="font-[700]">Total Payment</p>
+              <p class="font-[700]"><span class="text-[12px]">NGN</span> {{ formatAmountWithCommas(total) }}</p>
+            </div>
+          </div>
         </div>
   
-        <!-- <button @click="toggleDiscountInput" class="discount-button mt-2 font-bold">
-          Add Discount
-        </button>
-        <div v-if="showDiscountInput" class="discount-input my-[10px]">
-          <input type="text" v-model="discountCode" placeholder="Enter discount code" />
-          <button @click="applyDiscount" class="apply-button">Apply</button>
-        </div> -->
-  
-        <div class="flex w-full justify-between mt-4">
-          <p class="text-black mx-[10px]">Total</p>
-          <p class="text-black mx-[10px] font-bold text-[20px]">
-            <fa-icon :icon="['fas', 'naira-sign']" style="color: #000000" />{{ total }}
-          </p>
+        <div class="flex flex-col mt-4">
+          <label class="flex items-center font-[200]">
+            <input v-model="termsAccepted" type="checkbox" class="w-[10px] h-[10px] md:w-[15px] md:h-[15px] mr-[10px] mt-[15px]" />
+            By checking this box, you agree that the information you provided is correct and valid, and you are above 18 years of age
+          </label>
+          <p v-if="error.termsError" class="text-red-600 text-sm">You must accept the terms.</p>
         </div>
+  
+        <Button 
+          action="Proceed to Payment"
+          :disabled="disabled"
+          :loading="disabled"
+          additional-classes="bg-[var(--pb-c-red)] border-[var(--pb-c-red)] text-[var(--pb-c-white)] w-full mt-5"
+          text-style="text-[18px] font-[700]"
+          additional-loader-classes="border-4 border-t-[var(--pb-c-red)]"
+          @click="handleProceedToPayment"
+        />
       </div>
     </div>
-  </template>
+</template>
   
-  <script setup lang="ts">
-  import defaultImage from '/defaultImage.png'
-  import { ref, watch } from 'vue'
-  import moment from 'moment'
-  
-  // Props
-  const props = defineProps({
-    eventImage: String,
-    eventName: String,
-    ticketQuantity: Number,
-    ticketType: String,
-    ticketAmount: Number
-  })
-  
-  const currentDate = ref(moment().format('MMMM Do, YYYY'))
-  
-  // @ts-ignore
-  const subtotal = ref(props.ticketQuantity * props.ticketAmount)
-  const discountCode = ref('')
-  const showDiscountInput = ref(false)
-  
-  // const toggleDiscountInput = () => {
-  //   showDiscountInput.value = !showDiscountInput.value
-  // }
-  
-  // const applyDiscount = () => {
-  //   if (discountCode.value === 'DISCOUNT10') {
-  //     subtotal.value = subtotal.value * 0.9
-  //   }
-  // }
-  
-  const total = ref(subtotal.value)
-  
-  watch(subtotal, (newSubtotal) => {
-    total.value = newSubtotal
-  })
-  </script>
-  
-  <style scoped>
-  .ticket-summary-container {
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background-color: #ffffff;
-  }
-  
-  .event-details {
-    display: flex;
-    align-items: center;
+<script setup lang="ts">
+import moment from 'moment';
+import Button from '@/components/buttons/LoaderButton.vue';
+import { useEventStore } from '@/stores/event';
+import { ref, computed } from 'vue';
+import { formatAmountWithCommas } from '@/utils/actions';
+import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue';
+
+const eventStore = useEventStore();
+const currentDate = ref(moment().format('MMMM Do, YYYY'))
+const total = ref(eventStore.ticketQuantity * eventStore.ticketAmount);
+
+const locations = ref([
+    { name: 'Warri' },
+    { name: 'Benin' },
+    { name: 'PortHarcourt' },
+    { name: 'Asaba' },
+    { name: 'Calabar' }
+]);
+const selectedLocation = ref(locations.value[0]);
+const userInfo = ref({ phoneNumber: '' });
+const termsAccepted = ref(false);
+const disabled = ref(false);
+
+const error = ref({
+    phoneError: false,
+    termsError: false
+});
+
+// Methods
+const filterNonDigits = (event: Event) => {
+    const input = event.target as HTMLInputElement;
+    input.value = input.value.replace(/[^+\d]/g, '');
+    userInfo.value.phoneNumber = input.value;
+};
+
+const validateForm = () => {
+    error.value.phoneError = !/^\+?\d{11,14}$/.test(userInfo.value.phoneNumber);
+    error.value.termsError = !termsAccepted.value;
+    return !error.value.phoneError && !error.value.termsError;
+};
+
+const isFormValid = computed(() => validateForm());
+
+const handleProceedToPayment = () => {
+    if (isFormValid.value) {
+        disabled.value = true;
+
+        console.log("Proceeding to payment with data:", {
+            location: selectedLocation.value.name,
+            phoneNumber: userInfo.value.phoneNumber,
+            termsAccepted: termsAccepted.value,
+            total: total.value,
+            ticketType: eventStore.ticketType
+        });
+
+        disabled.value = false;
+    } else {
+        console.log("Validation failed");
+    }
+};
+</script>
+
+<style scoped>
+.form-container {
+    background-color: #FFFFFF;
+}
+
+.form-group {
     margin-bottom: 20px;
-  }
-  
-  .event-image {
-    width: 100px;
-    height: 100px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    margin-right: 20px;
-    border-radius: 10px;
-  }
-  
-  .event-info {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .event-name {
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .event-date {
-    color: #777;
-  }
-  
-  .section-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #333;
-  }
-  
-  .tickets-section {
-    margin-bottom: 20px;
-  }
-  
-  .ticket-item {
-    display: flex;
-    justify-content: space-between;
-    background-color: #f8f8f8;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    color: black;
-  }
-  
-  .summary-section {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .apply-button {
-    padding: 5px 10px;
-    background-color: var(--pb-c-blue);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .discount-button {
-    padding: 5px 10px;
+}
+
+.form-input {
+    padding: 12px;
+    border: 1px solid #ccc;
     background-color: transparent;
-    color: rgb(222, 51, 51);
-    border: none;
-    cursor: pointer;
-  }
-  
-  .apply-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .discount-input {
-    width: 100%;
-    display: flex;
-    align-items: center;
-  }
-  
-  .discount-input input {
-    padding: 5px;
-    border: 1px solid #ddd;
     border-radius: 5px;
-    margin-right: 10px;
-    margin-bottom: 0;
-  }
-  
-  .cta-button {
-    margin-top: 20px;
-    padding: 15px 30px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .cta-button:hover {
-    background-color: #218838;
-  }
-  
-  @media (max-width: 768px) {
-    .ticket-summary-container {
-      padding: 15px;
-    }
-  
-    .event-image {
-      width: 80px;
-      height: 80px;
-    }
-  
-    .event-name {
-      font-size: 16px;
-    }
-  
-    .event-date {
-      font-size: 14px;
-    }
-  
-    .ticket-item p {
-      margin-bottom: 5px;
-    }
-  
-    .cta-button {
-      font-size: 14px;
-      padding: 10px 20px;
-    }
-  }
-  </style>
-  
+    transition: border-color 0.3s;
+}
+
+.form-input:focus {
+    border-color: var(--pb-c-red);
+    outline: none;
+}
+</style>

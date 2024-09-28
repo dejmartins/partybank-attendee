@@ -7,7 +7,7 @@
         </div>
   
         <div class="mt-5 md:mt-0 w-full md:w-2/3 px-0 md:px-8 md:overflow-y-auto h-[calc(100vh-290px)] custom-scrollbar">
-            <div class="border-b-2 pb-3">
+            <div class="border-b-[1px] pb-3">
                 <div class="max-w-[70%] flex flex-col gap-3">
                     <p class="text-[24px] md:text-[24px] font-[600]">{{ event?.event_name }}</p>
                     <div class="flex flex-wrap justify-between gap-2 md:gap-4">
@@ -38,7 +38,7 @@
     
             <GetTickets :event="event" />
 
-            <div class="mt-5 border-b-2 pb-3">
+            <div class="mt-5 border-b-[1px] pb-3">
                 <p class="text-[20px] md:text-[20px] font-[600]">About Event</p>
                 <p>{{ event?.about }}</p>
             </div>
@@ -71,29 +71,4 @@ defineProps<{
     event: Event | null;
 }>();
 </script>
-
-<style scoped>
-.custom-scrollbar::-webkit-scrollbar {
-    width: 10px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: #4E0916;
-    border-radius: 10px;
-    border: 3px solid white;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background-color: #E91B41;
-}
-
-.custom-scrollbar {
-    scrollbar-width: thin;
-    scrollbar-color: #4E0916 #f1f1f1;
-}
-</style>
   
