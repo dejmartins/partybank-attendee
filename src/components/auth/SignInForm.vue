@@ -2,7 +2,7 @@
     <form class='text-left w-full' @submit.prevent="signIn">
         <label class="text-lg font-[500]">Email Address</label>
         <input 
-            class="w-full rounded-[10px] p-[10px] mt-[8px] mb-[30px] focus:outline-none focus:ring-2 focus:ring-[var(--pb-c-red)] focus:border-[var(--pb-c-red)]" 
+            class="w-full rounded-[10px] p-[10px] mt-[8px] mb-[30px] border-0 bg-[#FFFFFF] outline-none focus:ring-2 focus:ring-[var(--pb-c-red)] focus:border-[var(--pb-c-red)]" 
             placeholder="Enter your email address"
             v-model="userInfo.email"
             :class="{ error: error.emailError }"

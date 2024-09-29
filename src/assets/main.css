@@ -52,3 +52,20 @@ input {
 #app {
   font-family: 'Red Hat Display', sans-serif;
 }
+
+input::-webkit-input-placeholder {
+  color: #DDE0E3;
+}
+
+input:-ms-input-placeholder {
+  color: #DDE0E3;
+}
+
+input::-ms-input-placeholder {
+  color: #DDE0E3;
+}
+
+input::placeholder {
+  color: #DDE0E3;
+}
+
