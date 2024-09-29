@@ -29,7 +29,7 @@
                 </RouterLink>
             </div>
 
-            <div class="organizer-core bg-[color:var(--pb-c-white)] max-w-[50vw] flex justify-between items-center rounded-full p-3 px-8 mt-24">
+            <div class="bg-[color:var(--pb-c-white)] w-[80vw] md:w-[50vw] flex flex-col md:flex-row justify-between items-center rounded-full p-3 px-8 mt-24">
                 <div class="flex mr-2 profile-container mb-3 md:mb-0">
                     <div
                         class="profile-icon"
@@ -81,7 +81,6 @@ const bgImageSrc = 'https://res.cloudinary.com/drddoxnsi/image/upload/v171865309
 }
 
 @media (max-width: 765px) {
-
   .organizer-core {
     font-weight: 100;
     display: flex;
