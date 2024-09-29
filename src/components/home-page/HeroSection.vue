@@ -2,7 +2,7 @@
     <section class="relative bg-cover bg-center h-screen flex flex-col justify-center text-white rounded-b-[20px]"
         :style="{ backgroundImage: `url(${bgImageSrc})` }"
       >
-        <div class="absolute inset-0 bg-black opacity-80 rounded-b-[30px]"></div>
+        <div class="absolute inset-0 bg-black opacity-60 rounded-b-[30px]"></div>
   
         <div class="z-10 text-center flex flex-col items-center">
             <h1 class="text-3xl md:text-6xl mb-8 transform md:rotate-[-2deg]">
