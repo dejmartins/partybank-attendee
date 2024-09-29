@@ -77,7 +77,8 @@ const router = createRouter({
     {
       path: '/validate-token',
       name: 'validate-token',
-      component: () => import('@/views/auth/ValidateToken.vue')
+      component: () => import('@/views/auth/ValidateToken.vue'),
+      props: route => ({ token: route.query.token, type: route.query.type })
     }
   ]
 })

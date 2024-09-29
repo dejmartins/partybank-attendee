@@ -32,6 +32,11 @@ export const isValidEmail = (email: string): boolean => {
     return emailRegex.test(email);
 };
 
+export const isValidPhoneNumber = (phoneNumber: string): boolean => {
+    const phoneRegex = /^\+?\d{11,14}$/;
+    return phoneRegex.test(phoneNumber);
+};
+
 export function formatAmountWithCommas(amount: number | string) {
   return amount.toLocaleString();
 }

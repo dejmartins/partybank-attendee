@@ -1,11 +1,11 @@
 <template>
-    <section class="relative bg-cover bg-center h-screen flex flex-col justify-center items-center text-white rounded-b-[20px]"
+    <section class="relative bg-cover bg-center h-screen flex flex-col justify-center text-white rounded-b-[20px]"
         :style="{ backgroundImage: `url(${bgImageSrc})` }"
       >
         <div class="absolute inset-0 bg-black opacity-80 rounded-b-[30px]"></div>
   
         <div class="z-10 text-center flex flex-col items-center">
-            <h1 class="text-3xl md:text-6xl my-8 transform md:rotate-[-2deg]">
+            <h1 class="text-3xl md:text-6xl mb-8 transform md:rotate-[-2deg]">
                 <span class="font-bold inline-block">Celebrations secured,</span> <br />
                 <span class="block mt-3 font-bold text-[28px] md:text-6xl">
                     Best 
@@ -29,8 +29,8 @@
                 </RouterLink>
             </div>
 
-            <div class="organizer-core bg-[color:var(--pb-c-white)] w-[50vw] flex justify-between items-center rounded-full p-3 px-8 mt-24">
-                <div class="flex mr-2 profile-container">
+            <div class="organizer-core bg-[color:var(--pb-c-white)] max-w-[47vw] flex justify-between items-center rounded-full p-3 px-8 mt-24">
+                <div class="flex mr-2 profile-container mb-3 md:mb-0">
                     <div
                         class="profile-icon"
                         v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/EUPHORIA_ASABA_drzuhq.avif'"
