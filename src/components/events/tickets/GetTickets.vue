@@ -170,6 +170,7 @@ const reserveTicket = async () => {
     })
 }
 
+// do not proceed if tickets are not reserved successfully
 const proceedToPay = () => {
   if (authStore.isAuthenticated && authStore.checkTokenValidity(authStore.token)) {
     reserveTicket();

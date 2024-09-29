@@ -158,12 +158,14 @@ const pay = async (value: any) => {
     city: value.location,
     emailValidated: true,
     termsAndConditionsAccepted: value.termsAccepted,
-    numberOfTickets: 6,
+    numberOfTickets: eventStore.ticketQuantity,
     discountRecorded: false,
     discounted: false,
     ticketType: eventStore.ticketType,
     eventReference: eventStore.eventReference
   };
+
+  console.log(payload);
 
   try {
     const response = await fetch(PAY, {
