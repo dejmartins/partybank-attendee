@@ -1,7 +1,7 @@
 <template>
   <button
     :disabled="disabled"
-    :class="['px-5 py-3 border-[2px] rounded-[10px] flex items-center justify-center transition duration-[0.3s]', additionalClasses]"
+    :class="['px-5 py-3 border-0 rounded-[10px] flex items-center justify-center transition duration-[0.3s]', additionalClasses]"
   >
     <i :class="{ 'mr-3': hasSlotContent }">
       <slot></slot>
