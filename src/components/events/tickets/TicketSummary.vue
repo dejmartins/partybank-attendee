@@ -109,6 +109,7 @@ import { formatAmountWithCommas } from '@/utils/actions';
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue';
 import { useAuthStore } from '@/stores/auth';
 import { useToast } from 'vue-toastification';
+import { isValidPhoneNumber } from '@/utils/actions';
 
 const { PAY } = Api();
 const eventStore = useEventStore();
@@ -143,7 +144,7 @@ const filterNonDigits = (event: Event) => {
 };
 
 const validateForm = () => {
-  error.value.phoneError = !/^\+?\d{11,14}$/.test(userInfo.value.phoneNumber);
+  error.value.phoneError = !isValidPhoneNumber(userInfo.value.phoneNumber);
   error.value.termsError = !termsAccepted.value;
   return !error.value.phoneError && !error.value.termsError;
 };
@@ -157,7 +158,7 @@ const pay = async (value: any) => {
     city: value.location,
     emailValidated: true,
     termsAndConditionsAccepted: value.termsAccepted,
-    numberOfTickets: eventStore.ticketQuantity,
+    numberOfTickets: 6,
     discountRecorded: false,
     discounted: false,
     ticketType: eventStore.ticketType,
