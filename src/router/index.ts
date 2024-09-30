@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { auth } from '@/firebase'
 import { onAuthStateChanged } from 'firebase/auth'
+// import { useAuthStore } from '@/stores/auth'
+// const authStore = useAuthStore();
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -107,14 +109,12 @@ router.beforeEach(async (to) => {
   }
 })
 
-router.beforeEach(async (to, from, next) => {
-  const authenticated = false;
-
-  if (to.name === 'verify-email' && !authenticated) {
-    next({ name: 'home' });
-  } else {
-    next();
-  }
-})
+// router.beforeEach(async (to, from, next) => {
+//   if (to.name === 'ticket-purchase') {
+//     next({ name: 'discover' });
+//   } else {
+//     next();
+//   }
+// })
 
 export default router
