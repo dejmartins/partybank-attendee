@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import { defineEmits } from 'vue';
 import Modal from '@/components/modals/BaseModal.vue';
-import SignInForm from '@/components/auth/SignInForm.vue';
+import SignInForm from '@/components/auth/SignInFormModal.vue';
 
 const emit = defineEmits(['close', 'email-sent']);
 
