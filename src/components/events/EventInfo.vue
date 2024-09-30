@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col md:flex-row w-full h-[calc(100vh-210px)] overflow-y-auto md:overflow-y-hidden rounded-[20px] bg-[#F9F7F7] p-6 md:p-10 mt-4 border border-[#DDE0E3] custom-scrollbar">
-        <div class="md:w-1/3 md:sticky md:top-0 md:border-r-2 md:border-[#DDE0E3] md:pr-6">
+        <div class="md:w-1/3 md:sticky md:top-0 md:border-r md:border-[#DDE0E3] md:pr-6">
             <div class="relative w-full h-full flex flex-col text-left">
             <img :src="event?.image_url" alt="Event Image" class="w-full h-auto object-cover rounded-[20px] border border-[#DDE0E3]" />
             </div>
@@ -8,30 +8,30 @@
   
         <div class="mt-5 md:mt-0 w-full md:w-2/3 px-0 md:px-8 md:overflow-y-auto h-[calc(100vh-290px)] custom-scrollbar">
             <div class="border-b-[1px] pb-3">
-                <div class="max-w-[70%] flex flex-col gap-3">
-                    <p class="text-[24px] md:text-[24px] font-[600]">{{ event?.event_name }}</p>
-                    <div class="flex flex-wrap justify-between gap-2 md:gap-4">
-                    <div class="flex items-center gap-2">
-                        <div class="w-8 h-8 flex items-center justify-center rounded-full bg-[#F7F4F4]">
-                            <MapPinIcon class="size-6" />
+                <div class="flex flex-col gap-2">
+                    <p class="text-[19px] md:text-[23px] font-[700]">{{ event?.event_name }}</p>
+                    <div class="flex flex-wrap items-center gap-x-10 gap-y-2">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 flex items-center justify-center rounded-full bg-[var(--pb-c-white)]">
+                                <MapPinIcon class="size-6" />
+                            </div>
+                            <div class="flex flex-col">
+                                <p class="text-[17px] font-[500]">{{ event?.location.city }}, {{ event?.location.country }}</p>
+                                <p class="text-[15px] font-[200] line-clamp-1">{{ event?.venue }}</p>
+                            </div>
                         </div>
-                        <div class="flex flex-col">
-                            <p class="text-[17px] font-[500]">{{ event?.location.city }}, {{ event?.location.country }}</p>
-                            <p class="text-[15px] font-[200] line-clamp-1">{{ event?.venue }}</p>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 flex items-center justify-center rounded-full bg-[var(--pb-c-white)]">
+                                <CalendarDaysIcon class="size-6" />
+                            </div>
+                            <p class="text-[15px] font-[200]">{{ moment(event?.date).format('MMMM Do, YYYY') }}</p>
                         </div>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="w-8 h-8 flex items-center justify-center rounded-full bg-[#F7F4F4]">
-                            <CalendarDaysIcon class="size-6" />
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 flex items-center justify-center rounded-full bg-[var(--pb-c-white)]">
+                                <ClockIcon class="size-6" />
+                            </div>
+                            <p class="text-[15px] font-[200]">{{ moment(event?.time, 'H:mm').format('LT') }}</p>
                         </div>
-                        <p class="text-[15px] font-[200]">{{ event?.date }}</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="w-8 h-8 flex items-center justify-center rounded-full bg-[#F7F4F4]">
-                            <ClockIcon class="size-6" />
-                        </div>
-                        <p class="text-[15px] font-[200]">{{ moment(event?.time, 'H:mm').format('LT') }}</p>
-                    </div>
                     </div>
                 </div>
             </div>
