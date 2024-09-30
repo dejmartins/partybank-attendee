@@ -37,7 +37,7 @@
         <div class="relative">
           <label class="font-[600] w-full text-[15px] md:text-[18px]">Phone Number:</label>
           <div class="relative">
-            <span class="absolute inset-y-0 top-2 left-2 h-[58%] flex items-center justify-center rounded-[8px] px-6 bg-[#F8F9F9] font-[400] text-[#080D18]">+234</span>
+            <span class="absolute inset-y-0 top-[8.5px] left-2 h-[55%] flex items-center justify-center rounded-[8px] px-6 bg-[#F8F9F9] font-[400] text-[#080D18]">+234</span>
             <input
               v-model="userInfo.phoneNumber"
               type="tel"
