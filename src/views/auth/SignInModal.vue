@@ -1,7 +1,7 @@
 <template>
     <div>
       <Modal>
-        <div class="text-black min-h-72 md:min-h-80 w-[350px] md:w-[430px] flex flex-col items-center w-full text-center px-6 py-3 pb-10">
+        <div class="text-black min-h-72 md:min-h-80 w-[350px] md:w-[530px] flex flex-col items-center w-full text-center px-6 py-3 pb-10">
             <div class="flex justify-start w-full">
                 <fa-icon :icon="['fas', 'arrow-left']" style="color: black;" class="bg-[#F7F6F7] p-[7px] w-4 h-4 rounded-full cursor-pointer" @click="closeModal"/>
             </div>
