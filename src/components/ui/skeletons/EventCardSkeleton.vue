@@ -1,18 +1,38 @@
 <template>
     <div class="skeleton-card border flex items-start md:items-center p-3 rounded-[10px] gap-3 bg-[#FAF9F9]">
-      <div class="skeleton-img min-w-[100px] min-h-[100px] rounded-[10px] bg-[#E0E0E0]"></div>
+      <div class="skeleton-img shimmer min-w-[100px] min-h-[100px] rounded-[10px]"></div>
       <div class="skeleton-content flex-1">
-        <div class="skeleton-title w-3/4 h-[20px] md:h-[24px] bg-[#E0E0E0] rounded-md mb-4"></div>
-        <div class="skeleton-location w-1/2 h-[16px] bg-[#E0E0E0] rounded-md mb-2"></div>
+        <div class="skeleton-title shimmer w-3/4 h-[20px] md:h-[24px] rounded-md mb-4"></div>
+        <div class="skeleton-location shimmer w-1/2 h-[16px] rounded-md mb-2"></div>
         <div class="skeleton-info flex flex-wrap gap-2 md:gap-4">
-          <div class="skeleton-icon w-8 h-8 bg-[#E0E0E0] rounded-full"></div>
-          <div class="skeleton-text w-1/3 h-[16px] bg-[#E0E0E0] rounded-md"></div>
+          <div class="skeleton-icon shimmer w-8 h-8 rounded-full"></div>
+          <div class="skeleton-text shimmer w-1/3 h-[16px] rounded-md"></div>
         </div>
       </div>
     </div>
 </template>
 
 <style scoped>
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    #e0e0e0 25%,
+    #f0f0f0 50%,
+    #e0e0e0 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
 .skeleton-card {
     display: flex;
     align-items: center;
