@@ -1,6 +1,6 @@
 <template>
   <div class="mt-4 border-b-[1px] pb-3">
-    <p class="text-[20px] md:text-[20px] font-[600]">Get Tickets</p>
+    <p class="text-[20px] md:text-[24px] font-[700]">Get Tickets</p>
 
     <p class="text-[16px] font-[200]">Which ticket type are you going for?</p>
 
@@ -45,34 +45,34 @@
 
     <GetTicket 
       action="Get Ticket" 
-      :disabled="false"
+      :disabled="isReserving"
+      :loading="isReserving"
       @click="proceedToPay"
-      additional-classes="bg-[var(--pb-c-red)] border-[var(--pb-c-red)] text-[var(--pb-c-white)] w-full px-5 py-3 mt-3 text-[18px] font-[700]"
-    />
-    
-    <SignInModal
-      v-if="showSignInModal"
-      @close="toggleSignInModal"
-      @email-sent="emailModalToggle"
+      text-style="text-[18px] font-[700] text-[var(--pb-c-white)]"
+      additional-classes="bg-[var(--pb-c-red)] border-[var(--pb-c-red)] w-full px-5 py-3 mt-3"
+      additional-loader-classes="border-4 border-t-[var(--pb-c-red)]"
     />
 
+    <SignInModal v-if="showSignInModal" @close="toggleSignInModal" @email-sent="emailModalToggle" />
     <EmailSentModal v-if="showEmailSentModal" @close="emailModalToggle" />
+
+    <p v-if="reserveError" class="text-red-600 mt-4">{{ reserveError }}</p>
   </div>
 </template>
 
 <script setup lang="ts">
-import GetTicket from '@/components/buttons/Button.vue';
+import GetTicket from '@/components/buttons/LoaderButton.vue';
 import SignInModal from '@/views/auth/SignInModal.vue';
 import EmailSentModal from '@/components/auth/CheckEmailModal.vue';
 import Api from '@/utils/api';
-import { ref, onMounted } from 'vue';
-import { type Event, type Ticket } from '@/utils/types';
+import { onMounted, ref } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { usePaymentStore } from '@/stores/payment';
 import { useEventStore } from '@/stores/event';
 import { MinusCircleIcon, PlusCircleIcon } from '@heroicons/vue/24/outline';
 import { formatAmountWithCommas } from '@/utils/actions';
 import { useRouter } from 'vue-router';
+import type { Event, Ticket } from '@/utils/types';
 
 const { RESERVE_TICKET } = Api();
 const authStore = useAuthStore();
@@ -88,10 +88,8 @@ const selectedTicket = ref<string>('');
 const ticketQuantities = ref<{ [key: string]: number }>({});
 const showSignInModal = ref(false);
 const showEmailSentModal = ref(false);
-
-onMounted(() => {
-  selectTicketByDefault();
-});
+const isReserving = ref(false); 
+const reserveError = ref('');
 
 const isTicketAvailable = (ticket: Ticket) => {
   const currentDate = new Date();
@@ -117,6 +115,19 @@ const selectTicket = (ticketName: string) => {
   // }
 };
 
+const incrementTicket = (ticketName: string) => {
+  const currentQuantity = ticketQuantities.value[ticketName] || 0;
+  if (currentQuantity < 5) {
+    ticketQuantities.value[ticketName] = currentQuantity + 1;
+  }
+};
+
+const decrementTicket = (ticketName: string) => {
+  if (ticketQuantities.value[ticketName] && ticketQuantities.value[ticketName] > 1) {
+    ticketQuantities.value[ticketName] -= 1;
+  }
+};
+
 const selectTicketByDefault = () => {
   if (event?.tickets && event.tickets.length > 0) {
     const currentDate = new Date();
@@ -138,68 +149,79 @@ const selectTicketByDefault = () => {
   }
 };
 
-const incrementTicket = (ticketName: string) => {
-  const currentQuantity = ticketQuantities.value[ticketName] || 0;
-  if (currentQuantity < 5) {
-    ticketQuantities.value[ticketName] = currentQuantity + 1;
-  }
-};
+const reserveTicket = async (): Promise<boolean> => {
+  isReserving.value = true;
+  reserveError.value = '';
 
-const decrementTicket = (ticketName: string) => {
-  if (ticketQuantities.value[ticketName] && ticketQuantities.value[ticketName] > 1) {
-    ticketQuantities.value[ticketName] -= 1;
-  }
-};
-
-const reserveTicket = async () => {
-  await fetch(RESERVE_TICKET, {
-    method: 'POST',
-    headers: {
+  try {
+    const response = await fetch(RESERVE_TICKET, {
+      method: 'POST',
+      headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         email: authStore.decodedEmail,
-        numberOfTickets: ticketQuantities.value[selectedTicket.value],
+        numberOfTickets: 9,
         ticketType: selectedTicket.value,
         eventReference: event?.event_reference
       }),
-  })
-    .then((res) => res.json())
-    .then((response) => {
-      console.log(response)
-    })
-}
-
-// do not proceed if tickets are not reserved successfully
-const proceedToPay = () => {
-  if (authStore.isAuthenticated && authStore.checkTokenValidity(authStore.token)) {
-    reserveTicket();
-
-    const currentPage = router.currentRoute.value.fullPath;
-    localStorage.setItem('previousPage', currentPage);
-
-    const selectedTicketData = event?.tickets.find(ticket => ticket.name === selectedTicket.value);
-    if (!selectedTicketData) {
-      console.error('No selected ticket data found');
-      return;
-    }
-
-    eventStore.setTicketDetails({
-      eventImage: event?.image_url || '/defaultImage.png',
-      eventName: event?.event_name || 'Unknown Event',
-      ticketQuantity: ticketQuantities.value[selectedTicket.value],
-      ticketType: selectedTicketData.name[0] + selectedTicketData.name.slice(1),
-      ticketAmount: selectedTicketData.price,
-      eventReference: event?.event_reference || ''
     });
 
-    router.push('/purchase');
-    paymentStore.openPaymentPopup();
+    const result = await response.json();
+    console.log(result)
+    isReserving.value = false;
+
+    if (response.ok) {
+      return true;
+    } else {
+      reserveError.value = 'Failed to reserve tickets. Please try again.';
+      return false;
+    }
+  } catch (error) {
+    isReserving.value = false;
+    reserveError.value = 'Network error occurred. Please try again.';
+    return false;
+  }
+};
+
+const proceedToPay = async () => {
+  if (authStore.isAuthenticated && authStore.checkTokenValidity(authStore.token)) {
+    const success = await reserveTicket();
+
+    if (success) {
+      const currentPage = router.currentRoute.value.fullPath;
+      localStorage.setItem('previousPage', currentPage);
+
+      const selectedTicketData = event?.tickets.find(ticket => ticket.name === selectedTicket.value);
+      if (!selectedTicketData) {
+        console.error('No selected ticket data found');
+        return;
+      }
+
+      eventStore.setTicketDetails({
+        eventImage: event?.image_url || '/defaultImage.png',
+        eventName: event?.event_name || 'Unknown Event',
+        ticketQuantity: ticketQuantities.value[selectedTicket.value],
+        ticketType: selectedTicketData.name[0] + selectedTicketData.name.slice(1),
+        ticketAmount: selectedTicketData.price,
+        eventReference: event?.event_reference || ''
+      });
+
+      router.push('/purchase');
+      paymentStore.openPaymentPopup();
+    } else {
+      console.log(reserveError.value);
+    }
   } else {
     toggleSignInModal();
   }
 };
+
+onMounted(() => {
+  selectTicketByDefault();
+});
 </script>
+
 
 <style scoped>
 .ticket-grid {

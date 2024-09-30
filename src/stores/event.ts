@@ -4,10 +4,10 @@ export const useEventStore = defineStore('event', {
   state: () => ({
     eventReference: '',
     eventImage: '',
-    eventName: 'Rave',
+    eventName: '',
     ticketQuantity: 0,
-    ticketType: 'Early Bird',
-    ticketAmount: 10000,
+    ticketType: '',
+    ticketAmount: 0,
   }),
 
   actions: {

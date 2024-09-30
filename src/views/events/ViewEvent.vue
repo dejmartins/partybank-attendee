@@ -6,12 +6,8 @@
     </div>
 
     <div class="flex-grow px-6 md:px-20 overflow-hidden">
-      <div v-if="isLoading" class="flex justify-center items-center text-center py-6">
-        <img
-          src="@/assets/images/bottles.gif"
-          class="h-32 md:mt-20"
-          alt="Explore Gif Loader"
-        />
+      <div v-if="isLoading">
+        <EventInfoSkeleton />
       </div>
 
       <div v-else-if="errorOccurred" class="flex flex-col items-center text-center py-6">
@@ -36,11 +32,13 @@
 <script setup lang="ts">
 import BackButton from '@/components/buttons/BackButton.vue';
 import EventInfo from '@/components/events/EventInfo.vue';
+import EventInfoSkeleton from '@/components/ui/skeletons/EventInfoSkeleton.vue';
 import Api from '@/utils/api';
 import type { Event } from '@/utils/types';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useToast } from 'vue-toastification';
+
 const { GET_EVENT_BY_REFERENCE } = Api();
 
 const route = useRoute();
@@ -51,28 +49,28 @@ const errorOccurred = ref(false);
 const eventReference = route.params.eventReference;
 
 onMounted(async () => {
-await getEvents();
+  await getEvents();
 });
 
 const getEvents = async () => {
-isLoading.value = true;
-errorOccurred.value = false;
+  isLoading.value = true;
+  errorOccurred.value = false;
 
-await fetch(`${GET_EVENT_BY_REFERENCE}/${eventReference}`, {
-  method: 'GET',
-})
-  .then((res) => res.json())
-  .then((response) => {
-    if (response) {
-      event.value = response;
-      isLoading.value = false;
-    } else {
-      throw new Error('No data returned');
-    }
+  await fetch(`${GET_EVENT_BY_REFERENCE}/${eventReference}`, {
+    method: 'GET',
   })
-  .catch((error: any) => {
-    errorOccurred.value = true;
-    isLoading.value = false;
-  });
+    .then((res) => res.json())
+    .then((response) => {
+      if (response) {
+        event.value = response;
+        isLoading.value = false;
+      } else {
+        throw new Error('No data returned');
+      }
+    })
+    .catch(() => {
+      errorOccurred.value = true;
+      isLoading.value = false;
+    });
 };
 </script>

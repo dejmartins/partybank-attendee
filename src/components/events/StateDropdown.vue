@@ -1,16 +1,16 @@
 <template>
     <div>
-        <div v-if="!isMobile" class="flex items-center border border-[#DDE0E3] h-[56px] rounded-[10px] mt-4 bg-[#F9F7F7]">
+        <div v-if="!isMobile" class="flex items-center border border-[#DDE0E3] min-h-[56px] rounded-[10px] mt-4 bg-[#F9F7F7]">
             <div class="whitespace-nowrap flex gap-[10px] p-2">
-            <Button
-                v-for="state in states"
-                :key="state"
-                :action="state"
-                :disabled="false"
-                @click="selectState(state)"
-                :additionalClasses="`py-[4px] px-[9px] text-sm md:text-lg md:py-[7px] md:px-[18px] border rounded-[10px] 
-                ${state === selectedState ? 'bg-[var(--pb-c-red)] border-[#4E0916] border-2 text-white' : 'text-black'}`"
-            />
+                <Button
+                    v-for="state in states"
+                    :key="state"
+                    :action="state"
+                    :disabled="false"
+                    @click="selectState(state)"
+                    :additionalClasses="`py-[4px] px-[9px] text-sm md:text-lg md:py-[7px] md:px-[18px] border rounded-[10px] 
+                    ${state === selectedState ? 'bg-[var(--pb-c-red)] border-[#4E0916] border-2 text-white' : 'text-black'}`"
+                />
             </div>
         </div>
   
