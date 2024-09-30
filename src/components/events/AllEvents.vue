@@ -1,11 +1,11 @@
 <template>
-    <div class="flex flex-col md:flex-row w-full h-[calc(100vh-260px)] overflow-y-auto md:overflow-y-hidden rounded-[20px] bg-[#F9F7F7] p-6 md:p-10 mt-2 border border-[#DDE0E3] custom-scrollbar">
-      <div class="md:w-1/3 md:sticky md:top-0 md:border-r-2 md:border-[#DDE0E3] md:pr-6">
+    <div class="flex flex-col md:flex-row w-full h-[calc(100vh-270px)] overflow-y-auto md:overflow-y-hidden rounded-[20px] bg-[#F9F7F7] p-6 md:p-10 mt-2 border border-[#DDE0E3] custom-scrollbar">
+      <div class="md:w-1/3 md:sticky md:top-0 md:border-r md:border-[#DDE0E3] md:pr-6">
         <div class="relative w-full h-full flex flex-col text-left">
           <img :src="stateImage" alt="State Image" class="w-full aspect-square object-cover rounded-[20px] border border-[#DDE0E3]" />
           <div class="mt-3 text-left">
-            <h2 class="text-[25px] font-[300]">{{ selectedState }}<span class="font-[600] italic">, Nigeria</span></h2>
-            <p class="font-[200] text-[22px]">{{ stateSlogan }}</p>
+            <h2 class="text-[24px] font-[400]">{{ selectedState }}<span class="font-[600] italic">, Nigeria</span></h2>
+            <p class="font-[400] text-[18px]">{{ stateSlogan }}</p>
           </div>
         </div>
       </div>
