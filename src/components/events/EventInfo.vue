@@ -1,12 +1,12 @@
 <template>
     <div class="flex flex-col md:flex-row w-full h-[calc(100vh-210px)] overflow-y-auto md:overflow-y-hidden rounded-[20px] bg-[#F9F7F7] p-6 md:p-10 mt-4 border border-[#DDE0E3] custom-scrollbar">
-        <div class="md:w-1/3 md:sticky md:top-0 md:border-r md:border-[#DDE0E3] md:pr-6">
+        <div class="md:w-1/3 md:sticky md:top-0 md:border-r md:border-[#DDE0E3] md:pr-6 px-0 md:px-2">
             <div class="relative w-full h-full flex flex-col text-left">
             <img :src="event?.image_url" alt="Event Image" class="w-full h-auto object-cover rounded-[20px] border border-[#DDE0E3]" />
             </div>
         </div>
   
-        <div class="mt-5 md:mt-0 w-full md:w-2/3 px-0 md:px-8 md:overflow-y-auto h-[calc(100vh-290px)] custom-scrollbar">
+        <div class="mt-5 md:mt-0 w-full md:w-2/3 px-0 md:px-2 md:pl-6 md:overflow-y-auto h-[calc(100vh-290px)] custom-scrollbar">
             <div class="border-b-[1px] pb-3">
                 <div class="flex flex-col gap-2">
                     <p class="text-[19px] md:text-[23px] font-[700]">{{ event?.event_name }}</p>
@@ -40,7 +40,7 @@
 
             <div class="mt-5 border-b-[1px] pb-3">
                 <p class="text-[20px] md:text-[20px] font-[600]">About Event</p>
-                <p>{{ event?.about }}</p>
+                <p>{{ event?.about ? event?.about : 'Event details not available' }}</p>
             </div>
 
             <div class="mt-5">
