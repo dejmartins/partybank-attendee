@@ -1,6 +1,6 @@
 <template>
   <router-link :to="{ name: 'event-details', params: { eventReference: eventId } }">
-    <div class="border flex items-start md:items-center p-3 rounded-[10px] gap-3 bg-[#FAF9F9]">
+    <div class="border flex items-start p-3 rounded-[10px] gap-3 bg-[#FAF9F9]">
       <div class="min-w-[100px] min-h-[100px] border bg-cover bg-center rounded-[10px] overflow-hidden" :style="{ backgroundImage: `url(${imageUrl ? imageUrl : defaultImage})` }">
         <slot></slot>
       </div>

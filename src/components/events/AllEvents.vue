@@ -1,50 +1,48 @@
 <template>
-    <div class="flex flex-col md:flex-row w-full h-[calc(100vh-270px)] overflow-y-auto md:overflow-y-hidden rounded-[20px] bg-[#F9F7F7] p-6 md:p-10 mt-2 border border-[#DDE0E3] custom-scrollbar">
-      <div class="md:w-1/3 md:sticky md:top-0 md:border-r md:border-[#DDE0E3] md:pr-6">
-        <div class="relative w-full h-full flex flex-col text-left">
-          <img :src="stateImage" alt="State Image" class="w-full aspect-square object-cover rounded-[20px] border border-[#DDE0E3]" />
-          <div class="mt-3 text-left">
-            <h2 class="text-[24px] font-[400]">{{ selectedState }}<span class="font-[600] italic">, Nigeria</span></h2>
-            <p class="font-[400] text-[18px]">{{ stateSlogan }}</p>
-          </div>
-        </div>
-      </div>
-  
-      <div class="w-full md:w-2/3 px-0 md:px-8 md:overflow-y-auto h-[calc(100vh-340px)] custom-scrollbar">
-        <div v-if="isLoading" class="flex justify-center items-center text-center py-6">
-          <img
-            src="@/assets/images/explore-loader.gif"
-            class="h-32 md:mt-20"
-            alt="Explore Gif Loader"
-          />
-        </div>
-  
-        <div v-else-if="filteredEvents.length === 0" class="flex justify-center items-center text-center py-6">
-          <NoEvent :selected-state='selectedState' />
-        </div>
-  
-        <div v-else class="flex flex-col gap-4 mt-5 md:mt-0">
-          <EventCard
-            v-for="event in filteredEvents"
-            :key="event.event_reference"
-            :eventId="event.event_reference"
-            :imageUrl="event.image_url"
-            :location="event.location"
-            :venue="event.venue"
-            :time="event.time"
-            :eventName="event.event_name"
-            :eventDate="moment(event.date).format('MMMM Do, YYYY')"
-        />
+  <div class="flex flex-col md:flex-row w-full h-[calc(100vh-270px)] overflow-y-auto md:overflow-y-hidden rounded-[20px] bg-[#F9F7F7] p-6 md:p-10 mt-2 border border-[#DDE0E3] custom-scrollbar">
+    <div class="md:w-1/3 md:sticky md:top-0 md:border-r md:border-[#DDE0E3] md:pr-6">
+      <div class="relative w-full h-full flex flex-col text-left">
+        <img :src="stateImage" alt="State Image" class="w-full aspect-square object-cover rounded-[20px] border border-[#DDE0E3]" />
+        <div class="mt-3 text-left">
+          <h2 class="text-[24px] font-[400]">{{ selectedState }}<span class="font-[600] italic">, Nigeria</span></h2>
+          <p class="font-[400] text-[18px]">{{ stateSlogan }}</p>
         </div>
       </div>
     </div>
+
+    <div class="w-full md:w-2/3 px-0 md:px-8 md:overflow-y-auto h-[calc(100vh-340px)] custom-scrollbar">
+      <div v-if="isLoading" class="flex flex-col gap-4 mt-5 md:mt-0">
+        <EventCardSkeleton v-for="i in 5" :key="i" />
+      </div>
+
+      <div v-else-if="filteredEvents.length === 0" class="flex justify-center items-center text-center py-6">
+        <NoEvent :selected-state="selectedState" />
+      </div>
+
+      <div v-else class="flex flex-col gap-4 mt-5 md:mt-0">
+        <EventCard
+          v-for="event in filteredEvents"
+          :key="event.event_reference"
+          :eventId="event.event_reference"
+          :imageUrl="event.image_url"
+          :location="event.location"
+          :venue="event.venue"
+          :time="event.time"
+          :eventName="event.event_name"
+          :eventDate="moment(event.date).format('MMMM Do, YYYY')"
+        />
+      </div>
+    </div>
+  </div>
 </template>
+
   
 <script setup lang="ts">
 import Api from '@/utils/api';
 import EventCard from './EventCard.vue';
 import moment from 'moment';
 import NoEvent from './NoEvent.vue';
+import EventCardSkeleton from '../ui/skeletons/EventCardSkeleton.vue';
 import type { Event } from '@/utils/types';
 import { ref, computed, onMounted } from 'vue';
 
@@ -58,7 +56,7 @@ const props = defineProps({
 });
 
 const events = ref<Array<Event>>([]);
-const isLoading = ref(false);
+const isLoading = ref(true); // Initially set to true to show skeletons
 
 const stateImage = computed(() => {
     const stateImages = {
@@ -83,16 +81,15 @@ const stateSlogan = computed(() => {
 });
 
 const getEvents = async () => {
-    isLoading.value = true;
+    isLoading.value = true; // Set to true to show the skeleton
     try {
         const res = await fetch(`${DISCOVER_EVENTS}?page=1&size=90`);
         const data = await res.json();
         events.value = data;
-        console.log(events.value)
     } catch (error) {
         console.error('Error fetching event details:', error);
     } finally {
-        isLoading.value = false;
+        isLoading.value = false; // Set to false once the data is loaded
     }
 };
 
@@ -104,6 +101,7 @@ onMounted(() => {
     getEvents();
 });
 </script>
+
 
 <style scoped>
 .custom-scrollbar::-webkit-scrollbar {
