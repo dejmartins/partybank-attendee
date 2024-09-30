@@ -1,10 +1,10 @@
 <template>
   <div class="flex flex-col md:flex-row w-full h-[calc(100vh-210px)] overflow-y-auto md:overflow-y-hidden rounded-[20px] bg-[#F9F7F7] p-6 md:p-10 mt-4 border border-[#DDE0E3] custom-scrollbar">
-    <div class="w-full md:w-1/3">
-      <p class="font-[700] text-[24px] md:text-[30px] mb-2">My Info</p>
+    <div class="w-full md:w-1/3 px-0 md:px-2 ">
+      <p class="font-[700] text-[24px] md:text-[30px] mb-2 md:mb-0">My Info</p>
       <form class="form-container p-3 md:p-6 rounded-[20px]">
         <div class="form-group">
-          <label class="font-bold text-[18px]">Where are you based?</label>
+          <label class="font-[600] text-[15px] md:text-[18px]">Where are you based?</label>
           <Listbox v-model="selectedLocation">
             <div class="relative mt-1">
               <ListboxButton class="relative w-full cursor-default rounded-lg border border-[#ccc] py-3 pl-3 pr-10 text-left text-black">
@@ -34,7 +34,7 @@
         </div>
 
         <div>
-          <label class="font-bold w-full text-[18px]">Phone Number:</label>
+          <label class="font-[600] w-full text-[15px] md:text-[18px]">Phone Number:</label>
           <input
             v-model="userInfo.phoneNumber"
             type="tel"
@@ -48,8 +48,8 @@
     </div>
 
     <!-- Ticket Info -->
-    <div class="w-full md:w-2/3 px-0 md:px-8 md:overflow-y-auto h-[calc(100vh-290px)] custom-scrollbar">
-      <p class="font-[700] text-[24px] md:text-[30px] mt-5 md:mt-0 mb-2">Ticket Info</p>
+    <div class="w-full md:w-2/3 px-0 md:px-2 md:overflow-y-auto h-[calc(100vh-290px)] custom-scrollbar">
+      <p class="font-[700] text-[24px] md:text-[30px] mt-5 md:mt-0 mb-2 md:mb-0">Ticket Info</p>
       <div class="rounded-[20px] bg-[#FFFFFF] p-3 md:p-6">
         <div class="w-full mb-4">
           <img :src="eventStore.eventImage || '/defaultImage.png'" alt="Event Image" class="w-full h-[100px] md:h-[150px] object-cover rounded-[20px] border border-[#DDE0E3]" />

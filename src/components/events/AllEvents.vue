@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col md:flex-row w-full h-[calc(100vh-270px)] overflow-y-auto md:overflow-y-hidden rounded-[20px] bg-[#F9F7F7] p-6 md:p-10 mt-2 border border-[#DDE0E3] custom-scrollbar">
-    <div class="md:w-1/3 md:sticky md:top-0 md:border-r md:border-[#DDE0E3] md:pr-6">
+    <div class="md:w-1/3 md:sticky md:top-0 md:border-r md:border-[#DDE0E3] md:pr-6 px-0 md:px-2">
       <div class="relative w-full h-full flex flex-col text-left">
         <img :src="stateImage" alt="State Image" class="w-full aspect-square object-cover rounded-[20px] border border-[#DDE0E3]" />
         <div class="mt-3 text-left">
@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <div class="w-full md:w-2/3 px-0 md:px-8 md:overflow-y-auto h-[calc(100vh-340px)] custom-scrollbar">
+    <div class="w-full md:w-2/3 px-0 md:px-2 md:pl-6 md:overflow-y-auto h-[calc(100vh-340px)] custom-scrollbar">
       <div v-if="isLoading" class="flex flex-col gap-4 mt-5 md:mt-0">
         <EventCardSkeleton v-for="i in 5" :key="i" />
       </div>
