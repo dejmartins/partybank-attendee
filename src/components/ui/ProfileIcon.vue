@@ -67,6 +67,6 @@ const handleClick = (link: { label: string, to?: string, action?: string }) => {
 
 const handleSignOut = () => {
     authStore.clearAuth();
-    router.push('/');
+    // router.push('/');
 };
 </script>
