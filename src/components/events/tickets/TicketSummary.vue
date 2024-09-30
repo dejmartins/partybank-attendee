@@ -7,14 +7,15 @@
           <label class="font-[600] text-[15px] md:text-[18px]">Where are you based?</label>
           <Listbox v-model="selectedLocation">
             <div class="relative mt-1">
-              <ListboxButton class="relative w-full cursor-default rounded-lg border border-[#ccc] py-3 pl-3 pr-10 text-left text-black">
-                <span class="block truncate">{{ selectedLocation.name }}</span>
+              <ListboxButton class="relative w-full flex items-center cursor-default rounded-lg border border-[#F4F5F6] h-[56px] py-2 pl-3 pr-10 text-left text-black">
+                <span class="absolute flex items-center justify-center left-2 rounded-[8px] px-6 h-[70%] bg-[#F8F9F9] font-[400] text-[#080D18]">NG</span>
+                <span class="block truncate ml-20 text-[#DDE0E3]">{{ selectedLocation.name }}</span>
                 <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                   <fa-icon :icon="['fas', 'chevron-down']" style="color: black;" />
                 </span>
               </ListboxButton>
 
-              <ListboxOptions class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5">
+              <ListboxOptions class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 z-50">
                 <ListboxOption
                   v-for="location in locations"
                   :key="location.name"
@@ -33,22 +34,26 @@
           </Listbox>
         </div>
 
-        <div>
+        <div class="relative">
           <label class="font-[600] w-full text-[15px] md:text-[18px]">Phone Number:</label>
-          <input
-            v-model="userInfo.phoneNumber"
-            type="tel"
-            class="form-input w-full"
-            maxlength="15"
-            @input="filterNonDigits"
-          />
+          <div class="relative">
+            <span class="absolute inset-y-0 top-2 left-2 h-[58%] flex items-center justify-center rounded-[8px] px-6 bg-[#F8F9F9] font-[400] text-[#080D18]">+234</span>
+            <input
+              v-model="userInfo.phoneNumber"
+              type="tel"
+              class="form-input w-full pl-28 h-[56px] "
+              placeholder="704 3946 3386"
+              maxlength="15"
+              @input="filterNonDigits"
+            />
+          </div>
           <p v-if="error.phoneError" class="text-red-600 text-sm">Invalid phone number format.</p>
         </div>
       </form>
     </div>
 
     <!-- Ticket Info -->
-    <div class="w-full md:w-2/3 px-0 md:px-2 md:overflow-y-auto h-[calc(100vh-290px)] custom-scrollbar">
+    <div class="w-full md:w-1/2 px-0 md:px-2 md:overflow-y-auto h-[calc(100vh-290px)] custom-scrollbar">
       <p class="font-[700] text-[24px] md:text-[30px] mt-5 md:mt-0 mb-2 md:mb-0">Ticket Info</p>
       <div class="rounded-[20px] bg-[#FFFFFF] p-3 md:p-6">
         <div class="w-full mb-4">
@@ -220,8 +225,7 @@ const handleProceedToPayment = () => {
 }
 
 .form-input {
-  padding: 12px;
-  border: 1px solid #ccc;
+  border: 1px solid #F4F5F6;
   background-color: transparent;
   border-radius: 5px;
   transition: border-color 0.3s;
