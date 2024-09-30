@@ -56,7 +56,7 @@ const props = defineProps({
 });
 
 const events = ref<Array<Event>>([]);
-const isLoading = ref(true); // Initially set to true to show skeletons
+const isLoading = ref(true);
 
 const stateImage = computed(() => {
     const stateImages = {
@@ -81,7 +81,7 @@ const stateSlogan = computed(() => {
 });
 
 const getEvents = async () => {
-    isLoading.value = true; // Set to true to show the skeleton
+    isLoading.value = true;
     try {
         const res = await fetch(`${DISCOVER_EVENTS}?page=1&size=90`);
         const data = await res.json();
@@ -89,7 +89,7 @@ const getEvents = async () => {
     } catch (error) {
         console.error('Error fetching event details:', error);
     } finally {
-        isLoading.value = false; // Set to false once the data is loaded
+        isLoading.value = false;
     }
 };
 
