@@ -1,9 +1,9 @@
 <template>
-    <div class="relative h-full mt-5">
+    <div class="relative h-full mt-5 md:mt-2">
         <form class='text-left w-full' @submit.prevent="signIn">
-            <label class="text-[16px] font-[400]">Email Address</label>
+            <label class="text-lg font-[500]">Email Address</label>
             <input 
-                class="w-full rounded-[10px] p-[10px] mt-[8px] mb-[30px] border border-[#F4F5F6] bg-[#FBFBFB] outline-none focus:ring-2 focus:ring-[var(--pb-c-red)] focus:border-[var(--pb-c-red)]" 
+                class="w-full rounded-[10px] p-[10px] mt-[8px] mb-[30px] md:mb-[15px] border border-[#F4F5F6] bg-[#FBFBFB] outline-none focus:ring-2 focus:ring-[var(--pb-c-red)] focus:border-[var(--pb-c-red)]" 
                 placeholder="Enter your email address"
                 v-model="userInfo.email"
                 :class="{ error: error.emailError }"
@@ -17,7 +17,7 @@
                 text-style="text-[18px] font-[700]"
                 additional-loader-classes="border-4 border-t-[var(--pb-c-red)]"
             />
-            <hr class="my-6" />
+            <hr class="my-6 border-[1px]" />
         </form>
     
         <Button
@@ -32,7 +32,7 @@
             <img src="/google-icon.png" alt='Google Icon' class='w-[22px] h-[22px]' />
         </Button>
     
-        <p className='text-[15px] leading-[20.81px] md:text-[18px] font-[200] md:leading-[23.81px] mt-8'>By continuing, you agree to have read and accepted partybank <span className='text-[var(--pb-c-red)] font-[500] underline underline-offset-4 cursor-pointer'><RouterLink to="/termsandconditions">terms and conditions</RouterLink></span></p>
+        <p className='text-[15px] leading-[20.81px] md:text-[18px] font-[200] md:leading-[23.81px] mt-8 md:mt-5'>By continuing, you agree to have read and accepted partybank <span className='text-[var(--pb-c-red)] font-[500] underline underline-offset-4 cursor-pointer'><RouterLink to="/termsandconditions">terms and conditions</RouterLink></span></p>
     </div>
 </template>
   

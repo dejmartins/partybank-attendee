@@ -1,8 +1,8 @@
 <template>
     <div>
       <Modal>
-        <div class="text-black min-h-72 md:min-h-80 w-[350px] md:w-[530px] flex flex-col items-center w-full text-center px-6 py-3 pb-10">
-            <div class="flex justify-start w-full">
+        <div class="relative text-black min-h-72 md:min-h-80 w-[350px] md:w-[550px] flex flex-col items-center w-full text-center px-6 md:px-14 py-3 pb-10">
+            <div class="absolute flex justify-start w-full">
                 <fa-icon :icon="['fas', 'arrow-left']" style="color: black;" class="bg-[#F7F6F7] p-[7px] w-4 h-4 rounded-full cursor-pointer" @click="closeModal"/>
             </div>
             <div class="mb-5">
@@ -15,7 +15,7 @@
             </div>
   
             <div class="w-full">
-                <SignInForm @email-sent="emailSent" @close="closeModal" />
+                <SignInFormModal @email-sent="emailSent" @close="closeModal" />
             </div>
         </div>
       </Modal>
@@ -25,7 +25,8 @@
 <script setup lang="ts">
 import { defineEmits } from 'vue';
 import Modal from '@/components/modals/BaseModal.vue';
-import SignInForm from '@/components/auth/SignInFormModal.vue';
+import SignInForm from '@/components/auth/SignInForm.vue';
+import SignInFormModal from '@/components/auth/SignInFormModal.vue';
 
 const emit = defineEmits(['close', 'email-sent']);
 
