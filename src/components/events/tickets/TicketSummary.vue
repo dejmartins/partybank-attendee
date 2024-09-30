@@ -43,7 +43,7 @@
               type="tel"
               class="form-input w-full pl-28 h-[56px] "
               placeholder="704 3946 3386"
-              maxlength="15"
+              maxlength="11"
               @input="filterNonDigits"
             />
           </div>
@@ -110,7 +110,7 @@ import Button from '@/components/buttons/LoaderButton.vue';
 import Api from '@/utils/api';
 import { useEventStore } from '@/stores/event';
 import { ref, computed } from 'vue';
-import { formatAmountWithCommas } from '@/utils/actions';
+import { formatAmountWithCommas, formatPhoneNumber } from '@/utils/actions';
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue';
 import { useAuthStore } from '@/stores/auth';
 import { useToast } from 'vue-toastification';
@@ -159,7 +159,7 @@ const isFormValid = computed(() => validateForm());
 const pay = async (value: any) => {
   const payload = {
     email: authStore.decodedEmail,
-    phoneNumber: value.phoneNumber,
+    phoneNumber: formatPhoneNumber(value.phoneNumber),
     city: value.location,
     emailValidated: true,
     termsAndConditionsAccepted: value.termsAccepted,

@@ -33,10 +33,20 @@ export const isValidEmail = (email: string): boolean => {
 };
 
 export const isValidPhoneNumber = (phoneNumber: string): boolean => {
-    const phoneRegex = /^\+?\d{11,14}$/;
+    const phoneRegex = /^\+?\d{11,12}$/;
     return phoneRegex.test(phoneNumber);
 };
 
 export function formatAmountWithCommas(amount: number | string) {
   return amount.toLocaleString();
+}
+
+export function formatPhoneNumber(phoneNumber: string) {
+  let cleaned = phoneNumber.replace(/\D/g, '');
+
+  if (cleaned.startsWith('0')) {
+      return cleaned;
+  }
+
+  return '0' + cleaned;
 }
