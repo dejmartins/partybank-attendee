@@ -40,7 +40,7 @@
 
             <div class="mt-5 border-b-[1px] pb-3">
                 <p class="text-[20px] md:text-[20px] font-[600]">About Event</p>
-                <p>{{ event?.about }}</p>
+                <p>{{ event?.about ? event?.about : 'Event details not available' }}</p>
             </div>
 
             <div class="mt-5">

@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col md:flex-row w-full h-[calc(100vh-210px)] overflow-y-auto md:overflow-y-hidden rounded-[20px] bg-[#F9F7F7] p-6 md:p-10 mt-4 border border-[#DDE0E3] custom-scrollbar">
-    <div class="w-full md:w-1/3 px-0 md:px-2 ">
+    <div class="w-full md:w-1/2 px-0 md:px-2 ">
       <p class="font-[700] text-[24px] md:text-[30px] mb-2 md:mb-0">My Info</p>
       <form class="form-container p-3 md:p-6 rounded-[20px]">
         <div class="form-group">
