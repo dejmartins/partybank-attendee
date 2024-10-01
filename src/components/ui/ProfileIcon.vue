@@ -28,7 +28,7 @@
                         v-for="link in links"
                         :key="link.label"
                         as="button"
-                        class="flex gap-2 items-center bg-[#FAF9F9] border border-[#ECE7E7] rounded-[500px] text-left p-[10px] rounded-[5px] hover:text-white hover:bg-black ui-not-active:bg-white ui-not-active:text-black"
+                        class="flex gap-2 items-center bg-[#FAF9F9] border border-[#ECE7E7] rounded-[500px] text-left p-[10px] rounded-[5px] hover:text-white hover:bg-[var(--pb-c-red)] hover:border-[#4E0916] ui-not-active:bg-white ui-not-active:text-black"
                         @click="handleClick(link)"
                     >
                         <component :is="link.icon" class="w-6" />

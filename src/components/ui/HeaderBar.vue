@@ -8,7 +8,7 @@
                   alt="Partybank Logo"
               />
           </RouterLink>
-        <ProfileIcon v-if="isLoggedIn" />
+        <ProfileIcon/>
     </div>
   </header>
 </template>
