@@ -5,12 +5,12 @@
             <div class="absolute flex justify-start w-full">
                 <fa-icon :icon="['fas', 'arrow-left']" style="color: black;" class="bg-[#F7F6F7] p-[7px] w-4 h-4 rounded-full cursor-pointer" @click="closeModal"/>
             </div>
-            <div class="mb-5">
+            <div class="my-5">
                 <h3 class="font-[700] text-[28px]">
-                    Sign In
+                    Complete Your Purchase
                 </h3>
                 <p class="leading-5 text-sm">
-                    Please sign in to purchase ticket
+                    Sign in your account to complete your ticket purchase.
                 </p>
             </div>
   
