@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="!isMobile" class="flex items-center border border-[#DDE0E3] min-h-[56px] rounded-[10px] mt-4 bg-[#F9F7F7]">
+        <div v-if="!isMobile" class="flex items-center border border-[#F2EFEF] min-h-[56px] rounded-[10px] mt-4 bg-[#F9F7F7]">
             <div class="whitespace-nowrap flex gap-[10px] p-2">
                 <Button
                     v-for="state in states"
@@ -16,7 +16,7 @@
   
         <div v-else class="relative mt-4">
             <Menu>
-                <MenuButton class="flex justify-between items-center border border-[#DDE0E3] h-[56px] w-full rounded-[10px] px-4 bg-[#F9F7F7]">
+                <MenuButton class="flex justify-between items-center border border-[#F2EFEF] h-[56px] w-full rounded-[10px] px-4 bg-[#F9F7F7]">
                     <span>{{ selectedState }}</span>
                     <ChevronDownIcon class="w-5 h-5" />
                 </MenuButton>
