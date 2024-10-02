@@ -61,8 +61,8 @@ const isLoading = ref(true);
 const stateImage = computed(() => {
     const stateImages = {
         Lagos: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1727310997/PARTYBANK/image_6_cvzkev.png',
-        Rivers: '',
-        Edo: '',
+        Rivers: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1727805865/PARTYBANK/rivers-state1_hqequz.jpg',
+        Edo: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1727805717/PARTYBANK/benin-city-gremio-herreros_kgogkf.jpg',
         Delta: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1727311013/PARTYBANK/asaba-2_fxxbxy.jpg'
     };
     // @ts-ignore

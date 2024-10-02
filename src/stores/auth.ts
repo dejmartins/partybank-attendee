@@ -34,11 +34,16 @@ export const useAuthStore = defineStore('auth', {
         const decoded = jwtDecode(token);
         const currentTime = Date.now() / 1000;
 
-        if (decoded.sub) {
-          this.decodedEmail = decoded.sub;
+        // @ts-ignore
+        const { username, fullName, ExpiresAt } = decoded;
+        console.log(decoded)
+
+        if (username) {
+          this.decodedEmail = username;
+          this.name = fullName;
         }
 
-        if (decoded.exp && decoded.exp > currentTime) {
+        if (ExpiresAt && ExpiresAt > currentTime) {
           return true;
         }
 

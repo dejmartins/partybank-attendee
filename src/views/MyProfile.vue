@@ -54,11 +54,13 @@
 <script setup lang="ts">
 import BackButton from '@/components/buttons/BackButton.vue';
 import Header from '@/components/ui/HeaderBar.vue';
+import Api from '@/utils/api';
 import { UserCircleIcon, PencilSquareIcon, CheckIcon } from '@heroicons/vue/24/solid';
 import { useAuthStore } from '@/stores/auth';
 import { ref } from 'vue';
 
 const authStore = useAuthStore();
+const { UPDATE_USER_INFO } = Api();
 
 const isEditing = ref(false);
 const name = ref(authStore.name || '');
@@ -67,9 +69,29 @@ const toggleEditMode = () => {
   isEditing.value = !isEditing.value;
 };
 
-const saveName = () => {
+const saveName = async () => {
   if (name.value) {
-    authStore.name = name.value;
+    try{
+        const response = await fetch(`${UPDATE_USER_INFO}/${authStore.decodedEmail}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': authStore.token
+            },
+            body: JSON.stringify({
+                full_name: name,
+                phone_number: ""
+            })
+        })
+
+        const result = await response.json();
+        console.log(result)
+
+    } catch(error) {
+        console.log(error);
+    }
+
+    // authStore.name = name.value;
   }
   isEditing.value = false;
 };
