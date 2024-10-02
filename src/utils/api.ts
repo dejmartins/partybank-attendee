@@ -12,6 +12,7 @@ const Api = () => {
   const AUTH = `${BASE_URL}/auth/login/attendee`
   const GOOGLE_AUTH = `${BASE_URL}/auth/google/login`
   const DISCOVER_EVENTS = `${BASE_URL}/api/v1/event/discover`
+  const UPDATE_USER_INFO = `${BASE_URL}/api/v1/attendee/update`
   const GET_EVENT_BY_REFERENCE = `${BASE_URL}/api/v1/event/reference`
 
   return {
@@ -21,7 +22,8 @@ const Api = () => {
     DISCOVER_EVENTS,
     GET_EVENT_BY_REFERENCE,
     AUTH, GOOGLE_AUTH,
-    RESERVE_TICKET
+    RESERVE_TICKET,
+    UPDATE_USER_INFO
   }
 }
 
