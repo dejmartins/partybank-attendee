@@ -46,6 +46,8 @@ const decodeTokenFromUrl = () => {
   const token = router.currentRoute.value.query.token;
   const type = router.currentRoute.value.query.type;
 
+  console.log('Token', token);
+
   if (token && typeof token === 'string') {
     authStore.setToken(token);
     

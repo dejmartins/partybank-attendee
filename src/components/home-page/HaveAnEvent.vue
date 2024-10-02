@@ -1,5 +1,5 @@
 <template>
-    <section class="py-16 bg-[#FFFFFF] rounded-[20px] border border-[#F6F2F2] mt-10">
+    <section class="py-16 bg-[#FFFFFF] rounded-[20px] border border-[#F6F2F2] mt-10 z-50">
       <div class="container mx-auto flex flex-col md:flex-row items-center gap-8 px-6">
         <div class="md:w-1/2">
           <h1 class="text-[50px] md:text-[70px] font-[300] mb-4 leading-tight">Have an <br /><span class="font-[700] italic">event?</span></h1>
