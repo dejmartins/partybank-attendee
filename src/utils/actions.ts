@@ -33,7 +33,7 @@ export const isValidEmail = (email: string): boolean => {
 };
 
 export const isValidPhoneNumber = (phoneNumber: string): boolean => {
-    const phoneRegex = /^\+?\d{11,12}$/;
+    const phoneRegex = /^\+?\d{10,12}$/;
     return phoneRegex.test(phoneNumber);
 };
 
