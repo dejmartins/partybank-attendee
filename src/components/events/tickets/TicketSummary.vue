@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-col md:flex-row w-full h-[calc(100vh-210px)] overflow-y-auto md:overflow-y-hidden rounded-[20px] bg-[#F9F7F7] p-6 md:p-10 mt-4 border border-[#F2EFEF] custom-scrollbar">
+  <div class="flex flex-col md:flex-row w-full h-[calc(100vh-210px)] overflow-y-auto md:overflow-y-hidden rounded-[20px] bg-[#F9F7F7] p-6 md:p-10 mt-4 border border-[#F2EFEF]">
     <div class="w-full md:w-1/2 px-0 md:px-2">
-      <p class="font-[700] text-[24px] md:text-[30px] mb-2 md:mb-0">My Info</p>
+      <p class="font-[700] text-[24px] md:text-[30px] mb-2 md:mb-1">My Info</p>
       <form class="form-container p-3 md:p-6 rounded-[20px]">
         <div class="form-group">
           <label class="font-[600] text-[15px] md:text-[18px]">Where are you based?</label>
@@ -9,7 +9,7 @@
             <div class="relative mt-1">
               <ListboxButton class="relative w-full flex items-center cursor-default rounded-lg border border-[#F4F5F6] h-[56px] py-2 pl-3 pr-10 text-left text-black">
                 <span class="absolute flex items-center justify-center left-2 rounded-[8px] px-6 h-[70%] bg-[#F8F9F9] font-[400] text-[#080D18]">NG</span>
-                <span class="block truncate ml-20 text-[#DDE0E3]">{{ selectedLocation.name }}</span>
+                <span class="block truncate ml-20 text-black">{{ selectedLocation.name }}</span>
                 <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                   <fa-icon :icon="['fas', 'chevron-down']" style="color: black;" />
                 </span>
@@ -43,18 +43,18 @@
               type="tel"
               class="form-input w-full pl-28 h-[56px] "
               placeholder="704 3946 3386"
-              maxlength="11"
+              maxlength="10"
               @input="filterNonDigits"
             />
           </div>
-          <p v-if="error.phoneError" class="text-red-600 text-sm">Invalid phone number format.</p>
+          <p v-if="error.phoneError" class="text-red-600 text-sm">{{ errorMessage.phoneError }}</p>
         </div>
       </form>
     </div>
 
     <!-- Ticket Info -->
     <div class="w-full md:w-1/2 px-0 md:px-2 md:overflow-y-auto h-[calc(100vh-290px)] custom-scrollbar">
-      <p class="font-[700] text-[24px] md:text-[30px] mt-5 md:mt-0 mb-2 md:mb-0">Ticket Info</p>
+      <p class="font-[700] text-[24px] md:text-[30px] mt-5 md:mt-0 mb-2 md:mb-1">Ticket Info</p>
       <div class="rounded-[20px] bg-[#FFFFFF] p-3 md:p-6">
         <!-- <div class="w-full mb-4">
           <img :src="eventStore.eventImage || '/defaultImage.png'" alt="Event Image" class="w-full h-[50px] object-cover rounded-[20px] border border-[#DDE0E3]" />
@@ -90,8 +90,8 @@
 
       <div class="flex flex-col mt-4">
         <label class="flex items-center font-[200]">
-          <input v-model="termsAccepted" type="checkbox" class="w-[10px] h-[10px] md:w-[15px] md:h-[15px] mr-[10px] mt-[15px]" />
-          By checking this box, you agree that the information you provided is correct and valid, and you are above 18 years of age
+          <input v-model="termsAccepted" type="checkbox" class="custom-checkbox w-[10px] h-[10px] md:w-[15px] md:h-[15px] mr-[10px] mt-[15px]" />
+            By checking this box, you agree that the information you provided is correct and valid, and you are above 18 years of age
         </label>
         <p v-if="error.termsError" class="text-red-600 text-sm">You must accept the terms.</p>
       </div>
@@ -146,6 +146,11 @@ const error = ref({
   termsError: false
 });
 
+const errorMessage = ref({
+  phoneError: '',
+  termsError: ''
+})
+
 // Methods
 const filterNonDigits = (event: Event) => {
   const input = event.target as HTMLInputElement;
@@ -154,7 +159,14 @@ const filterNonDigits = (event: Event) => {
 };
 
 const validateForm = () => {
-  error.value.phoneError = !isValidPhoneNumber(userInfo.value.phoneNumber);
+  if(userInfo.value.phoneNumber === '') {
+    error.value.phoneError = true;
+    errorMessage.value.phoneError = 'Phone number is compulsory.'
+  } else {
+    error.value.phoneError = !isValidPhoneNumber(userInfo.value.phoneNumber);
+    errorMessage.value.phoneError = 'Invalid phone number format.'
+  }
+
   error.value.termsError = !termsAccepted.value;
   return !error.value.phoneError && !error.value.termsError;
 };
@@ -240,4 +252,34 @@ const handleProceedToPayment = () => {
   border-color: var(--pb-c-red);
   outline: none;
 }
+
+.custom-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: white;
+  border-radius: 3px;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+
+.custom-checkbox:checked {
+  background-color: var(--pb-c-red);
+  border-color: var(--pb-c-red);
+}
+
+.custom-checkbox:checked::before {
+  content: '';
+  position: absolute;
+  bottom: 30%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
 </style>
