@@ -46,8 +46,6 @@ const decodeTokenFromUrl = () => {
   const token = router.currentRoute.value.query.token;
   const type = router.currentRoute.value.query.type;
 
-  console.log('Token', token);
-
   if (token && typeof token === 'string') {
     authStore.setToken(token);
     
@@ -77,6 +75,7 @@ const decodeTokenFromUrl = () => {
   } else {
     console.error('No token found in URL');
     authStore.isAuthenticated = false;
+    router.push('/discover')
   }
 };
 

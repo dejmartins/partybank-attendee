@@ -15,6 +15,10 @@ export const useAuthStore = defineStore('auth', {
       this.email = newEmail;
     },
 
+    setName(newName: string) {
+      this.name = newName;
+    },
+
     setToken(newToken: string) {
       this.token = newToken;
       this.isAuthenticated = this.checkTokenValidity(newToken);
@@ -34,16 +38,16 @@ export const useAuthStore = defineStore('auth', {
         const decoded = jwtDecode(token);
         const currentTime = Date.now() / 1000;
 
+        console.log('decoded', decoded)
         // @ts-ignore
-        const { username, fullName, ExpiresAt } = decoded;
-        console.log(decoded)
+        const { username, fullName, exp } = decoded;
 
-        if (username) {
+        if (decoded.sub) {
           this.decodedEmail = username;
           this.name = fullName;
         }
 
-        if (ExpiresAt && ExpiresAt > currentTime) {
+        if (exp && exp > currentTime) {
           return true;
         }
 

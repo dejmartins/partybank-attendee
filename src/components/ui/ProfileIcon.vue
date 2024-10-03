@@ -11,7 +11,7 @@
                             </div>
                         </div>
 
-                        <p class="hidden md:flex font-[500] text-sm">{{ authStore.decodedEmail }}</p>
+                        <!-- <p class="hidden md:flex font-[500] text-sm">{{ authStore.decodedEmail }}</p> -->
                     </div>
                     <ChevronDownIcon class="hidden md:flex w-5 stroke-black stroke-1" />
                 </div>

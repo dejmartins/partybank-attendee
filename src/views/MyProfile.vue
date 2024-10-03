@@ -19,17 +19,21 @@
 
                     <div>
                         <div class="flex items-center gap-2">
-                            <input
-                                v-if="isEditing"
-                                v-model="name"
-                                class="text-lg font-[500] rounded-none border-0 border-b-2 border-gray-300 focus:outline-none focus:border-[#E91B41]"
-                            />
-                            <p v-else class="font-[700] text-[30px]">
-                                {{ name ? name : 'No name' }}
-                            </p>
+                            <div
+                                ref="nameInput"
+                                contenteditable="true"
+                                class="text-[30px] font-[700] border-0 bg-transparent outline-none"
+                                :class="{ 'border-gray-300': isEditing }"
+                                :tabindex="isEditing ? '0' : '-1'"
+                                @input="handleInput"
+                                @keydown.enter.prevent="saveName"
+                                @blur="saveName"
+                                v-text="name"
+                            ></div>
                             <button @click="toggleEditMode">
                                 <PencilSquareIcon v-if="!isEditing" class="w-6 h-6 cursor-pointer" />
-                                <CheckIcon v-else class="w-6 h-6 cursor-pointer text-[var(--pb-c-red)]" @click="saveName" />
+                                <!-- <CheckIcon v-else class="w-6 h-6 cursor-pointer text-[var(--pb-c-red)]" /> -->
+                                <p v-else class="w-6 h-6 cursor-pointer text-[var(--pb-c-red)]">Save</p>
                             </button>
                         </div>
                         <p class="font-[300] text-[16px] md:text-[20px]">{{ authStore.decodedEmail }}</p>
@@ -57,43 +61,52 @@ import Header from '@/components/ui/HeaderBar.vue';
 import Api from '@/utils/api';
 import { UserCircleIcon, PencilSquareIcon, CheckIcon } from '@heroicons/vue/24/solid';
 import { useAuthStore } from '@/stores/auth';
-import { ref } from 'vue';
+import { ref, nextTick } from 'vue';
 
 const authStore = useAuthStore();
 const { UPDATE_USER_INFO } = Api();
 
 const isEditing = ref(false);
-const name = ref(authStore.name || '');
+const name = ref(authStore.name || 'No name');
+const nameInput = ref<HTMLElement | null>(null);
 
 const toggleEditMode = () => {
   isEditing.value = !isEditing.value;
+
+  if (isEditing.value) {
+    nextTick(() => {
+      nameInput.value?.focus();
+    });
+  }
+};
+
+const handleInput = (event: Event) => {
+  name.value = (event.target as HTMLElement).innerText;
 };
 
 const saveName = async () => {
   if (name.value) {
-    try{
-        const response = await fetch(`${UPDATE_USER_INFO}/${authStore.decodedEmail}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': authStore.token
-            },
-            body: JSON.stringify({
-                full_name: name,
-                phone_number: ""
-            })
+    try {
+      const response = await fetch(`${UPDATE_USER_INFO}/${authStore.decodedEmail}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authStore.token,
+        },
+        body: JSON.stringify({
+          full_name: name.value,
+          phone_number: ""
         })
+      });
 
-        const result = await response.json();
-        console.log(result)
-
-    } catch(error) {
-        console.log(error);
+      if(response.ok){
+        authStore.setName(name.value)
+      }
+      
+    } catch (error) {
+      console.log(error);
     }
-
-    // authStore.name = name.value;
   }
   isEditing.value = false;
 };
 </script>
-  

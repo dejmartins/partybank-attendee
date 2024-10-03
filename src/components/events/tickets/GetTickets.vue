@@ -161,7 +161,7 @@ const reserveTicket = async (): Promise<boolean> => {
       },
       body: JSON.stringify({
         email: authStore.decodedEmail,
-        numberOfTickets: 9,
+        numberOfTickets: ticketQuantities.value[selectedTicket.value],
         ticketType: selectedTicket.value,
         eventReference: event?.event_reference
       }),
