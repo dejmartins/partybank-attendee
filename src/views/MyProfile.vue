@@ -98,13 +98,15 @@ const saveName = async () => {
           phone_number: ""
         })
       });
+
+      if(response.ok){
+        authStore.setName(name.value)
+      }
       
     } catch (error) {
       console.log(error);
     }
   }
-
-  authStore.setName(name.value);
   isEditing.value = false;
 };
 </script>
