@@ -93,10 +93,19 @@ const reserveError = ref('');
 
 const isTicketAvailable = (ticket: Ticket) => {
   const currentDate = new Date();
-  const saleStartDate = new Date(`${ticket.ticket_sale_start_date}T${ticket.ticket_sale_start_time}`);
-  const saleEndDate = new Date(`${ticket.ticket_sale_end_date}T${ticket.ticket_sales_end_time}`);
+
+  const formattedStartTime = ticket.ticket_sale_start_time.padStart(5, '0') + ':00';
+  const formattedEndTime = ticket.ticket_sales_end_time.padStart(5, '0') + ':00';
+
+  const saleStartDate = new Date(`${ticket.ticket_sale_start_date}T${formattedStartTime}`);
+  const saleEndDate = new Date(`${ticket.ticket_sale_end_date}T${formattedEndTime}`);
+
+  console.log(saleStartDate);
+  console.log(saleEndDate);
+
   return currentDate >= saleStartDate && currentDate <= saleEndDate;
 };
+
 
 const toggleSignInModal = () => {
   showSignInModal.value = !showSignInModal.value;
