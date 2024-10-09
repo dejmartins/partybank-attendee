@@ -85,6 +85,7 @@ const getEvents = async () => {
     try {
         const res = await fetch(`${DISCOVER_EVENTS}?page=1&size=90`);
         const data = await res.json();
+        console.log(data);
         events.value = data;
     } catch (error) {
         console.error('Error fetching event details:', error);

@@ -1,5 +1,6 @@
 const Api = () => {
-  const BASE_URL = 'https://rave.onrender.com'
+  // const BASE_URL = 'https://rave.onrender.com'
+  const BASE_URL = 'https://partybank-organizer-269c8057a65f.herokuapp.com'
   // const BASE_URL_PAYMENT = 'https://partybank-payment-service-46298192f2dc.herokuapp.com'
   const BASE_URL_PAYMENT = 'https://partybank-payment-d49d9e60ae5b.herokuapp.com'
 
