@@ -24,6 +24,6 @@ import StateDropDown from '@/components/events/StateDropdown.vue';
 import AllEvents from '@/components/events/AllEvents.vue';
 import { ref } from 'vue';
 
-const selectedState = ref('Delta');
-const states = ref(['Delta', 'Rivers', 'Edo', 'Lagos']);
+const selectedState = ref('Edo');
+const states = ref(['Edo', 'Delta', 'Rivers', 'Lagos']);
 </script>

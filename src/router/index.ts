@@ -86,7 +86,7 @@ const router = createRouter({
 
 function isLoggedIn() {
   return new Promise((resolve) => {
-    let currentUser = localStorage.getItem('user')
+    let currentUser = localStorage.getItem('pb-user')
     onAuthStateChanged(auth, (user) => {
       if (user && user.email === currentUser) {
         resolve(true)
