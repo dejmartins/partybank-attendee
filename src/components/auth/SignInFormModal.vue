@@ -20,7 +20,7 @@
             <hr class="my-6 border-[1px]" />
         </form>
     
-        <Button
+        <!-- <Button
             action="Continue with Google"
             additional-classes="bg-[#FBFBFB] border border-[#F4F5F6] w-full"
             text-style="text-[16px] font-[500]"
@@ -30,7 +30,7 @@
             additional-loader-classes="border-4 border-t-[var(--pb-c-blue)]"
         >
             <img src="/google-icon.png" alt='Google Icon' class='w-[22px] h-[22px]' />
-        </Button>
+        </Button> -->
     
         <p className='text-[15px] leading-[20.81px] md:text-[18px] font-[200] md:leading-[23.81px] mt-8 md:mt-5'>By continuing, you agree to have read and accepted partybank <span className='text-[var(--pb-c-red)] font-[500] underline underline-offset-4 cursor-pointer'><RouterLink to="/termsandconditions">terms and conditions</RouterLink></span></p>
     </div>
