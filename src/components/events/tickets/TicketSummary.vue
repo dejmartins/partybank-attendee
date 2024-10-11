@@ -3,7 +3,30 @@
     <div class="w-full md:w-1/2 px-0 md:px-2">
       <p class="font-[700] text-[24px] md:text-[30px] mb-2 md:mb-1">My Info</p>
       <form class="form-container p-3 md:p-6 rounded-[20px]">
-        <div class="form-group">
+        <div class="form-group mt-4">
+          <div class="flex flex-col md:flex-row gap-4">
+            <div class="w-full md:w-1/2">
+              <label class="font-[600] text-[15px] md:text-[18px]">First Name</label>
+              <input
+                v-model="userInfo.firstName"
+                type="text"
+                class="form-input w-full h-[56px]"
+                placeholder="Enter first name"
+                :class="{error : error.firstNameError}"
+              />
+            </div>
+            <div class="w-full md:w-1/2">
+              <label class="font-[600] text-[15px] md:text-[18px]">Last Name</label>
+              <input
+                v-model="userInfo.lastName"
+                type="text"
+                class="form-input w-full h-[56px]"
+                placeholder="Enter last name"
+                :class="{error : error.lastNameError}"
+              />
+            </div>
+          </div>
+
           <label class="font-[600] text-[15px] md:text-[18px]">Where are you based?</label>
           <Listbox v-model="selectedLocation">
             <div class="relative mt-1">
@@ -34,7 +57,7 @@
           </Listbox>
         </div>
 
-        <div class="relative">
+        <div class="relative mt-4">
           <label class="font-[600] w-full text-[15px] md:text-[18px]">Phone Number:</label>
           <div class="relative">
             <span class="absolute inset-y-0 top-[8.5px] left-2 h-[55%] flex items-center justify-center rounded-[8px] px-6 bg-[#F8F9F9] font-[400] text-[#080D18]">+234</span>
@@ -45,9 +68,10 @@
               placeholder="704 3946 3386"
               maxlength="10"
               @input="filterNonDigits"
+              :class="{error : error.phoneError}"
             />
           </div>
-          <p v-if="error.phoneError" class="text-red-600 text-sm">{{ errorMessage.phoneError }}</p>
+          <!-- <p v-if="error.phoneError" class="text-red-600 text-sm">{{ errorMessage.phoneError }}</p> -->
         </div>
       </form>
     </div>
@@ -56,9 +80,6 @@
     <div class="w-full md:w-1/2 px-0 md:px-2 md:overflow-y-auto h-[calc(100vh-290px)] custom-scrollbar">
       <p class="font-[700] text-[24px] md:text-[30px] mt-5 md:mt-0 mb-2 md:mb-1">Ticket Info</p>
       <div class="rounded-[20px] bg-[#FFFFFF] p-3 md:p-6">
-        <!-- <div class="w-full mb-4">
-          <img :src="eventStore.eventImage || '/defaultImage.png'" alt="Event Image" class="w-full h-[50px] object-cover rounded-[20px] border border-[#DDE0E3]" />
-        </div> -->
         <div>
           <div class="flex items-stretch gap-3 border-b pb-2">
             <div class="hidden md:flex w-full md:w-[20%] h-full">
@@ -121,7 +142,7 @@ import { useAuthStore } from '@/stores/auth';
 import { useToast } from 'vue-toastification';
 import { isValidPhoneNumber } from '@/utils/actions';
 
-const { PAY } = Api();
+const { PAY, UPDATE_USER_INFO } = Api();
 const eventStore = useEventStore();
 const authStore = useAuthStore();
 const toast = useToast();
@@ -131,19 +152,31 @@ const total = ref(eventStore.ticketQuantity * eventStore.ticketAmount);
 
 const locations = ref([
   { name: 'Warri' },
-  { name: 'Benin' },
-  { name: 'PortHarcourt' },
-  { name: 'Asaba' },
-  { name: 'Calabar' }
+  { name: 'Lagos' },
+  { name: 'Abuja' },
+  { name: 'Port Harcourt' }
 ]);
+
 const selectedLocation = ref(locations.value[0]);
-const userInfo = ref({ phoneNumber: '' });
+
+const storedUserData = sessionStorage.getItem('userData');
+
+const parsedUserData = storedUserData ? JSON.parse(storedUserData) : {};
+
+const userInfo = ref({
+  firstName: parsedUserData.firstName || '',
+  lastName: parsedUserData.lastName || '',
+  phoneNumber: parsedUserData.phoneNumber || ''
+});
+
 const termsAccepted = ref(false);
 const disabled = ref(false);
 
 const error = ref({
   phoneError: false,
-  termsError: false
+  termsError: false,
+  firstNameError: false,
+  lastNameError: false
 });
 
 const errorMessage = ref({
@@ -166,17 +199,63 @@ const validateForm = () => {
     error.value.phoneError = !isValidPhoneNumber(userInfo.value.phoneNumber);
     errorMessage.value.phoneError = 'Invalid phone number format.'
   }
-
+  
+  error.value.firstNameError = userInfo.value.firstName === '';
+  error.value.lastNameError = userInfo.value.lastName === '';
   error.value.termsError = !termsAccepted.value;
-  return !error.value.phoneError && !error.value.termsError;
+
+  return !error.value.phoneError && !error.value.termsError && !error.value.firstNameError && !error.value.lastNameError;
 };
 
 const isFormValid = computed(() => validateForm());
 
+const updateInfo = async () => {
+    try {
+      const response = await fetch(`${UPDATE_USER_INFO}/${authStore.decodedEmail}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authStore.token,
+        },
+        body: JSON.stringify({
+          first_name: userInfo.value.firstName,
+          last_name: userInfo.value.lastName,
+          phone_number: userInfo.value.phoneNumber
+        })
+      });
+
+      if(response.ok){
+        // authStore.setFirstName(userInfo.value.firstName);
+        // authStore.setLastName(userInfo.value.lastName);
+        // authStore.setPhoneNumber(userInfo.value.phoneNumber);
+
+        const userData = {
+            firstName: userInfo.value.firstName,
+            lastName: userInfo.value.lastName,
+            phoneNumber: userInfo.value.phoneNumber
+        };
+
+        sessionStorage.setItem('userData', JSON.stringify(userData));
+      }
+      
+    } catch (error) {
+      console.log("Error", error);
+    }
+};
+
 const pay = async (value: any) => {
+  if(parsedUserData.firstName !== userInfo.value.firstName 
+      && parsedUserData.lastName !== userInfo.value.lastName
+      && parsedUserData.phoneNumber !== userInfo.value.phoneNumber
+    ) {
+    await updateInfo();
+  }
+
   const payload = {
     email: authStore.decodedEmail,
     phoneNumber: formatPhoneNumber(value.phoneNumber),
+    firstName: userInfo.value.firstName,
+    lastName: userInfo.value.lastName,
     city: value.location,
     emailValidated: true,
     termsAndConditionsAccepted: value.termsAccepted,
@@ -227,7 +306,7 @@ const handleProceedToPayment = () => {
           termsAccepted: termsAccepted.value
       });
   } else {
-      toast.error("Please complete all required fields correctly.");
+      console.error("Please complete all required fields correctly.");
   }
 };
 </script>
@@ -280,6 +359,14 @@ const handleProceedToPayment = () => {
   border: solid white;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
+}
+
+.error input {
+  border-color: red;
+}
+
+.error {
+  border-color: red;
 }
 
 </style>
