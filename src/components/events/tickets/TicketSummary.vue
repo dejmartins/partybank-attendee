@@ -164,9 +164,9 @@ const storedUserData = sessionStorage.getItem('userData');
 const parsedUserData = storedUserData ? JSON.parse(storedUserData) : {};
 
 const userInfo = ref({
-  firstName: parsedUserData.firstName || '',
-  lastName: parsedUserData.lastName || '',
-  phoneNumber: parsedUserData.phoneNumber || ''
+  firstName: parsedUserData.firstName || authStore.firstName || '',
+  lastName: parsedUserData.lastName || authStore.lastName || '',
+  phoneNumber: parsedUserData.phoneNumber || authStore.phoneNumber || ''
 });
 
 const termsAccepted = ref(false);

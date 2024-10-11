@@ -108,14 +108,14 @@ router.beforeEach(async (to) => {
   }
 })
 
-// router.beforeEach(async (to, from, next) => {
-//   const authStore = useAuthStore();
+router.beforeEach(async (to, from, next) => {
+  const authStore = useAuthStore();
 
-//   if (to.name === 'ticket-purchase' && !authStore.isAuthenticated) {
-//     next({ name: 'discover-events' });
-//   } else {
-//     next();
-//   }
-// })
+  if (to.name === 'ticket-purchase' && !authStore.isAuthenticated) {
+    next({ name: 'discover-events' });
+  } else {
+    next();
+  }
+})
 
 export default router
