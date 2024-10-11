@@ -4,7 +4,9 @@ import { jwtDecode } from 'jwt-decode';
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     email: '',
-    name: '',
+    firstName: '',
+    lastName: '',
+    phoneNumber: '',
     token: '',
     isAuthenticated: false,
     decodedEmail: ''
@@ -15,8 +17,16 @@ export const useAuthStore = defineStore('auth', {
       this.email = newEmail;
     },
 
-    setName(newName: string) {
-      this.name = newName;
+    setFirstName(newFirstName: string) {
+      this.firstName = newFirstName;
+    },
+
+    setLastName(newLastName: string) {
+      this.lastName = newLastName;
+    },
+
+    setPhoneNumber(newNumber: string) {
+      this.phoneNumber = newNumber;
     },
 
     setToken(newToken: string) {
@@ -40,11 +50,13 @@ export const useAuthStore = defineStore('auth', {
 
         console.log('decoded', decoded)
         // @ts-ignore
-        const { username, fullName, exp } = decoded;
+        const { username, firstName, lastName, phoneNumber, exp } = decoded;
 
         if (decoded.sub) {
           this.decodedEmail = username;
-          this.name = fullName;
+          this.firstName = firstName;
+          this.lastName = lastName;
+          this.phoneNumber = phoneNumber;
         }
 
         if (exp && exp > currentTime) {
