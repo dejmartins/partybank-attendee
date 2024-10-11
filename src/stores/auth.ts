@@ -57,6 +57,16 @@ export const useAuthStore = defineStore('auth', {
           this.firstName = firstName;
           this.lastName = lastName;
           this.phoneNumber = phoneNumber;
+
+          console.log(firstName)
+
+          const userData = {
+            firstName: firstName,
+            lastName: lastName,
+            phoneNumber: phoneNumber
+          };
+
+          sessionStorage.setItem('userData', JSON.stringify(userData));
         }
 
         if (exp && exp > currentTime) {
