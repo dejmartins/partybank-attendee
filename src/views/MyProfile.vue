@@ -21,7 +21,7 @@
                         <div class="flex items-center gap-2">
                             <div
                                 ref="nameInput"
-                                contenteditable="true"
+                                contenteditable="false"
                                 class="text-[30px] font-[700] border-0 bg-transparent outline-none"
                                 :class="{ 'border-gray-300': isEditing }"
                                 :tabindex="isEditing ? '0' : '-1'"
@@ -31,9 +31,9 @@
                                 v-text="name"
                             ></div>
                             <button @click="toggleEditMode">
-                                <PencilSquareIcon v-if="!isEditing" class="w-6 h-6 cursor-pointer" />
+                                <!-- <PencilSquareIcon v-if="!isEditing" class="w-6 h-6 cursor-pointer" /> -->
                                 <!-- <CheckIcon v-else class="w-6 h-6 cursor-pointer text-[var(--pb-c-red)]" /> -->
-                                <p v-else class="w-6 h-6 cursor-pointer text-[var(--pb-c-red)]">Save</p>
+                                <!-- <p v-else class="w-6 h-6 cursor-pointer text-[var(--pb-c-red)]">Save</p> -->
                             </button>
                         </div>
                         <p class="font-[300] text-[16px] md:text-[20px]">{{ authStore.decodedEmail }}</p>
@@ -67,7 +67,7 @@ const authStore = useAuthStore();
 const { UPDATE_USER_INFO } = Api();
 
 const isEditing = ref(false);
-const name = ref(authStore.name || 'No name');
+const name = ref(authStore.firstName + " " + authStore.lastName || 'No name');
 const nameInput = ref<HTMLElement | null>(null);
 
 const toggleEditMode = () => {
@@ -94,13 +94,14 @@ const saveName = async () => {
           'Authorization': authStore.token,
         },
         body: JSON.stringify({
-          full_name: name.value,
+          first_name: name.value,
+          last_name: name.value,
           phone_number: ""
         })
       });
 
       if(response.ok){
-        authStore.setName(name.value)
+        // authStore.setName(name.value)
       }
       
     } catch (error) {
