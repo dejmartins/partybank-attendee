@@ -151,6 +151,7 @@ const currentDate = ref(moment().format('MMMM Do, YYYY'))
 const total = ref(eventStore.ticketQuantity * eventStore.ticketAmount);
 
 const locations = ref([
+  { name: 'Benin' },
   { name: 'Warri' },
   { name: 'Lagos' },
   { name: 'Abuja' },
