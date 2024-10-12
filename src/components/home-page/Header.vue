@@ -18,7 +18,8 @@
             </div>
   
           <div class="space-x-4">
-            <RouterLink to="/auth" class="bg-[var(--pb-c-red)] text-white font-[500] border-[2px] border-[#4E0916] p-3 rounded-[8px] px-10 font-[700]">Sign In</RouterLink>
+            <ProfileIcon v-if="isLoggedIn" />
+            <RouterLink v-else to="/auth" class="bg-[var(--pb-c-red)] text-white font-[500] border-[2px] border-[#4E0916] p-3 rounded-[8px] px-10 font-[700]">Sign In</RouterLink>
           </div>
         </div>
     </header>
@@ -26,4 +27,12 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
+import { computed } from 'vue';
+import { useAuthStore } from '@/stores/auth';
+import ProfileIcon from '../ui/ProfileIcon.vue';
+
+const authStore = useAuthStore();
+console.log(authStore.isAuthenticated)
+
+const isLoggedIn = computed(() => authStore.isAuthenticated);
 </script>
