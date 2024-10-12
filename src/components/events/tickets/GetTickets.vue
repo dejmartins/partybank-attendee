@@ -191,7 +191,7 @@ const reserveTicket = async (): Promise<boolean> => {
 };
 
 const proceedToPay = async () => {
-  if (authStore.isAuthenticated && authStore.checkTokenValidity(authStore.token)) {
+  // if (authStore.isAuthenticated && authStore.checkTokenValidity(authStore.token)) {
     const success = await reserveTicket();
 
     if (success) {
@@ -218,9 +218,9 @@ const proceedToPay = async () => {
     } else {
       console.log(reserveError.value);
     }
-  } else {
-    toggleSignInModal();
-  }
+  // } else {
+  //   toggleSignInModal();
+  // }
 };
 
 onMounted(() => {
