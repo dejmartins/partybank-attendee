@@ -4,7 +4,7 @@
       <p class="font-[700] text-[24px] md:text-[30px] mb-2 md:mb-1">My Info</p>
       <form class="form-container p-3 md:p-6 rounded-[20px]">
         <div class="form-group mt-4">
-          <div class="flex flex-col md:flex-row gap-4">
+          <div class="flex flex-col md:flex-row md:gap-4">
             <div class="w-full md:w-1/2">
               <label class="font-[600] text-[15px] md:text-[18px]">First Name</label>
               <input
@@ -26,6 +26,17 @@
               />
             </div>
           </div>
+
+          <div class="w-full">
+              <label class="font-[600] text-[15px] md:text-[18px]">Email</label>
+              <input
+                v-model="userInfo.email"
+                type="text"
+                class="form-input w-full h-[56px]"
+                placeholder="Enter last name"
+                :class="{error : error.emailError}"
+              />
+            </div>
 
           <label class="font-[600] text-[15px] md:text-[18px]">Where are you based?</label>
           <Listbox v-model="selectedLocation">
@@ -117,6 +128,8 @@
         <p v-if="error.termsError" class="text-red-600 text-sm">You must accept the terms.</p>
       </div>
 
+      <p v-if="error.reserveError" class="text-red-600 mt-4">{{ errorMessage.reserveError }}</p>
+
       <Button 
         action="Proceed to Payment"
         :disabled="disabled"
@@ -136,13 +149,13 @@ import Button from '@/components/buttons/LoaderButton.vue';
 import Api from '@/utils/api';
 import { useEventStore } from '@/stores/event';
 import { ref, computed } from 'vue';
-import { formatAmountWithCommas, formatPhoneNumber } from '@/utils/actions';
+import { formatAmountWithCommas, formatPhoneNumber, isValidEmail } from '@/utils/actions';
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue';
 import { useAuthStore } from '@/stores/auth';
 import { useToast } from 'vue-toastification';
 import { isValidPhoneNumber } from '@/utils/actions';
 
-const { PAY, UPDATE_USER_INFO } = Api();
+const { PAY, UPDATE_USER_INFO, RESERVE_TICKET } = Api();
 const eventStore = useEventStore();
 const authStore = useAuthStore();
 const toast = useToast();
@@ -167,7 +180,8 @@ const parsedUserData = storedUserData ? JSON.parse(storedUserData) : {};
 const userInfo = ref({
   firstName: parsedUserData.firstName || authStore.firstName || '',
   lastName: parsedUserData.lastName || authStore.lastName || '',
-  phoneNumber: parsedUserData.phoneNumber || authStore.phoneNumber || ''
+  phoneNumber: parsedUserData.phoneNumber || authStore.phoneNumber || '',
+  email: parsedUserData.email || authStore.email || ''
 });
 
 const termsAccepted = ref(false);
@@ -177,12 +191,15 @@ const error = ref({
   phoneError: false,
   termsError: false,
   firstNameError: false,
-  lastNameError: false
+  lastNameError: false,
+  emailError: false,
+  reserveError: false
 });
 
 const errorMessage = ref({
   phoneError: '',
-  termsError: ''
+  termsError: '',
+  reserveError: ''
 })
 
 // Methods
@@ -203,6 +220,7 @@ const validateForm = () => {
   
   error.value.firstNameError = userInfo.value.firstName === '';
   error.value.lastNameError = userInfo.value.lastName === '';
+  error.value.emailError = !isValidEmail(userInfo.value.email);
   error.value.termsError = !termsAccepted.value;
 
   return !error.value.phoneError && !error.value.termsError && !error.value.firstNameError && !error.value.lastNameError;
@@ -233,7 +251,8 @@ const updateInfo = async () => {
         const userData = {
             firstName: userInfo.value.firstName,
             lastName: userInfo.value.lastName,
-            phoneNumber: userInfo.value.phoneNumber
+            phoneNumber: userInfo.value.phoneNumber,
+            email: userInfo.value.email
         };
 
         sessionStorage.setItem('userData', JSON.stringify(userData));
@@ -245,15 +264,15 @@ const updateInfo = async () => {
 };
 
 const pay = async (value: any) => {
-  if(parsedUserData.firstName !== userInfo.value.firstName 
-      && parsedUserData.lastName !== userInfo.value.lastName
-      && parsedUserData.phoneNumber !== userInfo.value.phoneNumber
-    ) {
-    await updateInfo();
-  }
+  // if(parsedUserData.firstName !== userInfo.value.firstName 
+  //     && parsedUserData.lastName !== userInfo.value.lastName
+  //     && parsedUserData.phoneNumber !== userInfo.value.phoneNumber
+  //   ) {
+  //   await updateInfo();
+  // }
 
   const payload = {
-    email: authStore.decodedEmail,
+    email: userInfo.value.email,
     phoneNumber: formatPhoneNumber(value.phoneNumber),
     firstName: userInfo.value.firstName,
     lastName: userInfo.value.lastName,
@@ -297,19 +316,79 @@ const pay = async (value: any) => {
   }
 };
 
-const handleProceedToPayment = () => {
-  if (isFormValid.value) {
-      disabled.value = true;
+// const handleProceedToPayment = () => {
+//   if (isFormValid.value) {
+//       disabled.value = true;
 
-      pay({
-          location: selectedLocation.value.name,
-          phoneNumber: userInfo.value.phoneNumber,
-          termsAccepted: termsAccepted.value
-      });
-  } else {
-      console.error("Please complete all required fields correctly.");
+//       pay({
+//           location: selectedLocation.value.name,
+//           phoneNumber: userInfo.value.phoneNumber,
+//           termsAccepted: termsAccepted.value
+//       });
+//   } else {
+//       console.error("Please complete all required fields correctly.");
+//   }
+// };
+
+const reserveTicket = async (): Promise<boolean> => {
+  error.value.reserveError = false;
+  // isReserving.value = true;
+  // errorMessage.value.reserveError = '';
+
+  try {
+    const response = await fetch(RESERVE_TICKET, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: userInfo.value.email,
+        numberOfTickets: eventStore.ticketQuantity,
+        ticketType: eventStore.ticketType,
+        eventReference: eventStore.eventReference
+      }),
+    });
+
+    const result = await response.json();
+    console.log(result)
+    // isReserving.value = false;
+
+    if (response.ok) {
+      return true;
+    } else {
+      error.value.reserveError = true
+      errorMessage.value.reserveError = 'Failed to reserve tickets. Please try again.';
+      return false;
+    }
+  } catch (error) {
+    // isReserving.value = false;
+    errorMessage.value.reserveError = 'Network error occurred. Please try again.';
+    return false;
   }
 };
+
+const handleProceedToPayment = async () => {
+  if (isFormValid.value) {
+    disabled.value = true;
+
+    const isTicketReserved = await reserveTicket(); // Call reserveTicket first
+
+    if (isTicketReserved) {
+      // Proceed to payment only if ticket reservation is successful
+      pay({
+        location: selectedLocation.value.name,
+        phoneNumber: userInfo.value.phoneNumber,
+        termsAccepted: termsAccepted.value
+      });
+    } else {
+      toast.error('Failed to reserve the ticket. Please try again.');
+      disabled.value = false;
+    }
+  } else {
+    console.error("Please complete all required fields correctly.");
+  }
+};
+
 </script>
 
 <style scoped>
