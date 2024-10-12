@@ -263,6 +263,17 @@ const updateInfo = async () => {
     }
 };
 
+const updateSession = () => {
+  const userData = {
+      firstName: userInfo.value.firstName,
+      lastName: userInfo.value.lastName,
+      phoneNumber: userInfo.value.phoneNumber,
+      email: userInfo.value.email
+  };
+
+  sessionStorage.setItem('userData', JSON.stringify(userData));
+}
+
 const pay = async (value: any) => {
   // if(parsedUserData.firstName !== userInfo.value.firstName 
   //     && parsedUserData.lastName !== userInfo.value.lastName
@@ -270,6 +281,8 @@ const pay = async (value: any) => {
   //   ) {
   //   await updateInfo();
   // }
+
+  updateSession();
 
   const payload = {
     email: userInfo.value.email,
