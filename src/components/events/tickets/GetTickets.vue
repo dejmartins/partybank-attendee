@@ -192,37 +192,37 @@ const reserveTicket = async (): Promise<boolean> => {
 
 const proceedToPay = async () => {
   // if (authStore.isAuthenticated && authStore.checkTokenValidity(authStore.token)) {
-    // const success = await reserveTicket();
+    const success = await reserveTicket();
 
-    // if (success) {
-    //   const currentPage = router.currentRoute.value.fullPath;
-    //   localStorage.setItem('previousPage', currentPage);
+    if (success) {
+      const currentPage = router.currentRoute.value.fullPath;
+      localStorage.setItem('previousPage', currentPage);
 
-    //   const selectedTicketData = event?.tickets.find(ticket => ticket.name === selectedTicket.value);
-    //   if (!selectedTicketData) {
-    //     console.error('No selected ticket data found');
-    //     return;
-    //   }
+      const selectedTicketData = event?.tickets.find(ticket => ticket.name === selectedTicket.value);
+      if (!selectedTicketData) {
+        console.error('No selected ticket data found');
+        return;
+      }
 
-    //   eventStore.setTicketDetails({
-    //     eventImage: event?.image_url || '/defaultImage.png',
-    //     eventName: event?.event_name || 'Unknown Event',
-    //     ticketQuantity: ticketQuantities.value[selectedTicket.value],
-    //     ticketType: selectedTicketData.name[0] + selectedTicketData.name.slice(1),
-    //     ticketAmount: selectedTicketData.price,
-    //     eventReference: event?.event_reference || ''
-    //   });
+      eventStore.setTicketDetails({
+        eventImage: event?.image_url || '/defaultImage.png',
+        eventName: event?.event_name || 'Unknown Event',
+        ticketQuantity: ticketQuantities.value[selectedTicket.value],
+        ticketType: selectedTicketData.name[0] + selectedTicketData.name.slice(1),
+        ticketAmount: selectedTicketData.price,
+        eventReference: event?.event_reference || ''
+      });
 
-    //   router.push('/purchase');
-    //   paymentStore.openPaymentPopup();
-    // } else {
-    //   console.log(reserveError.value);
-    // }
+      router.push('/purchase');
+      paymentStore.openPaymentPopup();
+    } else {
+      console.log(reserveError.value);
+    }
   // } else {
   //   toggleSignInModal();
   // }
   
-    router.push('/purchase');
+    // router.push('/purchase');
 };
 
 onMounted(() => {
