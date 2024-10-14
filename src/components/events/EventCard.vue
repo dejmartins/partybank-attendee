@@ -1,38 +1,38 @@
 <template>
   <router-link :to="{ name: 'event-details', params: { eventReference: eventId } }">
     <div class="border flex items-start p-3 rounded-[10px] gap-3 bg-[#FAF9F9]">
-      <div class="min-w-[100px] min-h-[100px] border bg-cover bg-center rounded-[10px] overflow-hidden" :style="{ backgroundImage: `url(${imageUrl ? imageUrl : defaultImage})` }">
+      <div class="min-w-[70px] min-h-[70px] border bg-cover bg-center rounded-[10px] overflow-hidden" :style="{ backgroundImage: `url(${imageUrl ? imageUrl : defaultImage})` }">
         <slot></slot>
       </div>
       
       <div>
         <div class="w-full flex items-center justify-between pb-2">
-          <p class="text-[20px] md:text-[24px] font-[600]">{{ eventName }}</p>
+          <p class="text-[18px] md:text-[24px] font-[600]">{{ eventName }}</p>
         </div>
 
-        <div class="flex flex-wrap justify-between gap-2 md:gap-4">
-          <div class="flex items-center gap-2">
+        <div class="flex flex-wrap justify-between gap-1 md:gap-4">
+          <div class="flex items-center gap-1 md:gap-2">
             <div class="w-8 h-8 flex items-center justify-center rounded-full bg-[#F7F4F4]">
-              <MapPinIcon class="size-6" />
+              <MapPinIcon class="size-5 md:size-6 stroke-2" />
             </div>
             <div>
               <p class="text-[15px] md:text-[17px] font-[500]">
                 {{ location.city }}, {{ location.country }}
               </p>
-              <p className="text-[14px] md:text-[15px] font-[400] line-clamp-1">{{ venue }}</p>
+              <p className="text-[13px] md:text-[15px] font-[400] line-clamp-1">{{ venue }}</p>
             </div>
           </div>
-          <div class="flex items-center gap-2">
-            <div class="w-8 h-8 flex items-center justify-center rounded-full bg-[#F7F4F4] p-2">
-              <CalendarDaysIcon class="size-6" />
-            </div>
-            <p className="text-[14px] md:text-[15px] line-clamp-2 font-[400]">{{ eventDate }}</p>
-          </div>
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-1 md:gap-2">
             <div class="w-8 h-8 flex items-center justify-center rounded-full bg-[#F7F4F4]">
-              <ClockIcon class="size-6" />
+              <CalendarDaysIcon class="size-5 md:size-6 stroke-2" />
             </div>
-            <p class="text-[14px] md:text-[15px] line-clamp-2 font-[400]">{{ moment(time, 'H:mm').format('LT') }}</p>
+            <p className="text-[13px] md:text-[15px] line-clamp-2 font-[400]">{{ eventDate }}</p>
+          </div>
+          <div class="flex items-center gap-1 md:gap-2">
+            <div class="w-8 h-8 flex items-center justify-center rounded-full bg-[#F7F4F4]">
+              <ClockIcon class="size-5 md:size-6 stroke-2" />
+            </div>
+            <p class="text-[13px] md:text-[15px] line-clamp-2 font-[400]">{{ moment(time, 'H:mm').format('LT') }}</p>
           </div>
         </div>
 
