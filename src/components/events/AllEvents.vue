@@ -2,10 +2,10 @@
   <div class="flex flex-col md:flex-row w-full h-[calc(100vh-270px)] overflow-y-auto md:overflow-y-hidden rounded-[20px] bg-[#F9F7F7] p-6 md:p-10 mt-2 border border-[#F2EFEF] custom-scrollbar">
     <div class="md:w-1/3 md:sticky md:top-0 md:border-r md:border-[#DDE0E3] md:pr-6 px-0 md:px-2">
       <div class="relative w-full h-full flex flex-col text-left">
-        <img :src="stateImage" alt="State Image" class="w-full md:aspect-square object-cover rounded-[20px] border border-[#DDE0E3]" />
+        <img :src="stateImage" alt="State Image" class="w-full h-[180px] md:h-auto aspect-auto md:aspect-square object-cover rounded-[20px] border border-[#DDE0E3]" />
         <div class="mt-3 text-left">
-          <h2 class="text-[24px] font-[400]">{{ selectedState }}<span class="font-[600] italic">, Nigeria</span></h2>
-          <p class="font-[400] text-[18px]">{{ stateSlogan }}</p>
+          <h2 class="text-[20px] md:text-[24px] font-[400]">{{ selectedState }}<span class="font-[600] italic">, Nigeria</span></h2>
+          <p class="font-[400] text-[14px] md:text-[18px]">{{ stateSlogan }}</p>
         </div>
       </div>
     </div>
