@@ -19,7 +19,7 @@
         <NoEvent :selected-state="selectedState" />
       </div>
 
-      <div v-else class="flex flex-col gap-4 mt-5 md:mt-0">
+      <div v-else class="flex flex-col gap-4 mt-5 md:mt-0 my-10">
         <EventCard
           v-for="event in filteredEvents"
           :key="event.event_reference"
