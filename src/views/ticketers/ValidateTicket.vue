@@ -26,6 +26,7 @@
         </div>
 
         <div class="w-full md:w-[400px]">
+          <p class="text-lg mt-2 text-sm font-bold">{{ user }}: {{ validatedTicketsCount }}</p>
           <div class="border border-2 border-[#C0C0C0] my-4 p-5 rounded-[22px]">
             <div class="flex justify-between items-center">
               <p>Scanned Tickets</p>
@@ -92,9 +93,11 @@ import Api from '@/utils/api'
 import { type TicketDetail } from '@/utils/types'
 import TicketType from '@/components/events/tickets/TicketTypeCount.vue'
 
-const { SEARCH_TICKET, VALIDATE_TICKET, GET_PURCHASED_TICKETS } = Api()
+const { SEARCH_TICKET, VALIDATE_TICKET, GET_PURCHASED_TICKETS, GET_VALIDATIONS } = Api()
 
 const ticketId = ref('')
+const validatedTicketsCount = ref(0)
+const user = localStorage.getItem('pb-user')
 const isSearching = ref(false)
 const ticketDetails = ref<Array<TicketDetail>>([])
 const totalTicketsSold = ref<number>(0)
@@ -133,6 +136,28 @@ const ticketsData = async () => {
     .catch((error: any) => {
       toast.error('Error fetching ticket details')
     })
+}
+
+const getValidationCount = async () => {
+  try {
+    const response = await fetch(`${GET_VALIDATIONS}/${reference}`, {
+      method: 'GET',
+    })
+    const result = await response.json()
+    if (!response.ok) {
+      throw new Error(result.error || `HTTP error! status: ${response.status}`)
+    }
+    const user = localStorage.getItem('pb-user') || ''
+    const userValidations = result.data.filter(
+      (validation: any) => validation.validatedBy === user
+    )
+    validatedTicketsCount.value = userValidations.length > 0
+      ? userValidations[0].totalValidatedCount
+      : 0
+  } catch (error) {
+    console.error('Error fetching validation result:', error)
+    toast.error('Error fetching validation result')
+  }
 }
 
 const onScanSuccess = (decodedText: any, decodedResult: any) => {
@@ -177,7 +202,8 @@ const searchTicket = async () => {
     }
 
     if (result.data) {
-      await validateTicket(payload)
+      const user = localStorage.getItem('pb-user');
+      await validateTicket({ 'email': user, ...payload })
     }
 
   } catch (error) {
@@ -202,15 +228,12 @@ const validateTicket = async (validatePayload: any) => {
     const result = await response.json()
 
     if (!response.ok) {
-      if (result.error) {
-        toast.error(result.error)
-      } else {
-        throw new Error(result.error || `HTTP error! status: ${response.status}`)
-      }
+      throw new Error(result.error || `HTTP error! status: ${response.status}`)
     }
 
     if (result.data) {
       toast.success(`${result.data.ticketType} Ticket Validated`)
+      validatedTicketsCount.value += 1
     }
 
   } catch (error) {
@@ -234,7 +257,8 @@ const closeMobileScanner = () => {
 }
 
 onMounted(() => {
-  ticketsData()
+  ticketsData();
+  getValidationCount();
 })
 </script>
 

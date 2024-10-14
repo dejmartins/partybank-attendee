@@ -10,6 +10,7 @@ const Api = () => {
   const VALIDATE_TICKET = `${BASE_URL_PAYMENT}/api/v1/validate`
   const GET_PURCHASED_TICKETS = `${BASE_URL_PAYMENT}/api/v1/tickets`
   const RESERVE_TICKET = `${BASE_URL_PAYMENT}/api/v1/reserve`
+  const GET_VALIDATIONS = `${BASE_URL_PAYMENT}/api/v1/tickets/validations`
   
   const AUTH = `${BASE_URL}/auth/login/attendee`
   const GOOGLE_AUTH = `${BASE_URL}/auth/google/login`
@@ -25,7 +26,8 @@ const Api = () => {
     GET_EVENT_BY_REFERENCE,
     AUTH, GOOGLE_AUTH,
     RESERVE_TICKET,
-    UPDATE_USER_INFO
+    UPDATE_USER_INFO,
+    GET_VALIDATIONS
   }
 }
 
