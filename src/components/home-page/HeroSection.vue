@@ -23,11 +23,11 @@
                 Where every ticket holds a celebration
             </p>
   
-            <div class="flex gap-4">
+            <!-- <div class="flex gap-4">
                 <RouterLink to="/discover" class="bg-[var(--pb-c-red)] text-white font-[500] border-[2px] border-[#4E0916] p-3 rounded-[8px] px-10 font-[700]">
                     Explore Events
                 </RouterLink>
-            </div>
+            </div> -->
 
             <div class="organizer-core bg-[color:var(--pb-c-white)] w-[80vw] md:w-[50vw] flex flex-col md:flex-row justify-between items-center rounded-full p-3 px-8 mt-24">
                 <div class="flex mr-2 profile-container mb-3 md:mb-0">
