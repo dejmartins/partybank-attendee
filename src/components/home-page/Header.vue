@@ -17,14 +17,19 @@
                 </nav>
             </div>
   
-            <div class="space-x-4">
+            <!-- <div class="space-x-4">
                 <a href="https://organizer.thepartybank.com/" class="">
                     <button class="bg-[var(--pb-c-red)] text-white font-[500] border-[2px] border-[#4E0916] p-3 rounded-[8px] px-10 font-[700]">
                     Create Event
                     </button>
-                </a>
+                </a> -->
                 <!-- <ProfileIcon v-if="isLoggedIn" />
                 <RouterLink v-else to="/auth" class="bg-[var(--pb-c-red)] text-white font-[500] border-[2px] border-[#4E0916] p-3 rounded-[8px] px-10 font-[700]">Sign In</RouterLink> -->
+            <!-- </div> -->
+            <div class="flex gap-4">
+                <RouterLink to="/discover" class="bg-[var(--pb-c-red)] text-white font-[500] border-[2px] border-[#4E0916] p-3 rounded-[8px] px-5 md:px-10 font-[700]">
+                    Explore Events
+                </RouterLink>
             </div>
         </div>
     </header>
