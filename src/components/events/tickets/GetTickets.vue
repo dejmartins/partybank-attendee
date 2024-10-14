@@ -192,9 +192,9 @@ const reserveTicket = async (): Promise<boolean> => {
 
 const proceedToPay = async () => {
   // if (authStore.isAuthenticated && authStore.checkTokenValidity(authStore.token)) {
-    const success = await reserveTicket();
+    // const success = await reserveTicket(); 
 
-    if (success) {
+    if (true) {
       const currentPage = router.currentRoute.value.fullPath;
       localStorage.setItem('previousPage', currentPage);
 
