@@ -57,7 +57,7 @@ const handleLogin = () => {
       const user = userCredential.user
 
       // @ts-ignore
-      localStorage.setItem('user', user.email)
+      localStorage.setItem('pb-user', user.email)
 
       const reference = route.params.eventReference;
 
