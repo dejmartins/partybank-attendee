@@ -123,7 +123,7 @@
       <div class="flex flex-col mt-4">
         <label class="flex items-center font-[200]">
           <input v-model="termsAccepted" type="checkbox" class="custom-checkbox w-[10px] h-[10px] md:w-[15px] md:h-[15px] mr-[10px] mt-[15px]" />
-            By checking this box, you agree that the information you provided is correct and valid, and you are above 18 years of age
+            By checking this box, you agree that the information you provided is correct and valid.
         </label>
         <p v-if="error.termsError" class="text-red-600 text-sm">You must accept the terms.</p>
       </div>
