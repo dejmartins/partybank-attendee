@@ -38,12 +38,12 @@
     
             <GetTickets :event="event" />
 
-            <div class="mt-5 border-b-[1px] pb-3">
+            <div class="mt-5 pb-3">
                 <p class="text-[20px] md:text-[20px] font-[600]">About Event</p>
-                <p>{{ event?.description ? event?.description : 'Event details not available' }}</p>
+                <p class="mb-10">{{ event?.description ? event?.description : 'Event details not available' }}</p>
             </div>
 
-            <div class="mt-5">
+            <!-- <div class="mt-5">
                 <p class="text-[20px] md:text-[20px] font-[600]">Location</p>
                 <div class="mt-4">
                 <iframe
@@ -55,7 +55,7 @@
                   referrerpolicy="no-referrer-when-downgrade"
                 ></iframe>
               </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
