@@ -6,7 +6,7 @@
 
     <div v-if="event?.tickets && event.tickets.length > 0" class="ticket-grid mt-4 bg-[#FFFFFF] p-3 rounded-[25px]">
       <div 
-        v-for="ticket in event.tickets"
+        v-for="ticket in processedTickets"
         :key="ticket.name"
         class="ticket-item"
         :class="{ selected: selectedTicket === ticket.name }"
@@ -14,14 +14,14 @@
         <button
           class="border flex flex-col border-gray-300 w-full p-4 rounded-[20px] hover:border-gray-500"
           @click="selectTicket(ticket.name)"
-          :disabled="!isTicketAvailable(ticket)"
+          :disabled="!ticket.isAvailable"
         >
           <div class="flex justify-between w-full">
             <div class="leading-4 flex flex-col gap-2">
-              <p :class="['font-[600] text-[18px]', selectedTicket === ticket.name ? 'text-[var(--pb-c-red)]' : 'text-black']">
+              <p :class="['font-[600] text-[18px]', selectedTicket === ticket.name ? 'text-[var(--pb-c-red)]' : '']">
                 {{ ticket.name[0].toUpperCase() + ticket.name.slice(1) }}
               </p>
-              <p class="font-[300] text-[16px] text-black"><span class="text-[12px]">NGN</span> {{ formatAmountWithCommas(ticket.price) }}</p>
+              <p class="font-[300] text-[16px]"><span class="text-[12px]">NGN</span> {{ formatAmountWithCommas(ticket.price) }}</p>
             </div>
             <div v-if="ticket.name !== 'FREE'" class="ticket-qty flex items-center bg-[#FFFFFF] rounded-[20px] px-[3px]" :class="selectedTicket === ticket.name ? 'flex' : 'hidden'">
               <button
@@ -65,7 +65,7 @@ import GetTicket from '@/components/buttons/LoaderButton.vue';
 import SignInModal from '@/views/auth/SignInModal.vue';
 import EmailSentModal from '@/components/auth/CheckEmailModal.vue';
 import Api from '@/utils/api';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { usePaymentStore } from '@/stores/payment';
 import { useEventStore } from '@/stores/event';
@@ -135,25 +135,36 @@ const decrementTicket = (ticketName: string) => {
 };
 
 const selectTicketByDefault = () => {
-  if (event?.tickets && event.tickets.length > 0) {
-    const currentDate = new Date();
+  if (!event?.tickets || event.tickets.length === 0) {
+    console.log('No tickets available.');
+    return;
+  }
 
-    const availableTickets = event.tickets.filter((ticket) => {
-      const startDate = new Date(ticket.ticket_sale_start_date);
-      const endDate = new Date(ticket.ticket_sale_end_date);
-      
-      return currentDate >= startDate && currentDate <= endDate;
-    });
+  const firstAvailableTicket = processedTickets.value?.find(ticket => ticket.isAvailable);
 
-    if (availableTickets.length > 0) {
-      const firstTicket = availableTickets[0];
-      selectedTicket.value = firstTicket.name;
-      ticketQuantities.value[firstTicket.name] = 1;
-    } else {
-      console.log('No tickets available for selection.');
-    }
+  if (firstAvailableTicket) {
+    selectedTicket.value = firstAvailableTicket.name;
+    ticketQuantities.value[firstAvailableTicket.name] = 1;
+  } else {
+    console.log('No tickets available for selection.');
   }
 };
+
+const processedTickets = computed(() => {
+  const currentDate = new Date();
+
+  return event?.tickets
+    .map((ticket) => {
+      const startDate = new Date(ticket.ticket_sale_start_date);
+      const endDate = new Date(ticket.ticket_sale_end_date);
+      const isAvailable = currentDate >= startDate && currentDate <= endDate;
+      return { ...ticket, isAvailable };
+    })
+    .sort((a, b) => (a.isAvailable === b.isAvailable ? 0 : a.isAvailable ? -1 : 1));
+});
+
+
+
 
 const reserveTicket = async (): Promise<boolean> => {
   isReserving.value = true;
@@ -259,6 +270,7 @@ onMounted(() => {
 }
 
 .ticket-item button:disabled {
+  color: gray;
   background-color: #F3F4F4;
   border: none;
   cursor: not-allowed;
