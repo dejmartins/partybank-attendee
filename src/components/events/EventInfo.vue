@@ -24,13 +24,13 @@
                             <div class="w-8 h-8 flex items-center justify-center rounded-full bg-[var(--pb-c-white)]">
                                 <CalendarDaysIcon class="size-6" />
                             </div>
-                            <p class="text-[15px] font-[200]">{{ moment(event?.date).format('MMMM Do, YYYY') }}</p>
+                            <p class="text-[15px] font-[200]">{{ event?.date }}</p>
                         </div>
                         <div class="flex items-center gap-2">
                             <div class="w-8 h-8 flex items-center justify-center rounded-full bg-[var(--pb-c-white)]">
                                 <ClockIcon class="size-6" />
                             </div>
-                            <p class="text-[15px] font-[200]">{{ moment(event?.time, 'H:mm').format('LT') }}</p>
+                            <p class="text-[15px] font-[200]">{{ event?.time }}</p>
                         </div>
                     </div>
                 </div>

@@ -21,9 +21,9 @@
               <p :class="['font-[600] text-[18px]', selectedTicket === ticket.name ? 'text-[var(--pb-c-red)]' : '']">
                 {{ ticket.name[0].toUpperCase() + ticket.name.slice(1) }}
               </p>
-              <p class="font-[300] text-[16px]"><span class="text-[12px]">NGN</span> {{ formatAmountWithCommas(ticket.price) }}</p>
+              <p class="font-[300] text-[16px]"><span class="text-[12px]" v-if="ticket.ticket_type !== 'Free'">NGN</span> {{ formatAmountWithCommas(ticket.price) }}</p>
             </div>
-            <div v-if="ticket.name !== 'FREE'" class="ticket-qty flex items-center bg-[#FFFFFF] rounded-[20px] px-[3px]" :class="selectedTicket === ticket.name ? 'flex' : 'hidden'">
+            <div v-if="ticket.ticket_type !== 'Free'" class="ticket-qty flex items-center bg-[#FFFFFF] rounded-[20px] px-[3px]" :class="selectedTicket === ticket.name ? 'flex' : 'hidden'">
               <button
                 @click.stop="decrementTicket(ticket.name)"
                 class="w-8 h-8 flex items-center justify-center rounded-full"
@@ -91,18 +91,6 @@ const showEmailSentModal = ref(false);
 const isReserving = ref(false); 
 const reserveError = ref('');
 
-const isTicketAvailable = (ticket: Ticket) => {
-  const currentDate = new Date();
-
-  const formattedStartTime = ticket.ticket_sale_start_time.padStart(5, '0') + ':00';
-  const formattedEndTime = ticket.ticket_sales_end_time.padStart(5, '0') + ':00';
-
-  const saleStartDate = new Date(`${ticket.ticket_sale_start_date}T${formattedStartTime}`);
-  const saleEndDate = new Date(`${ticket.ticket_sale_end_date}T${formattedEndTime}`);
-
-  return currentDate >= saleStartDate && currentDate <= saleEndDate;
-};
-
 
 const toggleSignInModal = () => {
   showSignInModal.value = !showSignInModal.value;
@@ -140,6 +128,8 @@ const selectTicketByDefault = () => {
     return;
   }
 
+  console.log('event2', event)
+  console.log(processedTickets.value)
   const firstAvailableTicket = processedTickets.value?.find(ticket => ticket.isAvailable);
 
   if (firstAvailableTicket) {
@@ -155,8 +145,9 @@ const processedTickets = computed(() => {
 
   return event?.tickets
     .map((ticket) => {
-      const startDate = new Date(ticket.ticket_sale_start_date);
-      const endDate = new Date(ticket.ticket_sale_end_date);
+      const startDate = new Date(reformatDate(ticket.ticket_sale_start_date));
+      const endDate = new Date(reformatDate(ticket.ticket_sale_end_date));
+
       const isAvailable = currentDate >= startDate && currentDate <= endDate;
       return { ...ticket, isAvailable };
     })
@@ -164,42 +155,11 @@ const processedTickets = computed(() => {
 });
 
 
-
-
-const reserveTicket = async (): Promise<boolean> => {
-  isReserving.value = true;
-  reserveError.value = '';
-
-  try {
-    const response = await fetch(RESERVE_TICKET, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: authStore.decodedEmail,
-        numberOfTickets: ticketQuantities.value[selectedTicket.value],
-        ticketType: selectedTicket.value,
-        eventReference: event?.event_reference
-      }),
-    });
-
-    const result = await response.json();
-    console.log(result)
-    isReserving.value = false;
-
-    if (response.ok) {
-      return true;
-    } else {
-      reserveError.value = 'Failed to reserve tickets. Please try again.';
-      return false;
-    }
-  } catch (error) {
-    isReserving.value = false;
-    reserveError.value = 'Network error occurred. Please try again.';
-    return false;
-  }
+const reformatDate = (dateStr: string) => {
+  const [day, month, year] = dateStr.split('-');
+  return `${year}-${month}-${day}`; 
 };
+
 
 const proceedToPay = async () => {
   // if (authStore.isAuthenticated && authStore.checkTokenValidity(authStore.token)) {
