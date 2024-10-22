@@ -38,7 +38,9 @@ export const isValidPhoneNumber = (phoneNumber: string): boolean => {
 };
 
 export function formatAmountWithCommas(amount: number | string) {
-  return amount.toLocaleString();
+  if(amount){
+    return amount.toLocaleString();
+  }
 }
 
 export function formatPhoneNumber(phoneNumber: string) {

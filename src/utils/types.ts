@@ -30,6 +30,7 @@ export type Ticket = {
     ticket_sales_end_time: string
     ticket_sale_start_date: string
     ticket_sale_start_time: string
+    type: string
 }
 
 export type UserInfo = {
