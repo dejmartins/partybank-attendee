@@ -32,7 +32,7 @@
             <div class="w-8 h-8 flex items-center justify-center rounded-full bg-[#F7F4F4]">
               <ClockIcon class="size-5 md:size-6 stroke-2" />
             </div>
-            <p class="text-[13px] md:text-[15px] line-clamp-2 font-[400]">{{ moment(time, 'H:mm').format('LT') }}</p>
+            <p class="text-[13px] md:text-[15px] line-clamp-2 font-[400]">{{ time }}</p>
           </div>
         </div>
 
