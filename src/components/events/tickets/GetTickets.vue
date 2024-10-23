@@ -22,6 +22,7 @@
                 {{ ticket.name[0].toUpperCase() + ticket.name.slice(1) }}
               </p>
               <p class="font-[300] text-[16px]"><span class="text-[12px]" v-if="ticket.ticket_type !== 'Free'">NGN</span> {{ formatAmountWithCommas(ticket.price) }}</p>
+              <p class="font-[300] text-[16px]"><span class="text-[12px]" v-if="ticket.ticket_type == 'Free'">NO FEE</span></p>
             </div>
             <div v-if="ticket.ticket_type !== 'Free'" class="ticket-qty flex items-center bg-[#FFFFFF] rounded-[20px] px-[3px]" :class="selectedTicket === ticket.name ? 'flex' : 'hidden'">
               <button
