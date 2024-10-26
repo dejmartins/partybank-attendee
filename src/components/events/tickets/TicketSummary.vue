@@ -167,6 +167,7 @@ const locations = ref([
   { name: 'Port Harcourt' },
   { name: 'Benin' },
   { name: 'Warri' },
+  { name: 'Asaba' },
   { name: 'Lagos' },
   { name: 'Abuja' }
 ]);
