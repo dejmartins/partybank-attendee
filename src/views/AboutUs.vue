@@ -125,7 +125,7 @@
   import Footer from '@/components/home-page/Footer.vue';
   
   const isOrganizer = ref(true);
-  const setIsOrganizer = (value) => (isOrganizer.value = value);
+  const setIsOrganizer = (value: boolean) => (isOrganizer.value = value);
   
   const organizerText = [
     {
