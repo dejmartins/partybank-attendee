@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col md:flex-row w-full h-[calc(100vh-210px)] overflow-y-auto md:overflow-y-hidden rounded-[20px] bg-[#F9F7F7] p-6 md:p-10 mt-4 border border-[#F2EFEF]">
-    <div class="w-full md:w-1/2 px-0 md:px-2">
+    <div class="w-full md:w-1/2 px-0 md:px-2 md:overflow-y-auto md:h-[calc(100vh-290px)] custom-scrollbar">
       <p class="font-[700] text-[24px] md:text-[30px] mb-2 md:mb-1">My Info</p>
       <form class="form-container p-3 md:p-6 rounded-[20px]">
         <div class="form-group mt-4">
@@ -85,6 +85,20 @@
           <!-- <p v-if="error.phoneError" class="text-red-600 text-sm">{{ errorMessage.phoneError }}</p> -->
         </div>
       </form>
+
+      <div v-if="eventStore.ticketPerks.length > 0 && eventStore.ticketPerks[0] !== ''" class="mt-5">
+        <p class="font-[700] text-[24px] md:text-[30px] mb-2 md:mb-1">Ticket Perks</p>
+
+        <div class="flex flex-wrap gap-x-2">
+          <div
+            v-for="(perk, index) in eventStore.ticketPerks"
+            :key="index"
+            class="py-2 px-4 mb-2 text-[var(--pb-c-red)] font-[500] rounded-md text-sm flex justify-between relative bg-[#FEEFF2] gap-x-4"
+          >
+            {{ perk }}
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Ticket Info -->
