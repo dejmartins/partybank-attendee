@@ -43,6 +43,8 @@
                 <p class="mb-10">{{ event?.description ? event?.description : 'Event details not available' }}</p>
             </div>
 
+            <!-- <div>{{ event?.tickets }}</div> -->
+
             <!-- <div class="mt-5">
                 <p class="text-[20px] md:text-[20px] font-[600]">Location</p>
                 <div class="mt-4">

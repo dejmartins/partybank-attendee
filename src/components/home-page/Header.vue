@@ -2,18 +2,19 @@
     <header class="fixed top-0 left-0 w-full bg-[#FFFFFF] border-b text-[#080D18] py-4 z-50">
         <div class="flex justify-between items-center px-6">
             <div class="flex items-center gap-10">
-                <div>
+                <RouterLink to="/">
                     <img
                         src="/pb-logo.png"
                         class="w-[65px]"
                         alt="Partybank Logo"
                     />
-                </div>
+                </RouterLink>
     
-                <nav class="hidden md:hidden space-x-6">
+                <nav class="hidden md:block space-x-6">
                     <a href="/about" class="hover:text-red-500 transition">About Us</a>
+                    <a href="https://organizer.thepartybank.com/" class="hover:text-red-500 transition">Create Events</a>
                     <a href="/faqs" class="hover:text-red-500 transition">FAQs</a>
-                    <a href="/contact" class="hover:text-red-500 transition">Contact</a>
+                    <a href="mailto:partybankexperience@gmail.com" class="hover:text-red-500 transition">Contact Us</a>
                 </nav>
             </div>
   

@@ -43,6 +43,16 @@ const router = createRouter({
       component: () => import('@/views/TermsAndConditions.vue')
     },
     {
+      path: '/about',
+      name: 'about-us',
+      component: () => import('@/views/AboutUs.vue')
+    },
+    {
+      path: '/faqs',
+      name: 'faqs',
+      component: () => import('@/views/Faqs.vue')
+    },
+    {
       path: '/discover',
       name: 'discover',
       component: () => import('@/layouts/event/EventsLayout.vue'),
@@ -81,7 +91,13 @@ const router = createRouter({
       component: () => import('@/views/auth/ValidateToken.vue'),
       props: route => ({ token: route.query.token, type: route.query.type }),
     }
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    }
+    return { top: 0 };
+  },
 })
 
 function isLoggedIn() {
