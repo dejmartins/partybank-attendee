@@ -119,7 +119,7 @@
     </main>
   </template>
   
-  <script setup>
+  <script setup lang="ts">
   import { ref } from "vue";
   import Header from '@/components/home-page/Header.vue';
   import Footer from '@/components/home-page/Footer.vue';
