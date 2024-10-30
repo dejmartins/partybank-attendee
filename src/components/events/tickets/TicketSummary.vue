@@ -86,7 +86,7 @@
         </div>
       </form>
 
-      <div v-if="eventStore.ticketPerks.length > 0 && eventStore.ticketPerks[0] !== ''" class="mt-5">
+      <div v-if="eventStore.ticketPerks?.length > 0 && eventStore.ticketPerks[0] !== ''" class="mt-5">
         <p class="font-[700] text-[24px] md:text-[30px] mb-2 md:mb-1">Ticket Perks</p>
 
         <div class="flex flex-wrap gap-x-2">
