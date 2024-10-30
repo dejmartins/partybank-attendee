@@ -33,7 +33,7 @@
                 v-model="userInfo.email"
                 type="text"
                 class="form-input w-full h-[56px]"
-                placeholder="Enter last name"
+                placeholder="Enter email address"
                 :class="{error : error.emailError}"
               />
             </div>
