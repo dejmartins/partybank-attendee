@@ -63,7 +63,8 @@ const stateImage = computed(() => {
         Lagos: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1727310997/PARTYBANK/image_6_cvzkev.png',
         Rivers: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1727805865/PARTYBANK/rivers-state1_hqequz.jpg',
         Edo: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1727805717/PARTYBANK/benin-city-gremio-herreros_kgogkf.jpg',
-        Delta: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1727311013/PARTYBANK/asaba-2_fxxbxy.jpg'
+        Delta: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1727311013/PARTYBANK/asaba-2_fxxbxy.jpg',
+        'Federal Capital Territory': 'https://res.cloudinary.com/drddoxnsi/image/upload/v1730665719/PARTYBANK/Abuja-city-FCT-1024x577-1_fg2rze.webp',
     };
     // @ts-ignore
     return stateImages[props.selectedState] || '/defaultImage.png';
@@ -74,7 +75,8 @@ const stateSlogan = computed(() => {
         Lagos: 'Centre of Excellence',
         Rivers: 'Treasure Base of the Nation',
         Edo: 'Heartbeat of the Nation',
-        Delta: 'The Big Heart'
+        Delta: 'The Big Heart',
+        'Federal Capital Territory': 'Centre of Unity'
     };
     // @ts-ignore
     return stateSlogans[props.selectedState] || 'Explore the beauty!';
@@ -95,6 +97,8 @@ const getEvents = async () => {
 };
 
 const filteredEvents = computed(() => {
+  console.log(events.value.filter((event) => event.location.state === props.selectedState));
+  console.log('state', props.selectedState)
     return events.value.filter((event) => event.location.state === props.selectedState);
 });
 
