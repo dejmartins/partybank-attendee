@@ -378,14 +378,16 @@ const reserveTicket = async (): Promise<boolean> => {
     });
 
     const result = await response.json();
-    console.log(result)
+    console.log("reserve", result)
     // isReserving.value = false;
+
+    console.log(result.er)
 
     if (response.ok) {
       return true;
     } else {
       error.value.reserveError = true
-      errorMessage.value.reserveError = 'Failed to reserve tickets. Please try again.';
+      errorMessage.value.reserveError = result.error || 'Failed to reserve tickets. Please try again.';
       return false;
     }
   } catch (error) {
@@ -409,7 +411,7 @@ const handleProceedToPayment = async () => {
         termsAccepted: termsAccepted.value
       });
     } else {
-      toast.error('Failed to reserve the ticket. Please try again.');
+      toast.error(errorMessage.value.reserveError);
       disabled.value = false;
     }
   } else {
