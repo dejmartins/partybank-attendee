@@ -146,19 +146,36 @@ const processedTickets = computed(() => {
 
   return event?.tickets
     .map((ticket) => {
-      const startDate = new Date(reformatDate(ticket.ticket_sale_start_date));
-      const endDate = new Date(reformatDate(ticket.ticket_sale_end_date));
+      const startDateTime = new Date(`${reformatDate(ticket.ticket_sale_start_date)}T${convertTimeTo24HourFormat(ticket.ticket_sale_start_time)}`);
+      const endDateTime = new Date(`${reformatDate(ticket.ticket_sale_end_date)}T${convertTimeTo24HourFormat(ticket.ticket_sales_end_time)}`);
 
-      const isAvailable = currentDate >= startDate && currentDate <= endDate;
+      console.log("Start DateTime:", startDateTime);
+      console.log("End DateTime:", endDateTime);
+
+      const isAvailable = currentDate >= startDateTime && currentDate <= endDateTime;
       return { ...ticket, isAvailable };
     })
     .sort((a, b) => (a.isAvailable === b.isAvailable ? 0 : a.isAvailable ? -1 : 1));
 });
 
 
-const reformatDate = (dateStr: string) => {
+const reformatDate = (dateStr: string): string => {
   const [day, month, year] = dateStr.split('-');
-  return `${year}-${month}-${day}`; 
+  return `${year}-${month}-${day}`;
+};
+
+const convertTimeTo24HourFormat = (timeStr: string): string => {
+  const [time, modifier] = timeStr.split(' ');
+  let [hours, minutes] = time.split(':');
+  
+  if (hours === '12') {
+    hours = '00';
+  }
+  if (modifier === 'PM') {
+    hours = (parseInt(hours, 10) + 12).toString();
+  }
+
+  return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:00`;
 };
 
 
