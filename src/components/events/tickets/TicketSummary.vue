@@ -183,7 +183,8 @@ const locations = ref([
   { name: 'Warri' },
   { name: 'Asaba' },
   { name: 'Lagos' },
-  { name: 'Abuja' }
+  { name: 'Abuja' },
+  { name: 'Imo' }
 ]);
 
 const selectedLocation = ref(locations.value[0]);
@@ -378,7 +379,6 @@ const reserveTicket = async (): Promise<boolean> => {
     });
 
     const result = await response.json();
-    console.log("reserve", result)
     // isReserving.value = false;
 
     console.log(result.er)
@@ -411,7 +411,7 @@ const handleProceedToPayment = async () => {
         termsAccepted: termsAccepted.value
       });
     } else {
-      toast.error(errorMessage.value.reserveError);
+      // toast.error(errorMessage.value.reserveError);
       disabled.value = false;
     }
   } else {
