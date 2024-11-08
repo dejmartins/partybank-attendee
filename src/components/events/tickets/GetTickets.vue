@@ -16,8 +16,8 @@
           @click="selectTicket(ticket.name)"
           :disabled="!ticket.isAvailable"
         >
-          <div class="flex justify-between w-full">
-            <div class="leading-4 flex flex-col gap-2">
+          <div class="flex justify-between w-full gap-2">
+            <div class="leading-5 flex flex-col gap-2">
               <p :class="['font-[600] text-[18px]', selectedTicket === ticket.name ? 'text-[var(--pb-c-red)]' : '']">
                 {{ ticket.name[0].toUpperCase() + ticket.name.slice(1) }}
               </p>
@@ -32,7 +32,7 @@
               <p class="font-[300] text-[16px]"></p>
             </div>
 
-            <div v-if="ticket.ticket_type !== 'Free' && ticket.category !== 'Group'" class="ticket-qty flex items-center bg-[#FFFFFF] rounded-[20px] px-[3px]" :class="selectedTicket === ticket.name ? 'flex' : 'hidden'">
+            <div v-if="ticket.ticket_type !== 'Free' && ticket.category !== 'Group'" class="ticket-qty flex items-center bg-[#FFFFFF] h-10 rounded-[20px] px-[3px]" :class="selectedTicket === ticket.name ? 'flex' : 'hidden'">
               <button
                 @click.stop="decrementTicket(ticket.name)"
                 class="w-8 h-8 flex items-center justify-center rounded-full"
