@@ -101,7 +101,6 @@ const getEvents = async () => {
 const filteredEvents = computed(() => {
   const twoDaysAgo = new Date();
   twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
-  events.value.forEach((event) => console.log(normalizeDate(event.date)))
 
   return events.value.filter((event) => {
   const eventDate = normalizeDate(event.date);

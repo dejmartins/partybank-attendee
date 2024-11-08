@@ -31,6 +31,8 @@ export type Ticket = {
     ticket_sale_start_date: string
     ticket_sale_start_time: string
     type: string
+    category: string
+    group_ticket_capacity: number
 }
 
 export type UserInfo = {
