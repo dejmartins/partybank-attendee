@@ -21,9 +21,17 @@
               <p :class="['font-[600] text-[18px]', selectedTicket === ticket.name ? 'text-[var(--pb-c-red)]' : '']">
                 {{ ticket.name[0].toUpperCase() + ticket.name.slice(1) }}
               </p>
-              <p class="font-[300] text-[16px]"><span class="text-[12px]" v-if="ticket.ticket_type !== 'Free'">NGN</span> {{ formatAmountWithCommas(ticket.price) }}</p>
-              <p class="font-[300] text-[16px]"><span class="text-[12px]" v-if="ticket.ticket_type == 'Free'">NO FEE</span></p>
+              <p class="font-[300] text-[16px]"  v-if="ticket.price || ticket.ticket_type !== 'Free'">
+                <span class="text-[12px]">NGN</span> {{ formatAmountWithCommas(ticket.price) }}
+                <span v-if="ticket.category == 'Group'"> | </span><span class="text-[12px]" v-if="ticket.category == 'Group'">GROUP - <span>{{ ticket.group_ticket_capacity }}</span></span>
+              </p>
+              <p class="font-[300] text-[16px]" v-if="!ticket.price && ticket.ticket_type == 'Free'">
+                <span class="text-[12px]">NO FEE</span> 
+                <span v-if="ticket.category == 'Group'"> | </span><span class="text-[12px]" v-if="ticket.category == 'Group'">GROUP - <span>{{ ticket.group_ticket_capacity }}</span></span>
+              </p>
+              <p class="font-[300] text-[16px]"></p>
             </div>
+
             <div v-if="ticket.ticket_type !== 'Free'" class="ticket-qty flex items-center bg-[#FFFFFF] rounded-[20px] px-[3px]" :class="selectedTicket === ticket.name ? 'flex' : 'hidden'">
               <button
                 @click.stop="decrementTicket(ticket.name)"
@@ -129,8 +137,6 @@ const selectTicketByDefault = () => {
     return;
   }
 
-  console.log('event2', event)
-  console.log(processedTickets.value)
   const firstAvailableTicket = processedTickets.value?.find(ticket => ticket.isAvailable);
 
   if (firstAvailableTicket) {
@@ -148,9 +154,6 @@ const processedTickets = computed(() => {
     .map((ticket) => {
       const startDateTime = new Date(`${reformatDate(ticket.ticket_sale_start_date)}T${convertTimeTo24HourFormat(ticket.ticket_sale_start_time)}`);
       const endDateTime = new Date(`${reformatDate(ticket.ticket_sale_end_date)}T${convertTimeTo24HourFormat(ticket.ticket_sales_end_time)}`);
-
-      console.log("Start DateTime:", startDateTime);
-      console.log("End DateTime:", endDateTime);
 
       const isAvailable = currentDate >= startDateTime && currentDate <= endDateTime;
       return { ...ticket, isAvailable };
