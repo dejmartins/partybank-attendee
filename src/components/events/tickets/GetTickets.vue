@@ -32,7 +32,7 @@
               <p class="font-[300] text-[16px]"></p>
             </div>
 
-            <div v-if="ticket.ticket_type !== 'Free'" class="ticket-qty flex items-center bg-[#FFFFFF] rounded-[20px] px-[3px]" :class="selectedTicket === ticket.name ? 'flex' : 'hidden'">
+            <div v-if="ticket.ticket_type !== 'Free' && ticket.category !== 'Group'" class="ticket-qty flex items-center bg-[#FFFFFF] rounded-[20px] px-[3px]" :class="selectedTicket === ticket.name ? 'flex' : 'hidden'">
               <button
                 @click.stop="decrementTicket(ticket.name)"
                 class="w-8 h-8 flex items-center justify-center rounded-full"
