@@ -8,11 +8,12 @@ export const useEventStore = defineStore('event', {
     ticketQuantity: 0,
     ticketType: '',
     ticketAmount: 0,
-    ticketPerks: [] as Array<string>
+    ticketPerks: [] as Array<string>,
+    ticketReference: ''
   }),
 
   actions: {
-    setTicketDetails(details: { eventImage: string; eventName: string; ticketQuantity: number; ticketType: string; ticketAmount: number, eventReference: string, ticketPerks: Array<string> }) {
+    setTicketDetails(details: { eventImage: string; ticketReference: string; eventName: string; ticketQuantity: number; ticketType: string; ticketAmount: number, eventReference: string, ticketPerks: Array<string> }) {
       this.eventImage = details.eventImage;
       this.eventName = details.eventName;
       this.ticketQuantity = details.ticketQuantity;
@@ -20,6 +21,7 @@ export const useEventStore = defineStore('event', {
       this.ticketAmount = details.ticketAmount;
       this.eventReference = details.eventReference;
       this.ticketPerks = details.ticketPerks;
+      this.ticketReference = details.ticketReference;
     },
 
     resetTicketDetails() {

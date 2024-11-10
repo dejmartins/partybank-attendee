@@ -203,7 +203,8 @@ const proceedToPay = async () => {
         ticketType: selectedTicketData.name[0] + selectedTicketData.name.slice(1),
         ticketAmount: selectedTicketData.price,
         eventReference: event?.event_reference || '',
-        ticketPerks: selectedTicketData.ticket_perks
+        ticketPerks: selectedTicketData.ticket_perks,
+        ticketReference: selectedTicketData.ticket_reference
       });
 
       router.push('/purchase');
