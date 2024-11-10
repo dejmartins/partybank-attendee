@@ -236,8 +236,8 @@ const validateTicket = async (validatePayload: any) => {
       validatedTicketsCount.value += 1
     }
 
-  } catch (error) {
-    toast.error('Failed to validate ticket')
+  } catch (error: any) {
+    toast.error(error.message || 'Failed to validate ticket')
     console.error('Error:', error)
   }
 }
