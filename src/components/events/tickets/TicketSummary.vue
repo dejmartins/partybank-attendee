@@ -312,7 +312,8 @@ const pay = async (value: any) => {
     discountRecorded: false,
     discounted: false,
     ticketType: eventStore.ticketType,
-    eventReference: eventStore.eventReference
+    eventReference: eventStore.eventReference,
+    ticketTypeReference: eventStore.ticketReference
   };
 
   console.log(payload);
@@ -374,7 +375,8 @@ const reserveTicket = async (): Promise<boolean> => {
         email: userInfo.value.email,
         numberOfTickets: eventStore.ticketQuantity,
         ticketType: eventStore.ticketType,
-        eventReference: eventStore.eventReference
+        eventReference: eventStore.eventReference,
+        ticketTypeReference: eventStore.ticketReference
       }),
     });
 
