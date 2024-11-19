@@ -28,7 +28,7 @@
                 <RouterLink v-else to="/auth" class="bg-[var(--pb-c-red)] text-white font-[500] border-[2px] border-[#4E0916] p-3 rounded-[8px] px-10 font-[700]">Sign In</RouterLink> -->
             <!-- </div> -->
             <div class="flex gap-4">
-                <RouterLink to="/discover" class="bg-[var(--pb-c-red)] text-white font-[500] border-[2px] border-[#4E0916] p-3 rounded-[8px] px-5 md:px-10 font-[700]">
+                <RouterLink to="/discover" @click="trackMixpanelEvent('Explore Events')" class="bg-[var(--pb-c-red)] text-white font-[500] border-[2px] border-[#4E0916] p-3 rounded-[8px] px-5 md:px-10 font-[700]">
                     Explore Events
                 </RouterLink>
             </div>
@@ -40,10 +40,21 @@
 import { RouterLink } from 'vue-router';
 import { computed } from 'vue';
 import { useAuthStore } from '@/stores/auth';
+import mixpanel from 'mixpanel-browser';
 import ProfileIcon from '../ui/ProfileIcon.vue';
 
 const authStore = useAuthStore();
 console.log(authStore.isAuthenticated)
+
+function trackMixpanelEvent(eventName: string) {
+  mixpanel.track(eventName, {
+    timestamp: new Date().toISOString(),
+    page: 'Header Component',
+    userRole: 'Guest'
+  });
+
+  console.log(`Mixpanel Event Tracked: ${eventName}`);
+}
 
 const isLoggedIn = computed(() => authStore.isAuthenticated);
 </script>

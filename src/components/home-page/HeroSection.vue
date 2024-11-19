@@ -24,7 +24,7 @@
             </p>
   
             <div class="flex gap-4">
-                <RouterLink to="/discover" class="bg-[var(--pb-c-red)] text-white font-[500] border-[2px] border-[#4E0916] p-3 rounded-[8px] px-10 font-[700]">
+                <RouterLink to="/discover" @click="trackMixpanelEvent('Buy Ticket')" class="bg-[var(--pb-c-red)] text-white font-[500] border-[2px] border-[#4E0916] p-3 rounded-[8px] px-10 font-[700]">
                     Buy Ticket
                 </RouterLink>
             </div>
@@ -57,8 +57,19 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
+import mixpanel from 'mixpanel-browser';
 
 const bgImageSrc = 'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/attendee-landing-bg_pbptyw.avif';
+
+function trackMixpanelEvent(eventName: string) {
+  mixpanel.track(eventName, {
+    timestamp: new Date().toISOString(),
+    page: 'Landing Page',
+    userRole: 'Guest'
+  });
+
+  console.log(`Mixpanel Event Tracked: ${eventName}`);
+}
 </script>
 
 <style scoped>
