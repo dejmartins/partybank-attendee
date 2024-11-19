@@ -13,9 +13,11 @@
 </template>
 
 <script setup lang="ts">
-import Header from '@/components/home-page/Header.vue';
-import HeroSection from '@/components/home-page/HeroSection.vue';
-import MoreThanMemories from '@/components/home-page/MoreThanMemories.vue';
-import HaveAnEvent from '@/components/home-page/HaveAnEvent.vue';
-import Footer from '@/components/home-page/Footer.vue';
+import { defineAsyncComponent } from 'vue';
+
+const Header = defineAsyncComponent(() => import('@/components/home-page/Header.vue'));
+const HeroSection = defineAsyncComponent(() => import('@/components/home-page/HeroSection.vue'));
+const MoreThanMemories = defineAsyncComponent(() => import('@/components/home-page/MoreThanMemories.vue'));
+const HaveAnEvent = defineAsyncComponent(() => import('@/components/home-page/HaveAnEvent.vue'));
+const Footer = defineAsyncComponent(() => import('@/components/home-page/Footer.vue'));
 </script>
