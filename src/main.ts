@@ -11,6 +11,7 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import Toast, { type PluginOptions, POSITION } from 'vue-toastification'
 import VueLazyload from 'vue-lazyload'
 import 'vue-toastification/dist/index.css'
+import mixpanel from 'mixpanel-browser'; 
 
 import App from './App.vue'
 import router from './router'
@@ -33,5 +34,9 @@ app.use(VueLazyload, {
   error: 'lazy-load.jpg', 
 })
 app.component('fa-icon', FontAwesomeIcon)
+
+mixpanel.init(import.meta.env.VITE_PUBLIC_MIXPANEL_TOKEN, {
+  debug: true,
+});
 
 app.mount('#app')
