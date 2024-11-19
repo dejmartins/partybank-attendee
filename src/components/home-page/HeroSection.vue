@@ -25,7 +25,7 @@
   
             <div class="flex gap-4">
                 <RouterLink to="/discover" @click="trackMixpanelEvent('Buy Ticket')" class="bg-[var(--pb-c-red)] text-white font-[500] border-[2px] border-[#4E0916] p-3 rounded-[8px] px-10 font-[700]">
-                    Buy Ticket
+                    Buy Tickets
                 </RouterLink>
             </div>
 
