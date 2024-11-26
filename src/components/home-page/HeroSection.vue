@@ -57,9 +57,14 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
+import { defineAsyncComponent } from 'vue';
 import mixpanel from 'mixpanel-browser';
 
-const bgImageSrc = 'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/attendee-landing-bg_pbptyw.avif';
+(async () => {
+  mixpanel.init('YOUR_PROJECT_TOKEN');
+})();
+
+const bgImageSrc = 'https://res.cloudinary.com/drddoxnsi/image/upload/q_auto,f_auto/v1718653091/PARTYBANK/attendee-landing-bg_pbptyw.avif';
 
 function trackMixpanelEvent(eventName: string) {
   mixpanel.track(eventName, {
@@ -67,9 +72,9 @@ function trackMixpanelEvent(eventName: string) {
     page: 'Landing Page',
     userRole: 'Guest'
   });
-
   console.log(`Mixpanel Event Tracked: ${eventName}`);
 }
+
 </script>
 
 <style scoped>
