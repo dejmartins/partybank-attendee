@@ -158,8 +158,16 @@ const processedTickets = computed(() => {
       const isAvailable = currentDate >= startDateTime && currentDate <= endDateTime;
       return { ...ticket, isAvailable };
     })
-    .sort((a, b) => (a.isAvailable === b.isAvailable ? 0 : a.isAvailable ? -1 : 1));
+    .sort((a, b) => {
+      // Sort by availability first
+      if (a.isAvailable !== b.isAvailable) {
+        return a.isAvailable ? -1 : 1;
+      }
+      // Sort by price (ascending) if availability is the same
+      return a.price - b.price;
+    });
 });
+
 
 
 const reformatDate = (dateStr: string): string => {
