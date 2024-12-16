@@ -64,7 +64,7 @@ const stateImage = computed(() => {
         Rivers: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1727805865/PARTYBANK/rivers-state1_hqequz.jpg',
         Edo: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1727805717/PARTYBANK/benin-city-gremio-herreros_kgogkf.jpg',
         Delta: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1727311013/PARTYBANK/asaba-2_fxxbxy.jpg',
-        'Federal Capital Territory': 'https://res.cloudinary.com/drddoxnsi/image/upload/v1730665719/PARTYBANK/Abuja-city-FCT-1024x577-1_fg2rze.webp',
+        // 'Federal Capital Territory': 'https://res.cloudinary.com/drddoxnsi/image/upload/v1730665719/PARTYBANK/Abuja-city-FCT-1024x577-1_fg2rze.webp',
         Imo: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1730844003/PARTYBANK/C9094EF3-510C-4CE7-89A2-F3F27125DDCF-scaled_djgewf.webp'
     };
     // @ts-ignore
@@ -102,16 +102,21 @@ const filteredEvents = computed(() => {
   const twoDaysAgo = new Date();
   twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
 
-  return events.value.filter((event) => {
-  const eventDate = normalizeDate(event.date);
-  return (
-    event.location.state === props.selectedState &&
-    eventDate >= twoDaysAgo
-  );
+  return events.value
+    .filter((event) => {
+      const eventDate = normalizeDate(event.date); // Ensure this function returns a Date object
+      return (
+        event.location.state === props.selectedState &&
+        eventDate >= twoDaysAgo // Filter by selected state and events no older than two days ago
+      );
+    })
+    .sort((a, b) => {
+      const dateA = new Date(normalizeDate(a.date)).getTime();
+      const dateB = new Date(normalizeDate(b.date)).getTime();
+      return dateA - dateB; // Sort by date: nearest to farthest
+    });
 });
 
-    // return events.value.filter((event) => event.location.state === props.selectedState);
-});
 
 const normalizeDate = (dateStr: string) => {
   if (dateStr.includes('-')) {
