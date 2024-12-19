@@ -6,7 +6,7 @@
         <div class="title w-72">
           <img src="@/assets/images/ticket.gif" class="h-16 w-16 mb-3" alt="Ticket Gif" />
           <h3 class="font-bold text-[20px]">Welcome to Partybank</h3>
-          <p class="text-[#5F7165] text-sm mb-5">Rave Experience Ticketting</p>
+          <p class="text-[#5F7165] text-sm mb-5">Ticketting Validation</p>
         </div>
         <form class="login-form" @submit.prevent="handleLogin">
           <div class="form-group">
