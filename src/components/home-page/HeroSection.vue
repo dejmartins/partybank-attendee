@@ -33,16 +33,16 @@
                 <div class="flex mr-2 profile-container mb-3 md:mb-0">
                     <div
                         class="profile-icon"
-                        v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653091/PARTYBANK/EUPHORIA_ASABA_drzuhq.avif'"
+                        v-lazy:background-image="'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736715299/Attendee/ny1kvwk2xkpfi4z53pnq.avif'"
                     ></div>
                     <div
                         class="profile-icon"
-                        v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653098/PARTYBANK/Rave_Experience_Port-Harcourt_c5redm.avif'"
+                        v-lazy:background-image="'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736715299/Attendee/ekt5w7kwiajmmvlgskcl.avif'"
                         style="margin-left: -10px;"
                     ></div>
                     <div
                         class="profile-icon"
-                        v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1718653097/PARTYBANK/euphoria_jds29k_o4spxf.avif'"
+                        v-lazy:background-image="'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736715299/Attendee/nqmt1k6wi7y9jecttwh2.avif'"
                         style="margin-left: -10px;"
                     ></div>
                 </div>
@@ -64,7 +64,7 @@ import mixpanel from 'mixpanel-browser';
   mixpanel.init('YOUR_PROJECT_TOKEN');
 })();
 
-const bgImageSrc = 'https://res.cloudinary.com/drddoxnsi/image/upload/q_auto,f_auto/v1718653091/PARTYBANK/attendee-landing-bg_pbptyw.avif';
+const bgImageSrc = 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736715059/Attendee/caskxyc9f6mcqxmftixk.avif';
 
 function trackMixpanelEvent(eventName: string) {
   mixpanel.track(eventName, {

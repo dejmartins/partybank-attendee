@@ -25,5 +25,5 @@ import AllEvents from '@/components/events/AllEvents.vue';
 import { ref } from 'vue';
 
 const selectedState = ref('Rivers');
-const states = ref(['Rivers', 'Delta', 'Federal Capital Territory', 'Imo', 'Edo', 'Lagos']);
+const states = ref(['Rivers', 'Delta', 'Edo', 'Lagos']);
 </script>

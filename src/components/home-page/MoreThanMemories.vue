@@ -17,21 +17,21 @@
                         <div class="flex mr-2">
                             <div
                                 class="profile-icon"
-                                v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1727074881/PARTYBANK/abstral-official-B6cciwK4tZk-unsplash_jxpouo.jpg'"
+                                v-lazy:background-image="'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736715527/Attendee/s7cqvch2udbrcsucre0c.jpg'"
                             ></div>
                             <div
                                 class="profile-icon"
-                                v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1727074882/PARTYBANK/aliane-schwartzhaupt-2Y2NvdlSTls-unsplash_duizot.jpg'"
+                                v-lazy:background-image="'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736715527/Attendee/isx6ldmzgnzjjfs39u51.jpg'"
                                 style="margin-left: -10px;"
                             ></div>
                             <div
                                 class="profile-icon"
-                                v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1727074880/PARTYBANK/abstral-official-YmARYcXP6xc-unsplash_vvijgq.jpg'"
+                                v-lazy:background-image="'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736715528/Attendee/wuiqeqqqf3lpxmtnlgij.jpg'"
                                 style="margin-left: -10px;"
                             ></div>
                             <div
                                 class="profile-icon"
-                                v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1727074872/PARTYBANK/jeff-tumale-2vSYfLxQ6UE-unsplash_byxtoe.jpg'"
+                                v-lazy:background-image="'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736715528/Attendee/frsvilo8q9adhde91l20.jpg'"
                                 style="margin-left: -10px;"
                             ></div>
                         </div>
@@ -57,7 +57,7 @@
         
                 <div class="bg-[#F9F8F7] border border-[#CED2FE] rounded-[30px] p-3 w-full md:w-1/2 md:h-full">
                     <div class="rounded-[30px] h-56 md:h-64 bg-center"
-                        v-lazy:background-image="'https://res.cloudinary.com/drddoxnsi/image/upload/v1727033775/PARTYBANK/Frame_1000002156_i9yg3i.png'"
+                        v-lazy:background-image="'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736715409/Attendee/zoznmcgldasnk895nicr.png'"
                     >
                     </div>
                     <p class="mt-5 font-[700] text-[25px]">Bringing the fun to <br/>you anywhere you are. </p>

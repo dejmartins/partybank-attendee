@@ -28,16 +28,16 @@
           <div class="flex w-full flex-col md:flex-row gap-5">
             <div
               class="bg-[#F9F8F7] bg-cover rounded-[30px] p-3 w-full md:w-1/2 h-[500px] md:h-[700px]"
-              style="background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1727074882/PARTYBANK/aliane-schwartzhaupt-2Y2NvdlSTls-unsplash_duizot.jpg');"
+              style="background-image: url('https://res.cloudinary.com/dp1zblmv4/image/upload/v1736715528/Attendee/frsvilo8q9adhde91l20.jpg');"
             ></div>
             <div class="flex flex-col gap-5 w-full md:w-1/2 h-[500px] md:h-[700px]">
               <div
                 class="rounded-[30px] bg-cover bg-[#4E0916] p-6 flex-grow flex flex-col justify-center items-center"
-                style="background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1727074880/PARTYBANK/abstral-official-YmARYcXP6xc-unsplash_vvijgq.jpg');"
+                style="background-image: url('https://res.cloudinary.com/dp1zblmv4/image/upload/v1736715527/Attendee/s7cqvch2udbrcsucre0c.jpg');"
               ></div>
               <div
                 class="relative bg-[#4E0916] bg-cover rounded-[30px] p-6 flex flex-col flex-grow w-full justify-center items-center"
-                style="background-image: url('https://res.cloudinary.com/drddoxnsi/image/upload/v1727074872/PARTYBANK/jeff-tumale-2vSYfLxQ6UE-unsplash_byxtoe.jpg'); background-position: center;"
+                style="background-image: url('https://res.cloudinary.com/dp1zblmv4/image/upload/v1736715528/Attendee/wuiqeqqqf3lpxmtnlgij.jpg'); background-position: center;"
               ></div>
             </div>
           </div>
