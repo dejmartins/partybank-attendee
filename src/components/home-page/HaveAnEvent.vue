@@ -17,7 +17,7 @@
             style="box-shadow: 0px 0px 70px 30px rgba(254, 229, 229, 0.9);"
         >
           <img
-            :src="'https://res.cloudinary.com/drddoxnsi/image/upload/v1727098516/PARTYBANK/Frame_88_qg7w2m.png'"
+            :src="'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736715698/Attendee/swia19wxmjw4go10u9ti.png'"
             alt="Event creation"
             class="w-full"
           />

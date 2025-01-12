@@ -41,7 +41,6 @@ import { RouterLink } from 'vue-router';
 import { computed } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import mixpanel from 'mixpanel-browser';
-import ProfileIcon from '../ui/ProfileIcon.vue';
 
 const authStore = useAuthStore();
 console.log(authStore.isAuthenticated)

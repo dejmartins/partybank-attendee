@@ -60,12 +60,12 @@ const isLoading = ref(true);
 
 const stateImage = computed(() => {
     const stateImages = {
-        Lagos: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1727310997/PARTYBANK/image_6_cvzkev.png',
-        Rivers: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1727805865/PARTYBANK/rivers-state1_hqequz.jpg',
-        Edo: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1727805717/PARTYBANK/benin-city-gremio-herreros_kgogkf.jpg',
-        Delta: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1727311013/PARTYBANK/asaba-2_fxxbxy.jpg',
-        'Federal Capital Territory': 'https://res.cloudinary.com/drddoxnsi/image/upload/v1730665719/PARTYBANK/Abuja-city-FCT-1024x577-1_fg2rze.webp',
-        Imo: 'https://res.cloudinary.com/drddoxnsi/image/upload/v1730844003/PARTYBANK/C9094EF3-510C-4CE7-89A2-F3F27125DDCF-scaled_djgewf.webp'
+        Lagos: 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736716232/Attendee/zixkft58t4wnu2ckiw65.png',
+        Rivers: 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736716232/Attendee/g4mgufpdbrbfg0wyfpqj.jpg',
+        Edo: 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736716232/Attendee/hkvw6n8o1lg93f18xy0z.jpg',
+        Delta: 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736716232/Attendee/n4ihltor21fyfjkxwtuc.jpg',
+        'Federal Capital Territory': 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736716232/Attendee/xmlafabxtfovciorcqto.webp',
+        Imo: 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736716232/Attendee/focciwlegixdzmxwnbw7.webp'
     };
     // @ts-ignore
     return stateImages[props.selectedState] || '/defaultImage.png';
