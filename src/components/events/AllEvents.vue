@@ -65,7 +65,8 @@ const stateImage = computed(() => {
         Edo: 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736716232/Attendee/hkvw6n8o1lg93f18xy0z.jpg',
         Delta: 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736716232/Attendee/n4ihltor21fyfjkxwtuc.jpg',
         'Federal Capital Territory': 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736716232/Attendee/xmlafabxtfovciorcqto.webp',
-        Imo: 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736716232/Attendee/focciwlegixdzmxwnbw7.webp'
+        Imo: 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736716232/Attendee/focciwlegixdzmxwnbw7.webp',
+        'Cross River': 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736716232/Attendee/focciwlegixdzmxwnbw7.webp',
     };
     // @ts-ignore
     return stateImages[props.selectedState] || '/defaultImage.png';
@@ -78,7 +79,8 @@ const stateSlogan = computed(() => {
         Edo: 'Heartbeat of the Nation',
         Delta: 'The Big Heart',
         'Federal Capital Territory': 'Centre of Unity',
-        Imo: 'Eastern Heartland'
+        Imo: 'Eastern Heartland',
+        'Cross River': "The People's Paradise"
     };
     // @ts-ignore
     return stateSlogans[props.selectedState] || 'Explore the beauty!';
