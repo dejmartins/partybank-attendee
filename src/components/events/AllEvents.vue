@@ -66,6 +66,7 @@ const stateImage = computed(() => {
         Delta: 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736716232/Attendee/n4ihltor21fyfjkxwtuc.jpg',
         'Federal Capital Territory': 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736716232/Attendee/xmlafabxtfovciorcqto.webp',
         Imo: 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736716232/Attendee/focciwlegixdzmxwnbw7.webp',
+        Anambra: 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1747244406/istockphoto-1506554851-612x612_lheqvv.jpg',
         'Cross River': 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736716232/Attendee/focciwlegixdzmxwnbw7.webp',
     };
     // @ts-ignore
@@ -79,7 +80,7 @@ const stateSlogan = computed(() => {
         Edo: 'Heartbeat of the Nation',
         Delta: 'The Big Heart',
         'Federal Capital Territory': 'Centre of Unity',
-        Imo: 'Eastern Heartland',
+        Anambra: 'Light of the Nation',
         'Cross River': "The People's Paradise"
     };
     // @ts-ignore
