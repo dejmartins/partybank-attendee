@@ -183,8 +183,7 @@ const locations = ref([
   { name: 'Warri' },
   { name: 'Asaba' },
   { name: 'Lagos' },
-  { name: 'Abuja' },
-  { name: 'Imo' }
+  { name: 'Anambra' }
 ]);
 
 const selectedLocation = ref(locations.value[0]);
