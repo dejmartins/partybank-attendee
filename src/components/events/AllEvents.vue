@@ -90,9 +90,9 @@ const stateSlogan = computed(() => {
 const getEvents = async () => {
     isLoading.value = true;
     try {
-        const res = await fetch(`${DISCOVER_EVENTS}?page=1&size=90`);
+        const res = await fetch(`${DISCOVER_EVENTS}?page=1&size=200`);
         const data = await res.json();
-        console.log(data);
+        // console.log("data ====> ", data.filter((d: any) => console.log(d.event_reference == 'evt-NmQ1ZmMwNjQtOGQzZC00ZjBlLTk5MGEtNDYwZWZjYTQzZGYz')));
         events.value = data;
     } catch (error) {
         console.error('Error fetching event details:', error);
