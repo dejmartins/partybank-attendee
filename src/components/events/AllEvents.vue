@@ -105,16 +105,33 @@ const filteredEvents = computed(() => {
   const twoDaysAgo = new Date();
   twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
 
-  return events.value.filter((event) => {
-  const eventDate = normalizeDate(event.date);
-  return (
-    event.location.state === props.selectedState &&
-    eventDate >= twoDaysAgo
-  );
+  const pinReference = 'evt-NmQ1ZmMwNjQtOGQzZC00ZjBlLTk5MGEtNDYwZWZjYTQzZGYz'; // e.g. "evt-12345"
+
+  return events.value
+    .filter((event) => {
+      const eventDate = normalizeDate(event.date);
+      return (
+        event.location.state === props.selectedState &&
+        eventDate >= twoDaysAgo
+      );
+    })
+    .sort((a, b) => {
+      // First, handle pinning
+      if (a.event_reference === pinReference && b.event_reference !== pinReference) {
+        return -1; // a comes first
+      }
+      if (b.event_reference === pinReference && a.event_reference !== pinReference) {
+        return 1; // b comes first
+      }
+
+      // Otherwise, sort by date
+      const dateA = normalizeDate(a.date).getTime();
+      const dateB = normalizeDate(b.date).getTime();
+      return dateA - dateB; // soonest upcoming first
+    });
 });
 
-    // return events.value.filter((event) => event.location.state === props.selectedState);
-});
+
 
 const normalizeDate = (dateStr: string) => {
   if (dateStr.includes('-')) {
