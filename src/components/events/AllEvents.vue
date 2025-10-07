@@ -87,25 +87,59 @@ const stateSlogan = computed(() => {
     return stateSlogans[props.selectedState] || 'Explore the beauty!';
 });
 
+// const getEvents = async () => {
+//     isLoading.value = true;
+//     try {
+//         const res = await fetch(`${DISCOVER_EVENTS}?page=1&size=100`);
+//         const data = await res.json();
+//         console.log(data)
+//         // console.log("data ====> ", data.filter((d: any) => console.log(d.event_reference == 'evt-NmQ1ZmMwNjQtOGQzZC00ZjBlLTk5MGEtNDYwZWZjYTQzZGYz')));
+//         events.value = data;
+//     } catch (error) {
+//         console.error('Error fetching event details:', error);
+//     } finally {
+//         isLoading.value = false;
+//     }
+// };
+
+const PAGES = [1, 2, 3];
+
 const getEvents = async () => {
-    isLoading.value = true;
-    try {
-        const res = await fetch(`${DISCOVER_EVENTS}?page=1&size=200`);
-        const data = await res.json();
-        // console.log("data ====> ", data.filter((d: any) => console.log(d.event_reference == 'evt-NmQ1ZmMwNjQtOGQzZC00ZjBlLTk5MGEtNDYwZWZjYTQzZGYz')));
-        events.value = data;
-    } catch (error) {
-        console.error('Error fetching event details:', error);
-    } finally {
-        isLoading.value = false;
+  isLoading.value = true;
+  try {
+    const urls = PAGES.map((p) => `${DISCOVER_EVENTS}?page=${p}&size=100`);
+
+    const responses = await Promise.all(urls.map((u) => fetch(u)));
+    const payloads = await Promise.all(
+      responses.map((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status} on ${r.url}`);
+        return r.json();
+      })
+    );
+
+    // Support either plain arrays or {items:[...]} shapes
+    const combined = payloads.flatMap((p) => (Array.isArray(p) ? p : p?.items ?? []));
+
+    // De-dupe by id or event_reference/eventReference
+    const seen = new Map<string, any>();
+    for (const ev of combined) {
+      const key = String(ev?.id ?? ev?.event_reference ?? ev?.eventReference ?? crypto.randomUUID());
+      if (!seen.has(key)) seen.set(key, ev);
     }
+
+    events.value = Array.from(seen.values());
+  } catch (error) {
+    console.error("Error fetching event details:", error);
+  } finally {
+    isLoading.value = false;
+  }
 };
 
 const filteredEvents = computed(() => {
   const twoDaysAgo = new Date();
   twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
 
-  const pinReference = 'evt-NmQ1ZmMwNjQtOGQzZC00ZjBlLTk5MGEtNDYwZWZjYTQzZGYz'; // e.g. "evt-12345"
+  const pinReference = ''; // e.g. "evt-12345"
 
   return events.value
     .filter((event) => {
