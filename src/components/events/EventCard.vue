@@ -1,97 +1,150 @@
 <template>
-  <router-link :to="{ name: 'event-details', params: { eventReference: eventId } }">
-    <div class="border flex items-start p-3 rounded-[10px] gap-3 bg-[#FAF9F9]">
-      <div class="min-w-[70px] min-h-[70px] border bg-cover bg-center rounded-[10px] overflow-hidden" :style="{ backgroundImage: `url(${imageUrl ? imageUrl : defaultImage})` }">
-        <slot></slot>
-      </div>
-      
-      <div>
-        <div class="w-full flex items-center justify-between pb-2">
-          <p class="text-[18px] md:text-[24px] font-[600]">{{ eventName }}</p>
+  <router-link
+    :to="{ name: 'event-details', params: { eventReference: eventId } }"
+    class="group block"
+    aria-label="View event details"
+  >
+    <article
+      class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md"
+    >
+      <!-- Media -->
+      <div class="relative aspect-[16/10] bg-gray-100">
+        <img
+          :src="imageUrl || fallback"
+          :alt="eventName"
+          class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+          loading="lazy"
+          @error="onImgError"
+        />
+
+        <!-- Top-left date pill -->
+        <div
+          v-if="niceDate"
+          class="absolute top-3 left-3 inline-flex items-center gap-2 rounded-full border bg-white/90 px-3 py-1 text-xs backdrop-blur"
+        >
+          <CalendarDaysIcon class="h-4 w-4" />
+          <span class="font-medium">{{ niceDate }}</span>
         </div>
 
-        <div class="flex flex-wrap justify-between gap-1 md:gap-4">
-          <div class="flex items-center gap-1 md:gap-2">
-            <div class="w-8 h-8 flex items-center justify-center rounded-full bg-[#F7F4F4]">
-              <MapPinIcon class="size-5 md:size-6 stroke-2" />
-            </div>
-            <div>
-              <p class="text-[15px] md:text-[17px] font-[500]">
-                {{ location.city }}, {{ location.country }}
-              </p>
-              <p className="text-[13px] md:text-[15px] font-[400] line-clamp-1">{{ venue }}</p>
-            </div>
-          </div>
-          <div class="flex items-center gap-1 md:gap-2">
-            <div class="w-8 h-8 flex items-center justify-center rounded-full bg-[#F7F4F4]">
-              <CalendarDaysIcon class="size-5 md:size-6 stroke-2" />
-            </div>
-            <p className="text-[13px] md:text-[15px] line-clamp-2 font-[400]">{{ eventDate }}</p>
-          </div>
-          <div class="flex items-center gap-1 md:gap-2">
-            <div class="w-8 h-8 flex items-center justify-center rounded-full bg-[#F7F4F4]">
-              <ClockIcon class="size-5 md:size-6 stroke-2" />
-            </div>
-            <p class="text-[13px] md:text-[15px] line-clamp-2 font-[400]">{{ time }}</p>
-          </div>
+        <!-- Top-right price/label -->
+        <div
+          v-if="priceLabel || isFeatured"
+          class="absolute top-3 right-3 flex flex-col items-end gap-2"
+        >
+          <span
+            v-if="priceLabel"
+            class="rounded-full bg-[#E91B41] px-3 py-1 text-xs font-semibold text-white shadow"
+          >
+            {{ priceLabel }}
+          </span>
+          <span
+            v-if="isFeatured"
+            class="rounded-full bg-white/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-[#E91B41] border backdrop-blur"
+          >
+            Featured
+          </span>
         </div>
 
-        <!-- <p :class="clsx('event-status absolute top-0 left-3 border-2', {
-          'text-[#FF0F00] bg-[#FFE3E1] border-[#FF0F00]' : status === 'PAST',
-          'text-[#084300] border-[#4CAF50] bg-[#ddf7da]' : status === 'ACTIVE',
-          'text-[#FFA800] border-[#FFA800] bg-[#FFF5E2]' : status === 'UPCOMING',
-        })" v-if="status">{{ status }}</p> -->
+        <!-- Bottom gradient & tags -->
+        <div
+          v-if="tags?.length"
+          class="pointer-events-none absolute inset-x-0 bottom-0 p-3"
+        >
+          <div class="rounded-xl bg-gradient-to-t from-black/50 to-transparent p-2">
+            <div class="flex flex-wrap gap-2">
+              <span
+                v-for="t in limitedTags"
+                :key="t"
+                class="pointer-events-auto rounded-full bg-white/90 px-2.5 py-0.5 text-[11px] font-medium text-gray-800 border"
+              >
+                {{ t }}
+              </span>
+              <span
+                v-if="tags.length > maxTags"
+                class="pointer-events-auto rounded-full bg-white/90 px-2.5 py-0.5 text-[11px] font-medium text-gray-800 border"
+              >
+                +{{ tags.length - maxTags }}
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+
+      <!-- Body -->
+      <div class="p-4">
+        <h3 class="line-clamp-2 text-[16px] font-[800] md:text-[18px]">
+          {{ eventName }}
+        </h3>
+
+        <div class="mt-3 grid grid-cols-1 gap-2 text-[13px] text-gray-700">
+          <div class="flex items-center gap-2">
+            <MapPinIcon class="h-5 w-5 shrink-0" />
+            <span class="line-clamp-1">
+              {{ location.city }}
+              <span v-if="location.state">, {{ location.state }}</span>, {{ location.country }}
+            </span>
+          </div>
+
+          <div v-if="venue" class="flex items-center gap-2">
+            <BuildingOffice2Icon class="h-5 w-5 shrink-0" />
+            <span class="line-clamp-1">{{ venue }}</span>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <ClockIcon class="h-5 w-5 shrink-0" />
+            <span class="line-clamp-1">{{ time }}</span>
+          </div>
+        </div>
+      </div>
+    </article>
   </router-link>
 </template>
 
-
 <script setup lang="ts">
-import defaultImage from '/defaultImage.png';
-import { CalendarDaysIcon, ClockIcon, MapPinIcon } from '@heroicons/vue/24/outline';
+import { computed, ref } from 'vue';
+import { CalendarDaysIcon, ClockIcon, MapPinIcon, BuildingOffice2Icon } from '@heroicons/vue/24/outline';
 import moment from 'moment';
 
-defineProps<{
+const props = defineProps<{
   eventId: string;
   imageUrl?: string;
   eventDate: string;
   eventName: string;
-  location: { city: string, country: string };
-  status?: string;
+  location: { city: string; country: string; state?: string };
+  status?: string;             // kept for compatibility (unused here)
   time: string;
-  venue: string
+  venue: string;
+
+  // Optional niceties (won’t break existing usage)
+  priceLabel?: string;         // e.g. "Free", "From ₦5,000"
+  isFeatured?: boolean;
+  tags?: string[];
 }>();
+
+const fallback = ref('/placeholder.png'); // replace with your local placeholder if available
+const maxTags = 3;
+
+const niceDate = computed(() => {
+  const d = props.eventDate;
+  if (!d) return '';
+  const m = moment(d, ['YYYY-MM-DD', 'DD-MM-YYYY', moment.ISO_8601], true);
+  return m.isValid() ? m.format('ddd, MMM D') : '';
+});
+
+const limitedTags = computed(() => (props.tags || []).slice(0, maxTags));
+
+function onImgError(e: Event) {
+  const el = e.target as HTMLImageElement;
+  // Avoid infinite loop if fallback also fails
+  if (el && el.src !== fallback.value) {
+    el.src = fallback.value;
+  }
+}
 </script>
 
-
 <style scoped>
-.event-status {
-  padding: 3px 10px;
-  font-weight: bold;
-  border-radius: 10px;
-  text-align: center;
-  margin-top: 10px;
-  width: fit-content;
-  align-self: center;
-  font-size: 12px;
-}
-
-.profile-icon {
-  display: flex;
-  height: 35px;
-  width: 35px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  border: 2px solid var(--pb-c-white);
-  background-position: center;
-  background-size: cover;
-  color: var(--pb-c-white);
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 130%;
-  letter-spacing: 0%;
-  font-size: 13px;
+/* Smoothen shadow transition for subtle quality */
+article {
+  will-change: transform, box-shadow;
 }
 </style>
