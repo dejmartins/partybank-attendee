@@ -1,211 +1,329 @@
 <template>
-  <div class="flex flex-col md:flex-row w-full h-[calc(100vh-270px)] overflow-y-auto md:overflow-y-hidden rounded-[20px] bg-[#F9F7F7] p-6 md:p-10 mt-2 border border-[#F2EFEF] custom-scrollbar">
-    <div class="md:w-1/3 md:sticky md:top-0 md:border-r md:border-[#DDE0E3] md:pr-6 px-0 md:px-2">
-      <div class="relative w-full h-full flex flex-col text-left">
-        <img :src="stateImage" alt="State Image" class="w-full h-[180px] md:h-auto aspect-auto md:aspect-square object-cover rounded-[20px] border border-[#DDE0E3]" />
-        <div class="mt-3 text-left">
-          <h2 class="text-[20px] md:text-[24px] font-[400]">{{ selectedState }}<span class="font-[600] italic">, Nigeria</span></h2>
-          <p class="font-[400] text-[14px] md:text-[18px]">{{ stateSlogan }}</p>
-        </div>
+  <div class="w-full">
+    <!-- Top meta + page size -->
+    <div class="flex items-center justify-between mb-4">
+      <p class="text-sm text-gray-600">
+        Showing <strong>{{ pagedItems.length }}</strong> of
+        <strong>{{ filtered.length }}</strong> upcoming results
+      </p>
+
+      <div class="flex items-center gap-2">
+        <label class="text-sm text-gray-600">Page size</label>
+        <select
+          v-model.number="pageSize"
+          class="rounded-xl border border-[#DDE0E3] bg-white px-3 py-2 text-[14px] outline-none focus:ring-2 focus:ring-[#E91B41]"
+        >
+          <option :value="12">12</option>
+          <option :value="24">24</option>
+          <option :value="48">48</option>
+          <option :value="96">96</option>
+        </select>
       </div>
     </div>
 
-    <div class="w-full md:w-2/3 px-0 md:px-2 md:pl-6 md:overflow-y-auto h-[calc(100vh-340px)] custom-scrollbar">
-      <div v-if="isLoading" class="flex flex-col gap-4 mt-5 md:mt-0">
-        <EventCardSkeleton v-for="i in 5" :key="i" />
+    <!-- Skeletons -->
+    <div v-if="isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <EventCardSkeleton v-for="i in pageSize" :key="i" />
+    </div>
+
+    <!-- Empty -->
+    <div v-else-if="filtered.length === 0" class="flex flex-col items-center justify-center text-center py-16">
+      <div class="text-2xl font-semibold mb-2">No upcoming events after tomorrow</div>
+      <p class="text-gray-600">Try adjusting filters or check back later.</p>
+    </div>
+
+    <!-- Grid -->
+    <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <EventCard
+        v-for="ev in pagedItems"
+        :key="ev.event_reference"
+        :eventId="ev.event_reference"
+        :imageUrl="ev.image_url"
+        :location="ev.location"
+        :venue="ev.venue"
+        :time="ev.time"
+        :eventName="ev.event_name"
+        :eventDate="ev.date"
+      />
+    </div>
+
+    <!-- Pagination -->
+    <div v-if="filtered.length > 0" class="mt-6 flex items-center justify-between bg-white border border-[#EDEDED] rounded-xl p-3">
+      <button
+        class="px-4 py-2 rounded-lg border border-[#DDE0E3] disabled:opacity-40"
+        :disabled="page <= 1 || isLoading"
+        @click="goPrev"
+      >
+        Prev
+      </button>
+
+      <div class="flex items-center gap-1">
+        <button
+          v-for="p in pageButtons"
+          :key="p.key"
+          :disabled="p.disabled"
+          class="min-w-[40px] h-10 rounded-lg border"
+          :class="p.active ? 'bg-[#E91B41] text-white border-[#E91B41]' : 'border-[#DDE0E3] bg-white hover:bg-gray-50'"
+          @click="goToPage(p.page)"
+        >
+          {{ p.label }}
+        </button>
       </div>
 
-      <div v-else-if="filteredEvents.length === 0" class="flex justify-center items-center text-center py-6">
-        <NoEvent :selected-state="selectedState" />
-      </div>
-
-      <div v-else class="flex flex-col gap-4 mt-5 md:mt-0 my-10">
-        <EventCard
-          v-for="event in filteredEvents"
-          :key="event.event_reference"
-          :eventId="event.event_reference"
-          :imageUrl="event.image_url"
-          :location="event.location"
-          :venue="event.venue"
-          :time="event.time"
-          :eventName="event.event_name"
-          :eventDate="event.date"
-        />
-      </div>
+      <button
+        class="px-4 py-2 rounded-lg border border-[#DDE0E3] disabled:opacity-40"
+        :disabled="page >= maxPage || isLoading"
+        @click="goNext"
+      >
+        Next
+      </button>
     </div>
   </div>
 </template>
 
-  
 <script setup lang="ts">
+import { ref, watch, computed, onMounted } from 'vue';
 import Api from '@/utils/api';
 import EventCard from './EventCard.vue';
-import moment from 'moment';
-import NoEvent from './NoEvent.vue';
 import EventCardSkeleton from '../ui/skeletons/EventCardSkeleton.vue';
 import type { Event } from '@/utils/types';
-import { ref, computed, onMounted } from 'vue';
+
+const props = defineProps<{
+  q?: string;
+  state?: string;
+  city?: string;
+  sort?: 'date_asc' | 'date_desc' | 'name_asc' | 'name_desc';
+}>();
+
+const emit = defineEmits<{
+  (e: 'optionsLoaded', payload: { states: string[]; cities: string[] }): void
+}>();
 
 const { DISCOVER_EVENTS } = Api();
 
-const props = defineProps({
-    selectedState: {
-        type: String,
-        required: true
-    }
-});
-
-const events = ref<Array<Event>>([]);
 const isLoading = ref(true);
+const raw = ref<Event[]>([]);           // merged (3 pages) unfiltered
+const filtered = ref<Event[]>([]);      // filtered by rules + props, sorted
 
-const stateImage = computed(() => {
-    const stateImages = {
-        Lagos: 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736716232/Attendee/zixkft58t4wnu2ckiw65.png',
-        Rivers: 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736716232/Attendee/g4mgufpdbrbfg0wyfpqj.jpg',
-        Edo: 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736716232/Attendee/hkvw6n8o1lg93f18xy0z.jpg',
-        Delta: 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736716232/Attendee/n4ihltor21fyfjkxwtuc.jpg',
-        'Federal Capital Territory': 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736716232/Attendee/xmlafabxtfovciorcqto.webp',
-        Imo: 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736716232/Attendee/focciwlegixdzmxwnbw7.webp',
-        Anambra: 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1747244406/istockphoto-1506554851-612x612_lheqvv.jpg',
-        'Cross River': 'https://res.cloudinary.com/dp1zblmv4/image/upload/v1736716232/Attendee/focciwlegixdzmxwnbw7.webp',
-    };
-    // @ts-ignore
-    return stateImages[props.selectedState] || '/defaultImage.png';
-});
-
-const stateSlogan = computed(() => {
-    const stateSlogans = {
-        Lagos: 'Centre of Excellence',
-        Rivers: 'Treasure Base of the Nation',
-        Edo: 'Heartbeat of the Nation',
-        Delta: 'The Big Heart',
-        'Federal Capital Territory': 'Centre of Unity',
-        Anambra: 'Light of the Nation',
-        'Cross River': "The People's Paradise"
-    };
-    // @ts-ignore
-    return stateSlogans[props.selectedState] || 'Explore the beauty!';
-});
-
-// const getEvents = async () => {
-//     isLoading.value = true;
-//     try {
-//         const res = await fetch(`${DISCOVER_EVENTS}?page=1&size=100`);
-//         const data = await res.json();
-//         console.log(data)
-//         // console.log("data ====> ", data.filter((d: any) => console.log(d.event_reference == 'evt-NmQ1ZmMwNjQtOGQzZC00ZjBlLTk5MGEtNDYwZWZjYTQzZGYz')));
-//         events.value = data;
-//     } catch (error) {
-//         console.error('Error fetching event details:', error);
-//     } finally {
-//         isLoading.value = false;
-//     }
-// };
+// client-side pagination state
+const page = ref(1);
+const pageSize = ref(24);
 
 const PAGES = [1, 2, 3];
 
-const getEvents = async () => {
+// ---- date helpers ----
+function startOfDay(d: Date) {
+  const nd = new Date(d);
+  nd.setHours(0, 0, 0, 0);
+  return nd;
+}
+function addDays(d: Date, days: number) {
+  const nd = new Date(d);
+  nd.setDate(nd.getDate() + days);
+  return nd;
+}
+function parseDate(dateStr?: string): Date {
+  if (!dateStr) return new Date(0);
+  if (dateStr.includes('-')) {
+    const parts = dateStr.split('-');
+    // support YYYY-MM-DD and DD-MM-YYYY
+    if (parts[0].length === 4) return new Date(dateStr);
+    return new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+  }
+  return new Date(dateStr);
+}
+function parseTimeToMinutes(timeStr?: string): number | null {
+  if (!timeStr) return null;
+  // supports "HH:mm", "H:mm", "hh:mm a"
+  const t = timeStr.trim().toLowerCase();
+  const ampm = t.endsWith('am') || t.endsWith('pm');
+  let h = 0, m = 0;
+  if (ampm) {
+    const [hm, ap] = t.split(/\s+/);
+    const [hh, mm = '0'] = hm.split(':');
+    h = Number(hh);
+    m = Number(mm);
+    if (ap === 'pm' && h < 12) h += 12;
+    if (ap === 'am' && h === 12) h = 0;
+  } else {
+    const [hh, mm = '0'] = t.split(':');
+    h = Number(hh);
+    m = Number(mm);
+  }
+  if (Number.isNaN(h) || Number.isNaN(m)) return null;
+  return h * 60 + m;
+}
+function combineDateTime(dateStr?: string, timeStr?: string): Date {
+  const d = parseDate(dateStr);
+  if (!timeStr) return d;
+  const mins = parseTimeToMinutes(timeStr);
+  if (mins == null) return d;
+  const nd = new Date(d);
+  nd.setHours(Math.floor(mins / 60), mins % 60, 0, 0);
+  return nd;
+}
+
+// ---- fetch & merge 3 pages ----
+async function fetchAll() {
   isLoading.value = true;
   try {
     const urls = PAGES.map((p) => `${DISCOVER_EVENTS}?page=${p}&size=100`);
-
-    const responses = await Promise.all(urls.map((u) => fetch(u)));
-    const payloads = await Promise.all(
-      responses.map((r) => {
-        if (!r.ok) throw new Error(`HTTP ${r.status} on ${r.url}`);
+    const results = await Promise.allSettled(
+      urls.map(async (u) => {
+        const r = await fetch(u);
+        if (!r.ok) throw new Error(`HTTP ${r.status} on ${u}`);
         return r.json();
       })
     );
 
-    // Support either plain arrays or {items:[...]} shapes
-    const combined = payloads.flatMap((p) => (Array.isArray(p) ? p : p?.items ?? []));
+    const combined: Event[] = results.flatMap((res) => {
+      if (res.status !== 'fulfilled') return [];
+      const payload: any = res.value;
+      return Array.isArray(payload) ? payload : (payload?.items ?? []);
+    });
 
-    // De-dupe by id or event_reference/eventReference
-    const seen = new Map<string, any>();
+    // de-dupe by event_reference (fallback: id)
+    const map = new Map<string, Event>();
     for (const ev of combined) {
-      const key = String(ev?.id ?? ev?.event_reference ?? ev?.eventReference ?? crypto.randomUUID());
-      if (!seen.has(key)) seen.set(key, ev);
+      const key = String(ev?.event_reference ?? ev?.id ?? Math.random());
+      if (!map.has(key)) map.set(key, ev);
     }
+    raw.value = Array.from(map.values());
 
-    events.value = Array.from(seen.values());
-  } catch (error) {
-    console.error("Error fetching event details:", error);
+    // Fire dynamic options
+    const states = new Set<string>(), cities = new Set<string>();
+    for (const ev of raw.value) {
+      if (ev?.location?.state) states.add(ev.location.state);
+      if (ev?.location?.city)  cities.add(ev.location.city);
+    }
+    emit('optionsLoaded', { states: Array.from(states).sort(), cities: Array.from(cities).sort() });
+
+    applyFilters();
+  } catch (e) {
+    console.error('fetchAll failed:', e);
+    raw.value = [];
+    filtered.value = [];
   } finally {
     isLoading.value = false;
   }
-};
+}
 
-const filteredEvents = computed(() => {
-  const twoDaysAgo = new Date();
-  twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+// ---- main filter rules ----
+// 1) Only events starting AFTER TOMORROW (i.e., day-after-tomorrow 00:00)
+// 2) Exclude events that have an explicit end time earlier than NOW - 10 hours
+function applyFilters() {
+  const now = new Date();
+  const dayAfterTomorrowStart = startOfDay(addDays(now, 2));
+  const tenHoursAgo = new Date(now.getTime() - 10 * 60 * 60 * 1000);
 
-  const pinReference = ''; // e.g. "evt-12345"
+  const q = (props.q || '').toLowerCase().trim();
+  const state = props.state || '';
+  const city = props.city || '';
 
-  return events.value
-    .filter((event) => {
-      const eventDate = normalizeDate(event.date);
-      return (
-        event.location.state === props.selectedState &&
-        eventDate >= twoDaysAgo
-      );
-    })
-    .sort((a, b) => {
-      // First, handle pinning
-      if (a.event_reference === pinReference && b.event_reference !== pinReference) {
-        return -1; // a comes first
-      }
-      if (b.event_reference === pinReference && a.event_reference !== pinReference) {
-        return 1; // b comes first
-      }
+  const list = raw.value.filter((ev) => {
+    // derive start datetime
+    const startAt = combineDateTime(ev?.date, ev?.time);
 
-      // Otherwise, sort by date
-      const dateA = normalizeDate(a.date).getTime();
-      const dateB = normalizeDate(b.date).getTime();
-      return dateA - dateB; // soonest upcoming first
-    });
-});
+    // keep only events after tomorrow
+    if (!(startAt >= dayAfterTomorrowStart)) return false;
 
-
-
-const normalizeDate = (dateStr: string) => {
-  if (dateStr.includes('-')) {
-    const parts = dateStr.split('-');
-    if (parts[0].length === 4) {
-      return new Date(dateStr);
-    } else {
-      return new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+    // if there is an explicit end time, exclude if ended > 10h ago
+    // (supports end_time | endTime | ends_at)
+    const endStr: string | undefined = (ev as any).end_time ?? (ev as any).endTime ?? (ev as any).ends_at;
+    if (endStr) {
+      const endAt = combineDateTime(ev?.date, endStr);
+      if (endAt < tenHoursAgo) return false;
     }
+
+    // client-side filters
+    if (state && ev?.location?.state !== state) return false;
+    if (city && ev?.location?.city !== city) return false;
+
+    if (q) {
+      const hay =
+        `${ev?.event_name ?? ''} ${ev?.venue ?? ''} ${ev?.location?.city ?? ''} ${ev?.location?.state ?? ''} ${ev?.location?.country ?? ''}`.toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+
+    return true;
+  });
+
+  // sort
+  filtered.value = applyClientSort(list);
+  // reset page if current page is now out of range
+  if ((page.value - 1) * pageSize.value >= filtered.value.length) page.value = 1;
+}
+
+// client-side sort fallback
+function applyClientSort(list: Event[]): Event[] {
+  const normStart = (ev: Event) => combineDateTime((ev as any).date, (ev as any).time).getTime();
+  const copy = list.slice();
+  switch (props.sort ?? 'date_asc') {
+    case 'date_desc':
+      return copy.sort((a, b) => normStart(b) - normStart(a));
+    case 'name_asc':
+      return copy.sort((a, b) => (a.event_name || '').localeCompare(b.event_name || ''));
+    case 'name_desc':
+      return copy.sort((a, b) => (b.event_name || '').localeCompare(a.event_name || ''));
+    case 'date_asc':
+    default:
+      return copy.sort((a, b) => normStart(a) - normStart(b));
   }
-  return new Date(dateStr);
-};
+}
 
-onMounted(() => {
-    getEvents();
+// ---- pagination (client-side) ----
+const maxPage = computed(() => Math.max(1, Math.ceil(filtered.value.length / pageSize.value)));
+const pagedItems = computed(() => {
+  const start = (page.value - 1) * pageSize.value;
+  return filtered.value.slice(start, start + pageSize.value);
 });
+
+function goPrev() {
+  if (page.value > 1 && !isLoading.value) page.value -= 1;
+}
+function goNext() {
+  if (page.value < maxPage.value && !isLoading.value) page.value += 1;
+}
+function goToPage(p?: number) {
+  if (!p || p === page.value || isLoading.value) return;
+  if (p < 1 || p > maxPage.value) return;
+  page.value = p;
+}
+
+const pageButtons = computed(() => {
+  const curr = page.value;
+  const max = maxPage.value;
+  const window = 2;
+  const start = Math.max(1, curr - window);
+  const end = Math.min(max, curr + window);
+
+  const btns: Array<{ key: string; label: string; page?: number; active?: boolean; disabled?: boolean }> = [];
+  if (start > 1) btns.push({ key: 'p1', label: '1', page: 1 });
+  if (start > 2) btns.push({ key: 'dotsL', label: '…', disabled: true });
+
+  for (let p = start; p <= end; p++) {
+    btns.push({ key: `p${p}`, label: String(p), page: p, active: p === curr });
+  }
+
+  if (end < max - 1) btns.push({ key: 'dotsR', label: '…', disabled: true });
+  if (end < max) btns.push({ key: `p${max}`, label: String(max), page: max });
+
+  return btns;
+});
+
+// ---- react to prop changes ----
+watch(
+  () => [props.q, props.state, props.city, props.sort],
+  () => {
+    page.value = 1;
+    applyFilters();
+  }
+);
+
+watch(pageSize, () => {
+  page.value = 1;
+});
+
+// ---- mount ----
+onMounted(fetchAll);
 </script>
-
-
-<style scoped>
-.custom-scrollbar::-webkit-scrollbar {
-  width: 10px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #4E0916;
-  border-radius: 10px;
-  border: 3px solid white;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background-color: #E91B41;
-}
-
-.custom-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: #4E0916 #f1f1f1;
-}
-</style>
