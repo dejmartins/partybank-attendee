@@ -1,18 +1,8 @@
 {
-  "files": [],
+  "files": ["env.d.ts"],
   "references": [
-    {
-      "path": "./tsconfig.node.json"
-    },
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.vitest.json"
-    }
-  ],
-  "compilerOptions": {
-    "module": "NodeNext",
-    "allowSyntheticDefaultImports": true
-  }
+    { "path": "./tsconfig.node.json" },
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.vitest.json" }
+  ]
 }
