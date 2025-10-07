@@ -1,8 +1,4 @@
 {
   "files": ["env.d.ts"],
-  "references": [
-    { "path": "./tsconfig.node.json" },
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.vitest.json" }
-  ]
+  "extends": "./tsconfig.app.json"
 }
