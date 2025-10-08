@@ -12,14 +12,28 @@
         v-for="ticket in processedTickets"
         :key="ticket.name"
         class="ticket-item relative"
-        :class="[{ selected: selectedTicket === ticket.name }, { 'sold-out': ticket.isSoldOut }]"
+        :class="[
+          { selected: selectedTicket === ticket.name },
+          { 'sold-out': ticket.isSoldOut },
+          { 'locked': ticket.isUpcoming }
+        ]"
       >
-        <!-- Badge -->
+        <!-- SOLD OUT badge -->
         <span
           v-if="ticket.isSoldOut"
           class="sold-out-badge absolute top-3 right-3 bg-gray-900 text-white text-[10px] font-[700] px-3 py-1 rounded-full uppercase tracking-wide"
         >
           Sold Out
+        </span>
+
+        <!-- LOCK (not yet available) badge -->
+        <span
+          v-if="ticket.isUpcoming"
+          class="locked-badge absolute top-3 right-3 bg-gray-800/95 text-white inline-flex items-center justify-center rounded-full h-7 w-7"
+          aria-label="Locked — sales not started"
+          title="Locked — sales not started"
+        >
+          <LockClosedIcon class="h-4 w-4" />
         </span>
 
         <button
@@ -43,20 +57,20 @@
               >
                 <span class="text-[12px]">NGN</span>
                 {{ formatAmountWithCommas(ticket.price) }}
-                <span v-if="ticket.category == 'Group'"> | </span
-                ><span class="text-[12px]" v-if="ticket.category == 'Group'"
-                  >GROUP - <span>{{ ticket.group_ticket_capacity }}</span></span
-                >
+                <span v-if="ticket.category == 'Group'"> | </span>
+                <span class="text-[12px]" v-if="ticket.category == 'Group'">
+                  GROUP - <span>{{ ticket.group_ticket_capacity }}</span>
+                </span>
               </p>
               <p
                 class="font-[300] text-[16px]"
                 v-if="!ticket.price && ticket.ticket_type == 'Free'"
               >
                 <span class="text-[12px]">NO FEE</span>
-                <span v-if="ticket.category == 'Group'"> | </span
-                ><span class="text-[12px]" v-if="ticket.category == 'Group'"
-                  >GROUP - <span>{{ ticket.group_ticket_capacity }}</span></span
-                >
+                <span v-if="ticket.category == 'Group'"> | </span>
+                <span class="text-[12px]" v-if="ticket.category == 'Group'">
+                  GROUP - <span>{{ ticket.group_ticket_capacity }}</span>
+                </span>
               </p>
             </div>
 
@@ -75,9 +89,7 @@
               >
                 <MinusCircleIcon class="size-6" />
               </button>
-              <span class="mx-2 text-[var(--pb-c-red)]"
-                >{{ ticketQuantities[ticket.name] || 0 }}</span
-              >
+              <span class="mx-2 text-[var(--pb-c-red)]">{{ ticketQuantities[ticket.name] || 0 }}</span>
               <button
                 @click.stop="incrementTicket(ticket.name)"
                 class="w-8 h-8 flex items-center justify-center rounded-full"
@@ -117,9 +129,10 @@ import { useAuthStore } from '@/stores/auth';
 import { usePaymentStore } from '@/stores/payment';
 import { useEventStore } from '@/stores/event';
 import { MinusCircleIcon, PlusCircleIcon } from '@heroicons/vue/24/outline';
+import { LockClosedIcon } from '@heroicons/vue/24/solid';
 import { formatAmountWithCommas } from '@/utils/actions';
 import { useRouter } from 'vue-router';
-import type { Event, Ticket } from '@/utils/types';
+import type { Event } from '@/utils/types';
 
 const { RESERVE_TICKET } = Api();
 const authStore = useAuthStore();
@@ -127,24 +140,17 @@ const paymentStore = usePaymentStore();
 const eventStore = useEventStore();
 const router = useRouter();
 
-const { event } = defineProps<{
-  event: Event | null;
-}>();
+const { event } = defineProps<{ event: Event | null }>();
 
 const selectedTicket = ref<string>('');
 const ticketQuantities = ref<{ [key: string]: number }>({});
 const showSignInModal = ref(false);
 const showEmailSentModal = ref(false);
-const isReserving = ref(false); 
+const isReserving = ref(false);
 const reserveError = ref('');
 
-const toggleSignInModal = () => {
-  showSignInModal.value = !showSignInModal.value;
-};
-
-const emailModalToggle = () => {
-  showEmailSentModal.value = !showEmailSentModal.value;
-};
+const toggleSignInModal = () => (showSignInModal.value = !showSignInModal.value);
+const emailModalToggle = () => (showEmailSentModal.value = !showEmailSentModal.value);
 
 const selectTicket = (ticketName: string) => {
   selectedTicket.value = ticketName;
@@ -153,9 +159,7 @@ const selectTicket = (ticketName: string) => {
 
 const incrementTicket = (ticketName: string) => {
   const currentQuantity = ticketQuantities.value[ticketName] || 0;
-  if (currentQuantity < 5) {
-    ticketQuantities.value[ticketName] = currentQuantity + 1;
-  }
+  if (currentQuantity < 5) ticketQuantities.value[ticketName] = currentQuantity + 1;
 };
 
 const decrementTicket = (ticketName: string) => {
@@ -166,7 +170,7 @@ const decrementTicket = (ticketName: string) => {
 
 const selectTicketByDefault = () => {
   if (!event?.tickets || event.tickets.length === 0) return;
-  const firstAvailableTicket = processedTickets.value?.find(t => t.isAvailable);
+  const firstAvailableTicket = processedTickets.value?.find((t) => t.isAvailable);
   if (firstAvailableTicket) {
     selectedTicket.value = firstAvailableTicket.name;
     ticketQuantities.value[firstAvailableTicket.name] = 1;
@@ -178,17 +182,20 @@ const processedTickets = computed(() => {
 
   return event?.tickets
     .map((ticket) => {
-      const startDateTime = new Date(`${reformatDate(ticket.ticket_sale_start_date)}T${convertTimeTo24HourFormat(ticket.ticket_sale_start_time)}`);
-      const endDateTime = new Date(`${reformatDate(ticket.ticket_sale_end_date)}T${convertTimeTo24HourFormat(ticket.ticket_sales_end_time)}`);
+      const startDateTime = new Date(
+        `${reformatDate(ticket.ticket_sale_start_date)}T${convertTimeTo24HourFormat(ticket.ticket_sale_start_time)}`
+      );
+      const endDateTime = new Date(
+        `${reformatDate(ticket.ticket_sale_end_date)}T${convertTimeTo24HourFormat(ticket.ticket_sales_end_time)}`
+      );
 
       const isEnded = currentDate > endDateTime;
       const isUpcoming = currentDate < startDateTime;
       const isAvailable = !isUpcoming && !isEnded;
 
-      // Treat “past end date” as SOLD OUT (as requested)
-      const isSoldOut = isEnded;
+      const isSoldOut = isEnded; // your rule: past end date => SOLD OUT
 
-      return { ...ticket, isAvailable, isSoldOut };
+      return { ...ticket, isAvailable, isSoldOut, isUpcoming };
     })
     .sort((a, b) => {
       if (a.isAvailable !== b.isAvailable) return a.isAvailable ? -1 : 1;
@@ -213,7 +220,7 @@ const proceedToPay = async () => {
   const currentPage = router.currentRoute.value.fullPath;
   localStorage.setItem('previousPage', currentPage);
 
-  const selectedTicketData = event?.tickets.find(ticket => ticket.name === selectedTicket.value);
+  const selectedTicketData = event?.tickets.find((t) => t.name === selectedTicket.value);
   if (!selectedTicketData) return;
 
   eventStore.setTicketDetails({
@@ -231,9 +238,7 @@ const proceedToPay = async () => {
   paymentStore.openPaymentPopup();
 };
 
-onMounted(() => {
-  selectTicketByDefault();
-});
+onMounted(selectTicketByDefault);
 </script>
 
 <style scoped>
@@ -272,6 +277,17 @@ onMounted(() => {
 }
 .ticket-item.sold-out button:hover {
   background-color: #f9f9f9;
+}
+
+/* Locked (not yet available) styling */
+.ticket-item.locked button {
+  filter: grayscale(0.3);
+  opacity: 0.85;
+  background-color: #fbfbfb;
+  pointer-events: none;
+}
+.ticket-item.locked button:hover {
+  background-color: #fbfbfb;
 }
 
 @media (min-width: 768px) {
