@@ -122,6 +122,17 @@ function addDays(d: Date, days: number) {
   nd.setDate(nd.getDate() + days);
   return nd;
 }
+
+const PINNED_IDS = [
+  'evt-YjZjNjk1ZDctZjg3ZS00M2QxLThkNmQtN2Q4YjkxOTY2ZDA2',
+  'evt-NGQ4ODJjMjctMTQ0MS00ZmQwLTk5MzMtNmFiNjVmYTI1MjE0',
+  'evt-ZmQxYTYxNGItNDY0Yy00YjJjLWIzZGMtMmE0NDg1MTNiMDJh',
+];
+
+function getEventKey(ev: Event): string {
+  return String((ev as any).event_reference ?? (ev as any).id ?? '');
+}
+
 function parseDate(dateStr?: string): Date {
   if (!dateStr) return new Date(0);
   if (dateStr.includes('-')) {
@@ -265,20 +276,54 @@ function applyFilters() {
 
 // client-side sort fallback
 function applyClientSort(list: Event[]): Event[] {
-  const normStart = (ev: Event) => combineDateTime((ev as any).date, (ev as any).time).getTime();
-  const copy = list.slice();
+  const normStart = (ev: Event) =>
+    combineDateTime((ev as any).date, (ev as any).time).getTime();
+
+  // 1) Build a lookup for pinned order
+  const pinnedOrder = new Map<string, number>();
+  PINNED_IDS.forEach((id, index) => {
+    pinnedOrder.set(id, index);
+  });
+
+  // 2) Split into pinned + others (only from the already-filtered list)
+  const pinned: Event[] = [];
+  const others: Event[] = [];
+
+  for (const ev of list) {
+    const key = getEventKey(ev);
+    const order = pinnedOrder.get(key);
+    if (order !== undefined) {
+      pinned[order] = ev; // put at its declared position
+    } else {
+      others.push(ev);
+    }
+  }
+
+  // compact pinned (in case some IDs don't exist in list)
+  const pinnedSorted = pinned.filter(Boolean);
+
+  // 3) Apply normal sort to the non-pinned events
+  const copy = others.slice();
   switch (props.sort ?? 'date_asc') {
     case 'date_desc':
-      return copy.sort((a, b) => normStart(b) - normStart(a));
+      copy.sort((a, b) => normStart(b) - normStart(a));
+      break;
     case 'name_asc':
-      return copy.sort((a, b) => (a.event_name || '').localeCompare(b.event_name || ''));
+      copy.sort((a, b) => (a.event_name || '').localeCompare(b.event_name || ''));
+      break;
     case 'name_desc':
-      return copy.sort((a, b) => (b.event_name || '').localeCompare(a.event_name || ''));
+      copy.sort((a, b) => (b.event_name || '').localeCompare(a.event_name || ''));
+      break;
     case 'date_asc':
     default:
-      return copy.sort((a, b) => normStart(a) - normStart(b));
+      copy.sort((a, b) => normStart(a) - normStart(b));
+      break;
   }
+
+  // 4) Final order: pinned first (in PINNED_IDS order), then the rest
+  return [...pinnedSorted, ...copy];
 }
+
 
 // ---- pagination (client-side) ----
 const maxPage = computed(() => Math.max(1, Math.ceil(filtered.value.length / pageSize.value)));
