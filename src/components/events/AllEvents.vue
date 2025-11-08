@@ -213,45 +213,54 @@ async function fetchAll() {
 // 2) Exclude events that have an explicit end time earlier than NOW - 10 hours
 function applyFilters() {
   const now = new Date();
-  const dayAfterTomorrowStart = startOfDay(addDays(now, 2));
-  const tenHoursAgo = new Date(now.getTime() - 10 * 60 * 60 * 1000);
+  const GRACE_HOURS = 24; // or 12
+  const graceMs = GRACE_HOURS * 60 * 60 * 1000;
 
   const q = (props.q || '').toLowerCase().trim();
   const state = props.state || '';
   const city = props.city || '';
 
   const list = raw.value.filter((ev) => {
-    // derive start datetime
     const startAt = combineDateTime(ev?.date, ev?.time);
 
-    // keep only events after tomorrow
-    if (!(startAt >= dayAfterTomorrowStart)) return false;
+    // detect end (support optional separate end date if your API has it)
+    const endTimeStr: string | undefined =
+      (ev as any).end_time ?? (ev as any).endTime ?? (ev as any).ends_at;
+    const endDateStr: string | undefined =
+      (ev as any).end_date ?? (ev as any).endDate ?? ev?.date;
 
-    // if there is an explicit end time, exclude if ended > 10h ago
-    // (supports end_time | endTime | ends_at)
-    const endStr: string | undefined = (ev as any).end_time ?? (ev as any).endTime ?? (ev as any).ends_at;
-    if (endStr) {
-      const endAt = combineDateTime(ev?.date, endStr);
-      if (endAt < tenHoursAgo) return false;
+    let endAt: Date;
+    if (endTimeStr) {
+      endAt = combineDateTime(endDateStr, endTimeStr);
+    } else {
+      // fallback: assume same as start, or add a default duration if you prefer
+      endAt = startAt;
     }
 
-    // client-side filters
+    // keep if:
+    // - event is upcoming or ongoing (endAt >= now), OR
+    // - event ended not more than GRACE_HOURS ago
+    if (endAt.getTime() < now.getTime() - graceMs) {
+      return false; // too old, drop it
+    }
+
+    // filters
     if (state && ev?.location?.state !== state) return false;
     if (city && ev?.location?.city !== city) return false;
 
     if (q) {
-      const hay =
-        `${ev?.event_name ?? ''} ${ev?.venue ?? ''} ${ev?.location?.city ?? ''} ${ev?.location?.state ?? ''} ${ev?.location?.country ?? ''}`.toLowerCase();
+      const hay = `${ev?.event_name ?? ''} ${ev?.venue ?? ''} ${ev?.location?.city ?? ''} ${ev?.location?.state ?? ''} ${ev?.location?.country ?? ''}`.toLowerCase();
       if (!hay.includes(q)) return false;
     }
 
     return true;
   });
 
-  // sort
   filtered.value = applyClientSort(list);
-  // reset page if current page is now out of range
-  if ((page.value - 1) * pageSize.value >= filtered.value.length) page.value = 1;
+
+  if ((page.value - 1) * pageSize.value >= filtered.value.length) {
+    page.value = 1;
+  }
 }
 
 // client-side sort fallback
