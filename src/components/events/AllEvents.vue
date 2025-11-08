@@ -126,8 +126,8 @@ function addDays(d: Date, days: number) {
 const PINNED_IDS = [
   'evt-YjZjNjk1ZDctZjg3ZS00M2QxLThkNmQtN2Q4YjkxOTY2ZDA2',
   'evt-NGQ4ODJjMjctMTQ0MS00ZmQwLTk5MzMtNmFiNjVmYTI1MjE0',
+  'evt-NGE3NjA2MGUtN2NmMS00NGQ4LWIxZDMtZjUxMmQ1ZWY1MWMw',
   'evt-ZmQxYTYxNGItNDY0Yy00YjJjLWIzZGMtMmE0NDg1MTNiMDJh',
-  'evt-NGE3NjA2MGUtN2NmMS00NGQ4LWIxZDMtZjUxMmQ1ZWY1MWMw'
 ];
 
 function getEventKey(ev: Event): string {
