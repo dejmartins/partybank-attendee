@@ -132,6 +132,7 @@ const PINNED_IDS = [
   'evt-YzVlMWVhOGEtNTA4ZC00OTljLWI4NzItMTQ2MjYwOTUzOTRi',
   'evt-N2I4ZjQ4NDEtOTA0ZC00MWEyLThhMWQtZTZjNTdjZWE3NDA1',
   'evt-YTIyYjllNjItMzUzNi00NWU0LTg0MWQtMjIyYjk5NTIxODBj',
+  'evt-NGUxMWYzODktNTc2My00NTNiLWExODMtMTY3YTk1YzA0NjUy',
 ];
 
 function getEventKey(ev: Event): string {
