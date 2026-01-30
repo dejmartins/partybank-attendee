@@ -39,6 +39,7 @@ const currentYear = ref(new Date().getFullYear());
         </div>
         <ul class="space-y-2">
           <li><a href="mailto:partybankexperience@gmail.com" class="hover:text-white">Email Us</a></li>
+          <li><RouterLink to="/support" class="hover:text-white">Support Center</RouterLink></li>
         </ul>
       </div>
     </div>

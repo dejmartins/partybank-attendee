@@ -43,6 +43,11 @@ const router = createRouter({
       component: () => import('@/views/TermsAndConditions.vue')
     },
     {
+      path: '/support',
+      name: 'support',
+      component: () => import('@/views/Support.vue')
+    },
+    {
       path: '/about',
       name: 'about-us',
       component: () => import('@/views/AboutUs.vue')
@@ -102,7 +107,7 @@ const router = createRouter({
 
 function isLoggedIn() {
   return new Promise((resolve) => {
-    let currentUser = localStorage.getItem('pb-user')
+    const currentUser = localStorage.getItem('pb-user')
     onAuthStateChanged(auth, (user) => {
       if (user && user.email === currentUser) {
         resolve(true)
